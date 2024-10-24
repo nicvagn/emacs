@@ -38,10 +38,12 @@
 (global-set-key (kbd "<f1>") 'previous-buffer)
 (global-set-key (kbd "<f2>") 'next-buffer)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
+(global-set-key (kbd "<f4>") 'delete-other-windows )
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
 (setq evil-want-C-u-scroll t)
 (setq neo-smart-open t)
+(setq completion-auto-help t)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; evil bah-ha-ha
 (require 'evil)
