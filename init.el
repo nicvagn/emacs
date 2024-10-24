@@ -44,7 +44,7 @@
 (setq evil-want-C-u-scroll t)
 (setq neo-smart-open t)
 (setq completion-auto-help t)
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; evil bah-ha-ha
 (require 'evil)
 ;; leader for emacs
@@ -52,26 +52,40 @@
 (global-evil-leader-mode) ;; activate leader mode, must be done early
 ;;my own l-dvorak bindings
 (require 'evil-dvorak)
+;; enable global dvorak mode 
+(global-evil-dvorak-mode 1)
+(evil-mode 1)
+;; set evil undo to one built into emacs 
+(evil-set-undo-system 'undo-redo)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; make c delete
 (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-
+;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
 ;; define leader mappings
 (evil-leader/set-key 
   "w" 'save-buffer
   "s" 'evil-window-split
+  "v" 'evil-window-vsplit
   "k" 'kill-buffer
   "q" 'evil-quit
   "x" 'delete-window
   "<SPC>" 'evil-window-prev
 )
 
+(add-hook 'neotree-mode-hook
+              (lambda ()
+                (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+                (define-key evil-normal-state-local-map (kbd "l") 'neotree-quick-look)
+                (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+                (define-key evil-normal-state-local-map (kbd "<return>") 'neotree-enter)
+                (define-key evil-normal-state-local-map (kbd "g") 'neotree-refresh)
+                (define-key evil-normal-state-local-map (kbd "n") 'neotree-next-line)
+                (define-key evil-normal-state-local-map (kbd "p") 'neotree-previous-line)
+                (define-key evil-normal-state-local-map (kbd "A") 'neotree-stretch-toggle)
+                (define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)
+                (define-key evil-normal-state-local-map (kbd "a") 'neotree-create-node)
+                (define-key evil-normal-state-local-map (kbd "r") 'neotree-delete-node)))
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps END_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
  
-;; enable global dvorak mode 
-(global-evil-dvorak-mode 1)
-(evil-mode 1)
-;; set evil undo to one built into emacs 
-(evil-set-undo-system 'undo-redo)
 
