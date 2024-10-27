@@ -11,7 +11,7 @@
   (kbd "d") #'backward-char
   (kbd "e") #'forward-char
   "k" 'kill-line
-  "K" #'(lambda () (interactive)
+  "K" '(lambda () (interactive)
     "kill from point to the beginning of the line"
     (kill-line 0))
 
