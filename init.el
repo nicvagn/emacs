@@ -49,10 +49,6 @@
 ;; leader for emacs
 (require 'evil-leader) 
 (global-evil-leader-mode) ;; activate leader mode, must be done early
-;;my own l-dvorak bindings
-(require 'evil-dvorak)
-;; enable global dvorak mode 
-(global-evil-dvorak-mode 1)
 (evil-mode 1)
 ;; set evil undo to one built into emacs 
 (evil-set-undo-system 'undo-redo)
