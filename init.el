@@ -49,8 +49,9 @@
 ;; leader for emacs
 (require 'evil-leader) 
 (global-evil-leader-mode) ;; activate leader mode, must be done early
-;;my own l-dvorak bindings
+;;my own custom stuff
 (require 'nrv-evil-dvorak)
+(require 'nrv-vterm)
 ;; enable modded global dvorak mode 
 (global-evil-dvorak-mode 1)
 (evil-mode 1)
@@ -72,6 +73,8 @@
   "<SPC>" 'evil-window-prev
 )
 
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hook's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
 (add-hook 'neotree-mode-hook
               (lambda ()
                 (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
@@ -85,6 +88,7 @@
                 (define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)
                 (define-key evil-normal-state-local-map (kbd "a") 'neotree-create-node)
                 (define-key evil-normal-state-local-map (kbd "r") 'neotree-delete-node)))
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps END_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+(add-hook 'vterm-mode-hook 'turn-off-evil-mode)
  
 
