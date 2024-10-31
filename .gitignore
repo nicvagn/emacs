@@ -2,3 +2,4 @@ eln-cache
 elpa/*
 url/*
 transient/*
+auto-save-list
