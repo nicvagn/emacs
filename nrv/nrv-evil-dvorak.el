@@ -88,11 +88,11 @@
   "j" #'(lambda () (interactive)
           "join this line at the end of the line below"
           (join-line 1))
-  (kbd "C-h") 'evil-open-below
-  (kbd "C-t") 'evil-open-above
-  "'" 'evil-goto-mark
+  (kbd "C-M-h") 'evil-open-below
+  (kbd "C-M-t") 'evil-open-above
+  "'" 'evil-goto-mark)
   ;;there is no need to set return to newline-and-indent, because electric-indent-mode is now on by default.
-  (kbd "<return>") 'newline-and-indent)
+  ;; (kbd "<return>") 'newline-and-indent)
 
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "C-z") 'evil-normal-state
