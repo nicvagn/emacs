@@ -77,17 +77,24 @@
   :hook ((text-mode
           prog-mode
           conf-mode
-          snippet-mode) . yas-minor-mode-on)
+          snippet-mode) . yas-minor-mode-on )
   :init
-  (setq yas-snippet-dir "~/.config/emacs/snippets"))
+  (setq yas-snippet-dir "~/.config/emacs/snippets")
+)
 
 (yas-global-mode 1)
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; make c delete
-(define-key evil-normal-state-map (kbd "c") 'evil-delete)
+;; global keymap
+;; restart emacs
+(global-set-key (kbd "C-M-r") #'restart-emacs)
+(global-set-key (kbd "M-l") #'eval-buffer)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
+
+;; evil
+;; make c delete
+(define-key evil-normal-state-map (kbd "c") 'evil-delete)
 ;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
 ;; define leader mappings
@@ -104,65 +111,4 @@
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hook's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
-(add-hook 'neotree-mode-hook
-	(lambda ()
-	(define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
-	(define-key evil-normal-state-local-map (kbd "l") 'neotree-quick-look)
-	(define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
-	(define-key evil-normal-state-local-map (kbd "<return>") 'neotree-enter)
-	(define-key evil-normal-state-local-map (kbd "g") 'neotree-refresh)
-	(define-key evil-normal-state-local-map (kbd "n") 'neotree-next-line)
-	(define-key evil-normal-state-local-map (kbd "p") 'neotree-previous-line)
-	(define-key evil-normal-state-local-map (kbd "A") 'neotree-stretch-toggle)
-	(define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)
-	(define-key evil-normal-state-local-map (kbd "a") 'neotree-create-node)
-	(define-key evil-normal-state-local-map (kbd "r") 'neotree-delete-node)
-    )
-)
-
-(defun dired-init ()
-  "Config `dired'.
-URL `http://xahlee.info/emacs/emacs/emacs_dired_tips.html'
-Version 2021-07-30 2023-03-15 2023-04-05"
-  (interactive)
-  (define-key dired-mode-map (kbd "h") #'dired-prev-dirline)
-  (define-key dired-mode-map (kbd "t") #'dired-next-dirline)
-  (define-key dired-mode-map (kbd "u") #'dired-up-directory)
-  (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
-  ;;(define-key dired-mode-map (kbd "1") #'dired-do-shell-command)
-  ;;(define-key dired-mode-map (kbd "9") #'dired-hide-details-mode)
-;;
-  ;;(define-key dired-mode-map (kbd "b") #'dired-do-byte-compile)
-;;
-  ;;(define-key dired-mode-map (kbd "`") #'dired-flag-backup-files)
-;;
-  ;;(define-key dired-mode-map (kbd "e") nil)
-  ;;(define-key dired-mode-map (kbd "e c") #'dired-do-copy)
-  ;;(define-key dired-mode-map (kbd "e d") #'dired-do-delete)
-  ;;(define-key dired-mode-map (kbd "e g") #'dired-mark-files-containing-regexp)
-  ;;(define-key dired-mode-map (kbd "e h") #'dired-hide-details-mode)
-  ;;(define-key dired-mode-map (kbd "e m") #'dired-mark-files-regexp)
-  ;;(define-key dired-mode-map (kbd "e n") #'dired-create-directory)
-  ;;(define-key dired-mode-map (kbd "e r") #'dired-do-rename)
-  ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
-  ;;;;
-)
-
-(progn
-  (require 'dired )
-  (add-hook 'dired-mode-hook #'turn-off-evil-mode)
-  (add-hook 'dered-mode-hook #'turn-off-evil-dvorak-mode)
-  (add-hook 'dired-mode-hook #'dired-init)
- )
-(progn
-    ;; evil mode does not play nice w vterm
-    (add-hook 'vterm-mode-hook #'turn-off-evil-mode)
-    (add-hook 'vterm-mode-hook #'turn-off-evil-dvorak-mode)
-)
-  
-
-;;jedi python complete
-(add-hook 'python-mode-hook 'jedi:setup)
-
-;; add lines to programming mode
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(require 'nrv-modes) ;; modular af

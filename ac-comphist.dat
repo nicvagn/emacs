@@ -1,0 +1,22 @@
+((("tournament_players" .
+   [0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("TournamentInfoForm" .
+   [0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("db_players" .
+   [0 0 0 1 0 0 0 0 0 0])
+  ("in" .
+   [1 0])
+  ("logger" .
+   [0 0 0 0 1 0])
+  ("players" .
+   [0 0 0 0 0 0 1])
+  ("redirect" .
+   [0 0 0 0 0 0 1 0])
+  ("player_info" .
+   [0 0 0 0 0 0 0 0 0 0 1])
+  ("context" .
+   [1 0 0 0 0 0 1])
+  ("debug" .
+   [1 0 0 0 1])
+  ("breakpoint" .
+   [1 0 0 0 0 0 1 0 0 0])))
