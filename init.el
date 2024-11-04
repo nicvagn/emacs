@@ -23,7 +23,7 @@
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(yasnippet centaur-tabs magit neotree spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil)))
+   '(yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -34,9 +34,9 @@
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
 (setq evil-want-C-u-scroll t)
-(setq neo-smart-open t)
+(setq jedi:complete-on-dot t)  
 (setq completion-auto-help t)
-(setq completion-cycle-threshold 4) ;; cycle completions when < 5
+(setq completion-cycle-threshold 2) ;; cycle completions only 2 
 (setq savehist-file "~/.emacs_histfile")
 
 ;; Revert/reload Dired and other buffers on filesystem change 
@@ -48,7 +48,7 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; evil bah-ha-ha
+;; Evil bah-ha-ha
 (require 'evil)
 ;; leader for emacs
 (require 'evil-leader) 
@@ -86,8 +86,7 @@
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; make c delete
 (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-;; NeoTree with F3
-(global-set-key (kbd "<f3>") 'neotree-toggle)
+;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 ;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
@@ -160,3 +159,10 @@ Version 2021-07-30 2023-03-15 2023-04-05"
     (add-hook 'vterm-mode-hook #'turn-off-evil-mode)
     (add-hook 'vterm-mode-hook #'turn-off-evil-dvorak-mode)
 )
+  
+
+;;jedi python complete
+(add-hook 'python-mode-hook 'jedi:setup)
+
+;; add lines to programming mode
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
