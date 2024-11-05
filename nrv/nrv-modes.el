@@ -9,18 +9,15 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
   ;;(define-key dired-mode-map (kbd "1") #'dired-do-shell-command)
   ;;(define-key dired-mode-map (kbd "9") #'dired-hide-details-mode)
-;;
   ;;(define-key dired-mode-map (kbd "b") #'dired-do-byte-compile)
-;;
   ;;(define-key dired-mode-map (kbd "`") #'dired-flag-backup-files)
-;;
   ;;(define-key dired-mode-map (kbd "e") nil)
   ;;(define-key dired-mode-map (kbd "e c") #'dired-do-copy)
-  ;;(define-key dired-mode-map (kbd "e d") #'dired-do-delete)
+  (define-key dired-mode-map (kbd "e d") #'dired-do-delete)
   ;;(define-key dired-mode-map (kbd "e g") #'dired-mark-files-containing-regexp)
   ;;(define-key dired-mode-map (kbd "e h") #'dired-hide-details-mode)
   ;;(define-key dired-mode-map (kbd "e m") #'dired-mark-files-regexp)
-  ;;(define-key dired-mode-map (kbd "e n") #'dired-create-directory)
+  (define-key dired-mode-map (kbd "e n") #'dired-create-directory)
   ;;(define-key dired-mode-map (kbd "e r") #'dired-do-rename)
   ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
   ;;;;

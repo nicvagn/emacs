@@ -1,11 +1,10 @@
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/nrv" )
 (require 'package)
-;; (setq package-enable-at-startup nil) this and package-init are done auto in modern emacs
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-;; (package-initialize)
+
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -33,14 +32,18 @@
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
-(setq evil-want-C-u-scroll t)
-(setq jedi:complete-on-dot t)  
-(setq completion-auto-help t)
-(setq completion-cycle-threshold 2) ;; cycle completions only 2 
-(setq savehist-file "~/.emacs_histfile")
-
-;; Revert/reload Dired and other buffers on filesystem change 
-(setq global-auto-revert-non-file-buffers t)
+(setq evil-want-C-u-scroll t
+    jedi:complete-on-dot t  
+    completion-auto-help t
+    completion-cycle-threshold 2 ;; cycle completions only 2 
+    savehist-file "~/.emacs_histfile"
+    version-control t     ;; Use version numbers for backups.
+    kept-new-versions 10  ;; Number of newest versions to keep.
+    kept-old-versions 0   ;; Number of oldest versions to keep.
+    delete-old-versions t ;; Don't ask to delete excess backup versions.
+    backup-by-copying t   ;; Copy all files, don't rename them.
+    ;; Revert/reload Dired and other buffers on filesystem change 
+    setq global-auto-revert-non-file-buffers t)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
@@ -52,7 +55,7 @@
 (require 'evil)
 ;; leader for emacs
 (require 'evil-leader) 
-(global-evil-leader-mode) ;; activate leader mode, must be done early
+(global-evil-leader-mode 1) ;; activate leader mode, must be done early
 ;;my own custom stuff
 (require 'nrv-evil-dvorak)
 (require 'nrv-vterm)
@@ -82,16 +85,16 @@
   (setq yas-snippet-dir "~/.config/emacs/snippets")
 )
 
-(yas-global-mode 1)
+(yas-global-mode 1) ;; global snippets
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
-(global-set-key (kbd "C-M-r") #'restart-emacs)
-(global-set-key (kbd "M-l") #'eval-buffer)
+(global-set-key (kbd "C-M-r") 'restart-emacs)
+;; alt - l (lisp) eval buffer
+(global-set-key (kbd "M-l") 'eval-buffer)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
-
 ;; evil
 ;; make c delete
 (define-key evil-normal-state-map (kbd "c") 'evil-delete)
@@ -106,9 +109,31 @@
   "1" 'delete-other-windows
   "s" 'evil-window-split
   "v" 'evil-window-vsplit
-  "<SPC>" 'evil-window-prev
+  "<SPC>" 'evil-window-next
 )
-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(defalias 'up 'package-refresh-contents)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hook's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
 (require 'nrv-modes) ;; modular af
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; Default and per-save backups go here:
+(setq backup-directory-alist '(("" . "~/.emacs_backups/backup/per-save")))
+
+(defun force-backup-of-buffer ()
+  ;; Make a special "per session" backup at the first save of each
+  ;; emacs session.
+  (when (not buffer-backed-up)
+    ;; Override the default parameters for per-session backups.
+    (let ((backup-directory-alist '(("" . "~/.emacs_backups/per-session")))
+          (kept-new-versions 3))
+      (backup-buffer)))
+  ;; Make a "per save" backup on each save.  The first save results in
+  ;; both a per-session and a per-save backup, to keep the numbering
+  ;; of per-save backups consistent.
+  (let ((buffer-backed-up nil))
+    (backup-buffer)))
+
+(add-hook 'before-save-hook  'force-backup-of-buffer)
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

@@ -2,7 +2,8 @@
     :ensure t
     :bind (
 	   :map vterm-mode-map
-	   ("<f2>" . next-buffer)
-           ("<f1>" . previous-buffer)))
+	    ("<f1>" . centaur-tabs-backward)
+	    ("<f2>" . centaur-tabs-forward))
+)
 
 (provide 'nrv-vterm)

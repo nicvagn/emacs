@@ -56,10 +56,10 @@
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
 (evil-define-key 'visual evil-dvorak-mode-map
-  "t" 'evil-next-line
-  "h" 'evil-previous-line
-  "d" 'evil-backward-char
-  "e" 'evil-forward-char
+  "t" #'evil-next-line
+  "h" #'evil-previous-line
+  "d" #'evil-backward-char
+  "e" #'evil-forward-char
   ;;I what to be able to use vaw (visual around word) and viw (visual inner word)
   ;; that's why in visual mode, u and a are not defined.
   ;; BUT it would be cool to say cie and mean change forward to word-end
@@ -90,20 +90,21 @@
           (join-line 1))
   (kbd "C-M-h") 'evil-open-below
   (kbd "C-M-t") 'evil-open-above
+
   "'" 'evil-goto-mark)
   ;;there is no need to set return to newline-and-indent, because electric-indent-mode is now on by default.
   ;; (kbd "<return>") 'newline-and-indent)
 
 (evil-define-key 'insert evil-dvorak-mode-map
-  (kbd "C-z") 'evil-normal-state
-  (kbd "ESC") 'evil-normal-state
-  (kbd "C-d") 'delete-char
-  (kbd "<backspace>") 'delete-backward-char
-  (kbd "<return>") 'newline-and-indent
-  (kbd "C-n") 'evil-next-line
-  (kbd "C-p") 'evil-previous-line
-  (kbd "C-b") 'backward-char
-  (kbd "C-f") 'forward-char)
+  (kbd "C-z") #'evil-normal-state
+  (kbd "ESC") #'evil-normal-state
+  (kbd "C-d") #'delete-char
+  (kbd "<backspace>") #'delete-backward-char
+  (kbd "<return>") #'newline-and-indent
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line
+  (kbd "C-b") #'backward-char
+  (kbd "C-f") #'forward-char)
 
 (provide 'nrv-evil-dvorak)
 
