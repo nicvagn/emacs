@@ -43,7 +43,7 @@
     delete-old-versions t ;; Don't ask to delete excess backup versions.
     backup-by-copying t   ;; Copy all files, don't rename them.
     ;; Revert/reload Dired and other buffers on filesystem change 
-    setq global-auto-revert-non-file-buffers t)
+    global-auto-revert-non-file-buffers t)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
