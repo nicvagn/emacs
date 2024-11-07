@@ -1,3 +1,4 @@
+;; -*- mode: elisp -*-
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/nrv" )
 (require 'package)
@@ -22,7 +23,7 @@
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil)))
+   '(org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -43,19 +44,26 @@
     delete-old-versions t ;; Don't ask to delete excess backup versions.
     backup-by-copying t   ;; Copy all files, don't rename them.
     ;; Revert/reload Dired and other buffers on filesystem change 
-    global-auto-revert-non-file-buffers t)
+    global-auto-revert-non-file-buffers t
+    ;; org mode
+    org-image-actual-width nil
+
+    )
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
+(transient-mark-mode 1)  ;; selection highlighting
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Evil bah-ha-ha
 (require 'evil)
 ;; leader for emacs
 (require 'evil-leader) 
 (global-evil-leader-mode 1) ;; activate leader mode, must be done early
+;; org
+(require 'org)
 ;;my own custom stuff
 (require 'nrv-evil-dvorak)
 (require 'nrv-vterm)
@@ -136,4 +144,4 @@
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 
-;; _-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
