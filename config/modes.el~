@@ -1,0 +1,4 @@
+;; modes.el - Major and Minor modes settings
+
+
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
