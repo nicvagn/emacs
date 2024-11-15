@@ -1,3 +1,16 @@
+;; package
+(require 'package)
+ 
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             (cons "nongnu" (format "http%s://elpa.nongnu.org/nongnu/"
+                                    (if (gnutls-available-p) "s" ""))))
+
+(setq package-enable-at-startup nil)
+(package-initialize)
+
 ;; nrv's init.el
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -10,7 +23,7 @@
  '(global-tab-line-mode t)
  '(inhibit-startup-screen t)
  '(minibuffer-complete-cycle 'auto nil (minibuffer-complete-cycle))
- '(package-selected-packages '(ace-window hl-column magit))
+ '(package-selected-packages '(evil ace-window hl-column magit))
  '(which-function-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

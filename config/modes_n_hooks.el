@@ -12,4 +12,3 @@
 ;; completion cycling for minibuffer with tab - provided by
 ;;                             minibuffer-complete-cycle.el
 (require 'minibuffer-complete-cycle)
- 
