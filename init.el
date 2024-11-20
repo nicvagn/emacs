@@ -1,6 +1,6 @@
 ;; -*- mode: elisp -*-
 ;; add custom dir to load-path
-(add-to-list 'load-path "~/.config/emacs/nrv" )
+(add-to-list 'load-path "~/.config/emacs/lisp" )
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -18,7 +18,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes '(spacemacs-dark))
+ '(custom-enabled-themes '(adwaita))
  '(custom-safe-themes
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
@@ -56,26 +56,18 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; Evil bah-ha-ha
-(require 'evil)
-;; leader for emacs
-(require 'evil-leader) 
-(global-evil-leader-mode 1) ;; activate leader mode, must be done early
-;; org
-(require 'org)
-;;my own custom stuff
-(require 'nrv-evil-dvorak)
-(require 'nrv-vterm)
-;; enable modded global dvorak mode 
-(global-evil-dvorak-mode 1)
-(evil-mode 1)
-;; set evil undo to one built into emacs 
-(evil-set-undo-system 'undo-redo)
+
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(use-package evil
+  :ensure t
+  :demand
+  :config
+  ;; set evil undo to one built into emacs 
+  (evil-set-undo-system 'undo-redo))
+
 (use-package centaur-tabs
-  :ensure
+  :ensure t
   :demand
   :config
   (centaur-tabs-mode t)
@@ -88,12 +80,25 @@
   :hook ((text-mode
           prog-mode
           conf-mode
-          snippet-mode) . yas-minor-mode-on )
+          snippet-mode) . yas-minor-mode-on)
   :init
-  (setq yas-snippet-dir "~/.config/emacs/snippets")
-)
+  (setq yas-snippet-dir "~/.config/emacs/snippets"))
 
 (yas-global-mode 1) ;; global snippets
+
+;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; Evil bah-ha-ha
+;; leader for emacs
+(require 'evil-leader) 
+(global-evil-leader-mode 1) ;; activate leader mode, must be done early
+;; org
+(require 'org)
+;;my own custom stuff
+(require 'nrv-evil-dvorak)
+(require 'nrv-vterm)
+;; enable modded global dvorak mode 
+(global-evil-dvorak-mode 1)
+(evil-mode 1)
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
