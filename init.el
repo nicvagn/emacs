@@ -23,7 +23,8 @@
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil)))
+   '(vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
+ '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -45,10 +46,13 @@
     backup-by-copying t   ;; Copy all files, don't rename them.
     ;; Revert/reload Dired and other buffers on filesystem change 
     global-auto-revert-non-file-buffers t
+    ;; centar tabs
+    centaur-tabs-style "wave"
+    centaur-tabs-height 38
+    centaur-tabs-set-icons t
+    centaur-tabs-icon-type 'nerd-icons
     ;; org mode
-    org-image-actual-width nil
-
-    )
+    org-image-actual-width nil)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
@@ -56,7 +60,6 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (use-package evil
@@ -71,6 +74,7 @@
   :demand
   :config
   (centaur-tabs-mode t)
+  (centaur-tabs-headline-match)
   :bind
   ("<f1>" . centaur-tabs-backward)
   ("<f2>" . centaur-tabs-forward))
@@ -111,6 +115,9 @@
 ;; evil
 ;; make c delete
 (define-key evil-normal-state-map (kbd "c") 'evil-delete)
+
+
+
 ;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
 ;; define leader mappings
