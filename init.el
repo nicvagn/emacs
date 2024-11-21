@@ -46,6 +46,8 @@
     backup-by-copying t   ;; Copy all files, don't rename them.
     ;; Revert/reload Dired and other buffers on filesystem change 
     global-auto-revert-non-file-buffers t
+    ;; but do it quietly
+    auto-revert-verbose nil
     ;; centar tabs
     centaur-tabs-style "wave"
     centaur-tabs-height 38
