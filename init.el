@@ -30,7 +30,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(hl-line ((t (:background "antique white")))))
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
@@ -126,6 +126,7 @@
   "k" 'kill-buffer
   "q" 'evil-quit
   "x" 'delete-window
+  "0" 'delete-window
   "1" 'delete-other-windows
   "s" 'evil-window-split
   "v" 'evil-window-vsplit
