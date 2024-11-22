@@ -3,3 +3,5 @@ elpa/*
 url/*
 transient/*
 auto-save-list
+ac-comphist.dat
+projects
