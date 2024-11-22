@@ -34,20 +34,29 @@
 
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
-(setq evil-want-C-u-scroll t
+(setq
+    ;; EVIL
+    evil-want-C-u-scroll t
+    evil-scroll-count 5
+    
+    ;; jedi auto complete
     jedi:complete-on-dot t  
     completion-auto-help t
-    completion-cycle-threshold 2 ;; cycle completions only 2 
+    completion-cycle-threshold 2 ;; cycle completions only 2
+
+    ;; history/backup
     savehist-file "~/.emacs_histfile"
     version-control t     ;; Use version numbers for backups.
     kept-new-versions 10  ;; Number of newest versions to keep.
     kept-old-versions 0   ;; Number of oldest versions to keep.
     delete-old-versions t ;; Don't ask to delete excess backup versions.
     backup-by-copying t   ;; Copy all files, don't rename them.
+
     ;; Revert/reload Dired and other buffers on filesystem change 
     global-auto-revert-non-file-buffers t
     ;; but do it quietly
     auto-revert-verbose nil
+    
     ;; centar tabs
     centaur-tabs-style "wave"
     centaur-tabs-height 38
