@@ -42,6 +42,8 @@ Version 2021-07-30 2023-03-15 2023-04-05"
 
 ;; add lines to programming mode
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;; colour define "(" pairs etc
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 ;;(progn not ready 
 ;;  (require 'org)

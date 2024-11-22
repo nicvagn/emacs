@@ -71,8 +71,11 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/made-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(require 'rainbow-delimiters)
+;; mode hooks
+(require 'nrv-modes) ;; modular af
+;; _-_-_-_-_-_-_-_-_-_-_-_-_Packages-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (use-package evil
   :ensure t
   :demand
@@ -97,10 +100,8 @@
           conf-mode
           snippet-mode) . yas-minor-mode-on)
   :init
-  (setq yas-snippet-dir "~/.config/emacs/snippets"))
-
-(yas-global-mode 1) ;; global snippets
-
+  (setq yas-snippet-dir "~/.config/emacs/snippets")
+  (yas-global-mode 1)) ;; global snippets
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Evil bah-ha-ha
 ;; leader for emacs
@@ -126,9 +127,6 @@
 ;; evil
 ;; make c delete
 (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-
-
-
 ;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
 ;; define leader mappings
@@ -145,9 +143,7 @@
 )
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hook's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
-(require 'nrv-modes) ;; modular af
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.emacs_backups/backup/per-save")))
