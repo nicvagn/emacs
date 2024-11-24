@@ -3,9 +3,11 @@
 URL `http://xahlee.info/emacs/emacs/emacs_dired_tips.html'
 Version 2021-07-30 2023-03-15 2023-04-05"
   (interactive)
-  (define-key dired-mode-map (kbd "h") #'dired-prev-dirline)
-  (define-key dired-mode-map (kbd "t") #'dired-next-dirline)
+  (define-key dired-mode-map (kbd "h") #'dired-prev-line)
+  (define-key dired-mode-map (kbd "t") #'dired-next-line)
   (define-key dired-mode-map (kbd "u") #'dired-up-directory)
+  (define-key dired-mode-map (kbd "a") #'dired-create-directory)
+  (define-key dired-mode-map (kbd "r") #'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
   ;;(define-key dired-mode-map (kbd "1") #'dired-do-shell-command)
   ;;(define-key dired-mode-map (kbd "9") #'dired-hide-details-mode)
@@ -22,34 +24,21 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
   ;;;;
 )
-(defun evil-off ()
-  (interactive)
-  (require 'evil)
-  (evil-mode 0))
 (progn
   (require 'dired )
-  (add-hook 'dired-mode-hook #'turn-off-evil-mode)
-  (add-hook 'dired-mode-hook #'turn-off-evil-dvorak-mode)
+  (add-hook 'dired-mode-hook #'evil-off)
   (add-hook 'dired-mode-hook #'dired-init)
  )
 
-
 ;; evil mode does not play nice w vterm
 (add-hook 'vterm-mode-hook #'evil-off)
-  
-
 ;;jedi python complete
-(add-hook 'python-mode-hook 'jedi:setup)
-
+(add-hook 'python-mode-hook #'jedi:setup)
 ;; add lines to programming mode
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; colour define "(" pairs etc
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-;;(progn not ready 
-;;  (require 'org)
-;;  (add-hook 'org-mode-hook #'turn-off-evil-mode)
-;;  (add-hook 'org-mode-hook #'turn-off-evil-dvorak-mode)
-;;)
+;; remove trailing whitespace before saving
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 (provide 'nrv-modes)

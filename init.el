@@ -20,45 +20,60 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    '(jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
+ '(text-mode-hook
+   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(hl-line ((t (:background "antique white")))))
+ '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(font-lock-builtin-face ((t (:foreground "dark magenta"))))
+ '(font-lock-comment-face ((t (:foreground "DarkGoldenrod4" :weight bold))))
+ '(font-lock-constant-face ((t (:foreground "blue4"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "maroon"))))
+ '(font-lock-string-face ((t (:foreground "DarkGoldenrod4"))))
+ '(font-lock-variable-name-face ((t (:foreground "deep pink" :weight extra-bold))))
+ '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
+ '(hl-line ((t (:extend t :background "white smoke"))))
+ '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "chocolate"))))
+ '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark slate gray"))))
+ '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
+ '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
+ '(shadow ((t (:foreground "dim gray")))))
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
 (setq
-    ;; EVIL
-    evil-want-C-u-scroll t
-    evil-scroll-count 5
-    
-    ;; jedi auto complete
-    jedi:complete-on-dot t  
-    completion-auto-help t
-    completion-cycle-threshold 2 ;; cycle completions only 2
+  ;; EVIL
+  evil-want-C-u-scroll t
+  evil-scroll-count 10
 
-    ;; history/backup
-    savehist-file "~/.emacs_histfile"
-    version-control t     ;; Use version numbers for backups.
-    kept-new-versions 10  ;; Number of newest versions to keep.
-    kept-old-versions 0   ;; Number of oldest versions to keep.
-    delete-old-versions t ;; Don't ask to delete excess backup versions.
-    backup-by-copying t   ;; Copy all files, don't rename them.
+  ;; JEDI AUTO complete
+  jedi:complete-on-dot t
+  completion-auto-help t
+  completion-cycle-threshold 2 ;; cycle completions only 2
 
-    ;; Revert/reload Dired and other buffers on filesystem change 
-    global-auto-revert-non-file-buffers t
-    ;; but do it quietly
-    auto-revert-verbose nil
-    
-    ;; centar tabs
-    centaur-tabs-style "wave"
-    centaur-tabs-height 38
-    centaur-tabs-set-icons t
-    centaur-tabs-icon-type 'nerd-icons
-    ;; org mode
-    org-image-actual-width nil)
+  ;; history/backup
+  savehist-file "~/.emacs_histfile"
+  version-control t     ;; Use version numbers for backups.
+  kept-new-versions 10  ;; Number of newest versions to keep.
+  kept-old-versions 0   ;; Number of oldest versions to keep.
+  delete-old-versions t ;; Don't ask to delete excess backup versions.
+  backup-by-copying t   ;; Copy all files, don't rename them.
+
+  ;; Revert/reload Dired and other buffers on filesystem change
+  global-auto-revert-non-file-buffers t
+  ;; but do it quietly
+  auto-revert-verbose nil
+
+  ;; centar tabs
+  centaur-tabs-style "wave"
+  centaur-tabs-height 38
+  centaur-tabs-set-icons t
+  centaur-tabs-icon-type 'nerd-icons
+  ;; org mode
+  org-image-actual-width nil)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
@@ -73,22 +88,18 @@
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Evil bah-ha-ha
 ;; leader for emacs
-(require 'evil-leader) 
-(global-evil-leader-mode 1) ;; activate leader mode, must be done early
+(require 'evil-leader)
 ;; org
 (require 'org)
 ;;my own custom stuff
 (require 'nrv-evil-dvorak)
 (require 'nrv-vterm)
-;; enable modded global dvorak mode 
-(global-evil-dvorak-mode 1)
-(evil-mode 1)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (use-package evil
   :ensure t
   :demand
   :config
-  ;; set evil undo to one built into emacs 
+  ;; set evil undo to one built into emacs
   (evil-set-undo-system 'undo-redo))
 (use-package eglot
   :ensure t
@@ -126,9 +137,9 @@
 ;; <leader>
 (evil-leader/set-leader "<SPC>") ;; set to space
 ;; define leader mappings
-(evil-leader/set-key 
+(evil-leader/set-key
   "w" 'save-buffer
-  "k" 'kill-buffer
+  "k" 'kill-this-buffer
   "q" 'evil-quit
   "x" 'delete-window
   "0" 'delete-window
@@ -158,5 +169,22 @@
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun evil-on ()
+  "turn on nrv-evil-mode and helper modes etc."
+  (interactive)
+  ;; enable modded global dvorak mode
+  (global-evil-leader-mode 1) ;; activate leader mode, must be done early
+  (global-evil-dvorak-mode 1)
+  (evil-mode 1)
+)
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun evil-off ()
+  "turn off all nrv-evil-mode, should bring back stock keymaps"
+  (interactive)
+  (global-evil-leader-mode -1)
+  (global-evil-dvorak-mode -1)
+  (evil-mode -1)
+)
+
+(evil-on) ;; start in evil mode
