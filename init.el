@@ -90,6 +90,10 @@
   :config
   ;; set evil undo to one built into emacs 
   (evil-set-undo-system 'undo-redo))
+(use-package eglot
+  :ensure t
+  :defer t
+  :hook (python-mode . eglot-ensure))
 (use-package centaur-tabs
   :ensure t
   :demand

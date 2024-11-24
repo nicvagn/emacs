@@ -22,19 +22,20 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
   ;;;;
 )
-
+(defun evil-off ()
+  (interactive)
+  (require 'evil)
+  (evil-mode 0))
 (progn
   (require 'dired )
   (add-hook 'dired-mode-hook #'turn-off-evil-mode)
   (add-hook 'dired-mode-hook #'turn-off-evil-dvorak-mode)
   (add-hook 'dired-mode-hook #'dired-init)
  )
-(progn
-  (require 'vterm)
-  ;; evil mode does not play nice w vterm
-  (add-hook 'vterm-mode-hook #'turn-off-evil-mode)
-  (add-hook 'vterm-mode-hook #'turn-off-evil-dvorak-mode)
-)
+
+
+;; evil mode does not play nice w vterm
+(add-hook 'vterm-mode-hook #'evil-off)
   
 
 ;;jedi python complete
