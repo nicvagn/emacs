@@ -137,9 +137,9 @@
   "v" 'evil-window-vsplit
   "<SPC>" 'evil-window-next
 )
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.emacs_backups/backup/per-save")))
 
@@ -159,4 +159,4 @@
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 
-;; _-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;_-_-_-_-_-_-_-_-_-_-_-_-_Backups End_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
