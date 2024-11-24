@@ -1,16 +1,12 @@
-;; -*- mode: elisp -*-
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp" )
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
 (custom-set-variables
@@ -31,7 +27,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(hl-line ((t (:background "antique white")))))
-
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
 (setq
@@ -75,33 +70,6 @@
 (require 'rainbow-delimiters)
 ;; mode hooks
 (require 'nrv-modes) ;; modular af
-;; _-_-_-_-_-_-_-_-_-_-_-_-_Packages-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(use-package evil
-  :ensure t
-  :demand
-  :config
-  ;; set evil undo to one built into emacs 
-  (evil-set-undo-system 'undo-redo))
-
-(use-package centaur-tabs
-  :ensure t
-  :demand
-  :config
-  (centaur-tabs-mode t)
-  (centaur-tabs-headline-match)
-  :bind
-  ("<f1>" . centaur-tabs-backward)
-  ("<f2>" . centaur-tabs-forward))
-
-(use-package yasnippet
-  :ensure t
-  :hook ((text-mode
-          prog-mode
-          conf-mode
-          snippet-mode) . yas-minor-mode-on)
-  :init
-  (setq yas-snippet-dir "~/.config/emacs/snippets")
-  (yas-global-mode 1)) ;; global snippets
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Evil bah-ha-ha
 ;; leader for emacs
@@ -115,7 +83,31 @@
 ;; enable modded global dvorak mode 
 (global-evil-dvorak-mode 1)
 (evil-mode 1)
-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(use-package evil
+  :ensure t
+  :demand
+  :config
+  ;; set evil undo to one built into emacs 
+  (evil-set-undo-system 'undo-redo))
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  (centaur-tabs-headline-match)
+  :bind
+  ("<f1>" . centaur-tabs-backward)
+  ("<f2>" . centaur-tabs-forward))
+(use-package yasnippet
+  :ensure t
+  :hook ((text-mode
+          prog-mode
+          conf-mode
+          snippet-mode) . yas-minor-mode-on)
+  :init
+  (setq yas-snippet-dir "~/.config/emacs/snippets")
+  (yas-global-mode 1))
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
@@ -143,7 +135,6 @@
 )
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.emacs_backups/backup/per-save")))
