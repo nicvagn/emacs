@@ -14,6 +14,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
  '(custom-enabled-themes '(adwaita))
  '(custom-safe-themes
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
@@ -29,16 +30,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
  '(font-lock-builtin-face ((t (:foreground "dark magenta"))))
  '(font-lock-comment-face ((t (:foreground "DarkGoldenrod4" :weight bold))))
  '(font-lock-constant-face ((t (:foreground "blue4"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "maroon"))))
- '(font-lock-string-face ((t (:foreground "DarkGoldenrod4"))))
+ '(font-lock-string-face ((t (:foreground "SeaGreen4"))))
  '(font-lock-variable-name-face ((t (:foreground "deep pink" :weight extra-bold))))
  '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
  '(hl-line ((t (:extend t :background "white smoke"))))
- '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "chocolate"))))
- '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark slate gray"))))
+ '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "gray5"))))
+ '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
  '(shadow ((t (:foreground "dim gray")))))
@@ -81,7 +83,7 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/made-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (require 'rainbow-delimiters)
 ;; mode hooks
 (require 'nrv-modes) ;; modular af
