@@ -36,7 +36,7 @@
  '(font-lock-constant-face ((t (:foreground "blue4"))))
  '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "maroon"))))
  '(font-lock-string-face ((t (:foreground "SeaGreen4"))))
- '(font-lock-variable-name-face ((t (:foreground "deep pink" :weight extra-bold))))
+ '(font-lock-variable-name-face ((t (:foreground "chartreuse4" :weight extra-bold))))
  '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
  '(hl-line ((t (:extend t :background "white smoke"))))
  '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "gray5"))))

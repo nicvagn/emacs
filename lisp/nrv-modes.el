@@ -41,4 +41,6 @@ Version 2021-07-30 2023-03-15 2023-04-05"
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;; turn evil back on when you re-enter a text buffer
 (add-hook 'text-mode-hook 'evil-on)
+;; or a programming buffer
+(add-hook 'prog-mode-hook 'evil-on)
 (provide 'nrv-modes)
