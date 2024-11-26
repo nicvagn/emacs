@@ -29,10 +29,16 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (add-hook 'dired-mode-hook #'evil-off)
   (add-hook 'dired-mode-hook #'dired-init)
  )
+;; python
+(add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
+(add-hook 'python-mode-hook (lambda ()
+                            (guess-style-guess-tab-width)))
 ;; evil mode does not play nice w vterm
 (add-hook 'vterm-mode-hook #'evil-off)
 ;;jedi python complete
 (add-hook 'python-mode-hook #'jedi:setup)
+
+;; programing mode
 ;; add lines to programming mode
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; colour define "(" pairs etc
