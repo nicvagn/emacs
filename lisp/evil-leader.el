@@ -123,7 +123,9 @@ the prefix additionally to the prefixed key.
 ;;;###autoload
 (define-minor-mode global-evil-leader-mode
   "Global minor mode for <leader> support."
-  nil nil nil
+  :init-value nil
+  :keymap nil
+  nil
   (if global-evil-leader-mode
       (add-hook 'evil-local-mode-hook #'evil-leader-mode t)
     (remove-hook 'evil-local-mode-hook #'evil-leader-mode t)))
@@ -132,6 +134,7 @@ the prefix additionally to the prefixed key.
 (define-minor-mode evil-leader-mode
   "Minor mode to enable <leader> support."
   :init-value nil
+  :lighter nil
   :keymap nil
   (let* ((prefixed (read-kbd-macro (concat evil-leader/non-normal-prefix evil-leader/leader)))
          (no-prefix (read-kbd-macro evil-leader/leader))
