@@ -21,7 +21,7 @@
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
+   '(flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -54,7 +54,6 @@
   (global-evil-dvorak-mode 1)
   (evil-mode 1)
 )
-
 (defun evil-off ()
   "turn off all nrv-evil-mode, should bring back stock keymaps"
   (interactive)
@@ -147,6 +146,29 @@
 (use-package flymake-codespell
   :ensure t
   :hook (prog-mode . flymake-codespell-setup-backend))
+;; corfu autocomplete ui
+(use-package corfu
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode)
+  :ensure t)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
