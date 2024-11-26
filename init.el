@@ -16,9 +16,9 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes '(adwaita))
+ '(custom-enabled-themes '(adwaita-dark))
  '(custom-safe-themes
-   '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
+   '("ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
    '(flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
@@ -30,19 +30,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "gray8" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight semi-bold :height 120 :width normal :foundry "ADBO" :family "Source Code Pro"))))
  '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(centaur-tabs-default ((t (:background "dark gray" :foreground "dim gray"))))
  '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
- '(font-lock-builtin-face ((t (:foreground "dark magenta"))))
- '(font-lock-comment-face ((t (:foreground "DarkGoldenrod4" :weight bold))))
- '(font-lock-constant-face ((t (:foreground "blue4"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "maroon"))))
- '(font-lock-string-face ((t (:foreground "SeaGreen4"))))
+ '(font-lock-builtin-face ((t (:foreground "pale violet red"))))
+ '(font-lock-comment-face ((t (:foreground "chartreuse1" :weight bold))))
+ '(font-lock-constant-face ((t (:foreground "light slate blue"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "pink1"))))
+ '(font-lock-string-face ((t (:foreground "spring green"))))
  '(font-lock-variable-name-face ((t (:foreground "chartreuse4" :weight extra-bold))))
  '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
- '(hl-line ((t (:extend t :background "white smoke"))))
- '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "gray5"))))
+ '(hl-line ((t (:extend t :background "grey18"))))
+ '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "LightGoldenrod4"))))
  '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
+ '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
+ '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "tomato"))))
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
  '(shadow ((t (:foreground "dim gray")))))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -110,7 +114,7 @@
 (require 'evil-leader)
 ;; org
 (require 'org)
-;;my own custom stuff
+;; my own custom stuff
 (require 'nrv-evil-dvorak)
 (require 'nrv-vterm)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -166,9 +170,15 @@
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
-  :init
-  (setq corfu-auto t)
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  :config
   (global-corfu-mode)
+  :bind
+  ("<f5>" . corfu-complete)
+  ("<f6>" . corfu-next)
+  ("<f7>" . corfu-previous)
   :ensure t)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
