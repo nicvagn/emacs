@@ -1,3 +1,4 @@
+(package-initialize) ;; this has to be done first, I think
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp" )
 (require 'package)
@@ -20,7 +21,7 @@
    '("3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
+   '(flymake-codespell jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -44,6 +45,23 @@
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
  '(shadow ((t (:foreground "dim gray")))))
+;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun evil-on ()
+  "turn on nrv-evil-mode and helper modes etc."
+  (interactive)
+  ;; enable modded global dvorak mode
+  (global-evil-leader-mode 1) ;; activate leader mode, must be done early
+  (global-evil-dvorak-mode 1)
+  (evil-mode 1)
+)
+
+(defun evil-off ()
+  "turn off all nrv-evil-mode, should bring back stock keymaps"
+  (interactive)
+  (global-evil-leader-mode -1)
+  (global-evil-dvorak-mode -1)
+  (evil-mode -1)
+)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; we want vim C-u
 (setq
@@ -125,6 +143,10 @@
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
+;; flymake-codespell - must have codespell installed on your sys
+(use-package flymake-codespell
+  :ensure t
+  :hook (prog-mode . flymake-codespell-setup-backend))
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
@@ -171,22 +193,4 @@
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun evil-on ()
-  "turn on nrv-evil-mode and helper modes etc."
-  (interactive)
-  ;; enable modded global dvorak mode
-  (global-evil-leader-mode 1) ;; activate leader mode, must be done early
-  (global-evil-dvorak-mode 1)
-  (evil-mode 1)
-)
-
-(defun evil-off ()
-  "turn off all nrv-evil-mode, should bring back stock keymaps"
-  (interactive)
-  (global-evil-leader-mode -1)
-  (global-evil-dvorak-mode -1)
-  (evil-mode -1)
-)
-
 (evil-on) ;; start in evil mode
