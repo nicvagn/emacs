@@ -16,7 +16,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
- '(custom-enabled-themes '(nrv-dark))
  '(custom-safe-themes
    '("5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
@@ -47,31 +46,45 @@
  '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
  '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
+ '(rainbow-delimiters-depth-5-face ((t (:inherit rainbow-delimiters-base-face :foreground "MistyRose1"))))
  '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "tomato"))))
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
+ '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
  '(shadow ((t (:foreground "dim gray")))))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun evil-on ()
   "turn on nrv-evil-mode and helper modes etc."
-  (interactive)
   ;; enable modded global dvorak mode
   (global-evil-leader-mode 1) ;; activate leader mode, must be done early
   (global-evil-dvorak-mode 1)
   (evil-mode 1)
+  (setq mode-line-modes *factory-mode-line-modes*)
 )
 (defun evil-off ()
   "turn off all nrv-evil-mode, should bring back stock keymaps"
-  (interactive)
   (global-evil-leader-mode -1)
   (global-evil-dvorak-mode -1)
   (evil-mode -1)
+  (setq mode-line-modes '("EVIL-OFF"))
 )
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(defun evil-toggle ()
+  "toggle evil mode"
+  (interactive)
+  ;; if evil-mode then evil off else
+  (if evil-mode (evil-off)
+    (evil-on)
+  )
+)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-custom var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; mode-line for signaling evil-off
+(defvar *factory-mode-line-modes* mode-line-modes)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; we want vim C-u
 (setq
   ;; EVIL
   evil-want-C-u-scroll t
   evil-scroll-count 10
+  evil-want-fine-undo t
 
   ;; JEDI AUTO complete
   jedi:complete-on-dot t
@@ -100,37 +113,61 @@
 
   ;; org mode
   org-image-actual-width nil)
-;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_
+(which-function-mode 1)  ;; tell which func.
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (require 'rainbow-delimiters)
 ;; mode hooks
 (require 'nrv-modes) ;; modular af
-;; _-_-_-_-_-_-_-_-_-_-_-_-_evil-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; Evil bah-ha-ha
-;; leader for emacs
-(require 'evil-leader)
 ;; org
 (require 'org)
 ;; my own custom stuff
-(require 'nrv-evil-dvorak)
 (require 'nrv-vterm)
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
 (use-package evil
   :ensure t
   :demand
   :config
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo))
+    ;; make c delete
+    (define-key evil-normal-state-map (kbd "c") 'evil-delete)
+    ;; set evil undo to one built into emacs
+    (evil-set-undo-system 'undo-redo)
+    (use-package nrv-evil-dvorak)
+    (use-package evil-leader
+      :demand
+      :config
+        ;; <leader>
+        (evil-leader/set-leader "<SPC>") ;; set to space
+        ;; define leader mappings
+        (evil-leader/set-key
+          "w" 'save-buffer
+          "k" 'kill-this-buffer
+          "q" 'evil-quit
+          "x" 'delete-window
+          "0" 'delete-window
+          "1" 'delete-other-windows
+          "s" 'evil-window-split
+          "v" 'evil-window-vsplit
+          "<SPC>" 'evil-window-next)
+
+        (global-evil-leader-mode))
+
+    ;; after modes have been loaded, turn on evil
+    (evil-on))
+
 (use-package eglot
   :ensure t
   :defer t
   :hook (python-mode . eglot-ensure))
+
 (use-package centaur-tabs
   :ensure t
   :demand
@@ -142,15 +179,18 @@
   ("M-]" . centaur-tabs-forward)
   ("<f1>" . centaur-tabs-backward-group)
   ("<f2>" . centaur-tabs-forward-group))
+
 (use-package yasnippet
   :ensure t
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
+
 ;; flymake-codespell - must have codespell installed on your sys
 (use-package flymake-codespell
   :ensure t
   :hook (prog-mode . flymake-codespell-setup-backend))
+
 ;; corfu autocomplete ui
 (use-package corfu
   :custom
@@ -163,36 +203,21 @@
   ("<f6>" . corfu-next)
   ("<f7>" . corfu-previous)
   :ensure t)
-;; all the icons
+
+;; all the icons - icons in text
 (use-package all-the-icons
   :if (display-graphic-p)
-  :ensure t
-  )
-;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+  :ensure t)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
+;; f8 evil toggle
+(global-set-key (kbd "<f8>") 'evil-toggle)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
-;; evil
-;; make c delete
-(define-key evil-normal-state-map (kbd "c") 'evil-delete)
-;; <leader>
-(evil-leader/set-leader "<SPC>") ;; set to space
-;; define leader mappings
-(evil-leader/set-key
-  "w" 'save-buffer
-  "k" 'kill-this-buffer
-  "q" 'evil-quit
-  "x" 'delete-window
-  "0" 'delete-window
-  "1" 'delete-other-windows
-  "s" 'evil-window-split
-  "v" 'evil-window-vsplit
-  "<SPC>" 'evil-window-next
-)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -214,4 +239,3 @@
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
-(evil-on) ;; start in evil mode

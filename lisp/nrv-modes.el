@@ -22,7 +22,6 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   ;;(define-key dired-mode-map (kbd "e n") #'dired-create-directory)
   ;;(define-key dired-mode-map (kbd "e r") #'dired-do-rename)
   ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
-  ;;;;
 )
 (progn
   (require 'dired )
@@ -30,21 +29,18 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (add-hook 'dired-mode-hook #'dired-init)
  )
 ;; turn evil back on when you load a text buffer
-(add-hook 'text-mode-hook 'evil-on)
+;; TEST (add-hook 'text-mode-hook 'evil-on)
 ;; python
 (add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
 (add-hook 'python-mode-hook (lambda ()
                             (guess-style-guess-tab-width)))
-;; evil mode does not play nice w vterm
-(add-hook 'vterm-mode-hook #'evil-off)
 
-;; ---- programing mode ----
+;; ---- programming mode ----
 ;; add lines to programming mode
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; colour define "(" pairs etc
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;; or a programming buffer
-(add-hook 'prog-mode-hook 'evil-on)
+;; evil-on when you enter a programming buffer
 (add-hook 'prog-mode-hook 'evil-on)
 
 ;; remove trailing whitespace before saving
