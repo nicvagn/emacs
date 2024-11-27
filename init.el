@@ -107,7 +107,7 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_
 (require 'rainbow-delimiters)
 ;; mode hooks
 (require 'nrv-modes) ;; modular af
