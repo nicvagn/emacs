@@ -1,4 +1,4 @@
-;;; adwaita-dark-theme.el --- A dark color scheme inspired by Adwaita -*- lexical-binding: t; -*-
+;;; nrv-dark-theme.el --- A dark color scheme inspired by Adwaita -*- lexical-binding: t; -*-
 ;;
 ;; Author: Jessie Hildebrandt <jessieh.net>
 ;; Homepage: https://gitlab.com/jessieh/adwaita-dark-theme
@@ -1219,7 +1219,7 @@
 ;; Provide theme/package
 ;; ---------------------------------- ;;
 
-(provide-theme 'adwaita-dark)
-(provide 'adwaita-dark-theme)
+(provide-theme 'nrv-dark)
+(provide 'nrv-dark-theme)
 
 ;;; adwaita-dark-theme.el ends here
