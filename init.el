@@ -21,7 +21,7 @@
    '("5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
+   '(yasnippet-snippets all-the-icons flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit spacemacs-theme ace-window gnu-elpa-keyring-update evil-leader evil))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -95,7 +95,9 @@
   centaur-tabs-style "wave"
   centaur-tabs-height 38
   centaur-tabs-set-icons t
-  centaur-tabs-icon-type 'nerd-icons
+  centaur-tabs-icon-type 'all-the-icons
+  centaur-tabs-cycle-scope 'tabs
+
   ;; org mode
   org-image-actual-width nil)
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -105,7 +107,7 @@
 (auto-fill-mode t) ;; complete if only
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
-;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; _-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require-_-_-_-_-_-_-_-_-_-_-_-_-_
 (require 'rainbow-delimiters)
 ;; mode hooks
 (require 'nrv-modes) ;; modular af
@@ -136,14 +138,12 @@
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   :bind
-  ("<f1>" . centaur-tabs-backward)
-  ("<f2>" . centaur-tabs-forward))
+  ("M-[" . centaur-tabs-backward)
+  ("M-]" . centaur-tabs-forward)
+  ("<f1>" . centaur-tabs-backward-group)
+  ("<f2>" . centaur-tabs-forward-group))
 (use-package yasnippet
   :ensure t
-  :hook ((text-mode
-          prog-mode
-          conf-mode
-          snippet-mode) . yas-minor-mode-on)
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
@@ -153,27 +153,9 @@
   :hook (prog-mode . flymake-codespell-setup-backend))
 ;; corfu autocomplete ui
 (use-package corfu
-  ;; Optional customizations
-  ;; :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  ;; (corfu-auto t)                 ;; Enable auto completion
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-
-  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  ;; :hook ((prog-mode . corfu-mode)
-  ;;        (shell-mode . corfu-mode)
-  ;;        (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-  ;; be used globally (M-/).  See also the customization variable
-  ;; `global-corfu-modes' to exclude certain modes.
   :custom
   (corfu-auto t)
-  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-cycle t)                ;; Enable cycling
   :config
   (global-corfu-mode)
   :bind
@@ -181,6 +163,11 @@
   ("<f6>" . corfu-next)
   ("<f7>" . corfu-previous)
   :ensure t)
+;; all the icons
+(use-package all-the-icons
+  :if (display-graphic-p)
+  :ensure t
+  )
 ;; _-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; global keymap
 ;; restart emacs
