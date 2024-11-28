@@ -9,6 +9,7 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (define-key dired-mode-map (kbd "a") #'dired-create-directory)
   (define-key dired-mode-map (kbd "r") #'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
+  ;; magit
   (define-key dired-mode-map (kbd "C-x C-g c") #'magit-commit)
   (define-key dired-mode-map (kbd "C-x C-g l") #'magit-log-current)
   (define-key dired-mode-map (kbd "C-x C-g p") #'magit-push-current-to-upstream)
@@ -26,13 +27,11 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   ;;(define-key dired-mode-map (kbd "e r") #'dired-do-rename)
   ;;(define-key dired-mode-map (kbd "e u") #'dired-unmark-all-marks)
 )
+
 (progn
   (require 'dired )
-  (add-hook 'dired-mode-hook #'evil-off)
   (add-hook 'dired-mode-hook #'dired-init)
  )
-;; turn evil back on when you load a text buffer
-;; TEST (add-hook 'text-mode-hook 'evil-on)
 ;; python
 (add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
 (add-hook 'python-mode-hook (lambda ()
@@ -43,9 +42,9 @@ Version 2021-07-30 2023-03-15 2023-04-05"
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; colour define "(" pairs etc
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;; evil-on when you enter a programming buffer
-(add-hook 'prog-mode-hook 'evil-on)
 
+;; --- vterm mode ---
 ;; remove trailing whitespace before saving
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+;; hook for changing modes
 (provide 'nrv-modes)
