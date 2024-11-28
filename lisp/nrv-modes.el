@@ -9,6 +9,8 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (define-key dired-mode-map (kbd "a") #'dired-create-directory)
   (define-key dired-mode-map (kbd "r") #'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
+  (define-key dired-mode-map (kbd "C-x C-g c") #'magit-commit)
+  (define-key dired-mode-map (kbd "C-x C-g l") #'magit-log-current)
   ;;(define-key dired-mode-map (kbd "1") #'dired-do-shell-command)
   ;;(define-key dired-mode-map (kbd "9") #'dired-hide-details-mode)
   ;;(define-key dired-mode-map (kbd "b") #'dired-do-byte-compile)
