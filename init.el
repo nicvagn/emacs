@@ -54,33 +54,14 @@
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
  '(region ((t (:extend t :background "dark cyan"))))
  '(shadow ((t (:foreground "dim gray")))))
-;;_-_-_-_-_-_-_-_-_-_-_-_-_helper functions-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;;(defun evil-on ()
-  ;;"turn on nrv-evil-mode and helper modes etc."
-  ;;;; enable modded global dvorak mode
-  ;;(global-evil-leader-mode 1) ;; activate leader mode, must be done early
-  ;;(global-evil-dvorak-mode 1)
-  ;;(evil-mode 1)
-  ;;(setq mode-line-modes *factory-mode-line-modes*)
-;;)
-;;(defun evil-off ()
-  ;;"turn off all nrv-evil-mode, should bring back stock keymaps"
-  ;;(global-evil-leader-mode -1)
-  ;;(global-evil-dvorak-mode -1)
-  ;;(evil-mode -1)
-  ;;(setq mode-line-modes '("EVIL-OFF"))
-;;)
-;;(defun evil-toggle ()
-  ;;"toggle evil mode"
-  ;;(interactive)
-  ;;;; if evil-mode then evil off else
-  ;;(if evil-mode (evil-off)
-    ;;(evil-on)
-  ;;)
-;;)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-custom var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; mode-line for signaling evil-off
-;;(defvar *factory-mode-line-modes* mode-line-modes)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(require 'rainbow-delimiters)
+;; mode hooks
+(require 'nrv-modes) ;; modular af
+;; org
+(require 'org)
+;; my own custom stuff
+(require 'nrv-vterm)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; we want vim C-u
 (setq
@@ -125,100 +106,6 @@
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(require 'rainbow-delimiters)
-;; mode hooks
-(require 'nrv-modes) ;; modular af
-;; org
-(require 'org)
-;; my own custom stuff
-(require 'nrv-vterm)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-
-(use-package evil
-  :ensure t
-  :demand
-  :config
-    ;; make c delete
-    (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-    ;; set evil undo to one built into emacs
-    (evil-set-undo-system 'undo-redo)
-    (use-package nrv-evil-dvorak
-      :demand
-      :config
-      (global-evil-dvorak-mode 1))
-    (use-package evil-leader
-      :demand
-      :config
-        ;; <leader>
-        (evil-leader/set-leader "<SPC>") ;; set to space
-        ;; define leader mappings
-        (evil-leader/set-key
-          "w" 'save-buffer
-          "k" 'kill-this-buffer
-          "q" 'evil-quit
-          "x" 'delete-window
-          "0" 'delete-window
-          "1" 'delete-other-windows
-          "s" 'evil-window-split
-          "v" 'evil-window-vsplit
-          "<SPC>" 'evil-window-next)
-
-        (global-evil-leader-mode))
-
-    (evil-mode 1))
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; we want vim C-u
-(setq
-  ;; EVIL
-  evil-want-C-u-scroll t
-  evil-scroll-count 10
-  evil-want-fine-undo t
-
-  ;; JEDI AUTO complete
-  jedi:complete-on-dot t
-  completion-auto-help t
-  completion-cycle-threshold 2 ;; cycle completions only 2
-
-  ;; history/backup
-  savehist-file "~/.emacs_histfile"
-  version-control t     ;; Use version numbers for backups.
-  kept-new-versions 10  ;; Number of newest versions to keep.
-  kept-old-versions 0   ;; Number of oldest versions to keep.
-  delete-old-versions t ;; Don't ask to delete excess backup versions.
-  backup-by-copying t   ;; Copy all files, don't rename them.
-
-  ;; Revert/reload Dired and other buffers on filesystem change
-  global-auto-revert-non-file-buffers t
-  ;; but do it quietly
-  auto-revert-verbose nil
-
-  ;; centar tabs
-  centaur-tabs-style "wave"
-  centaur-tabs-height 38
-  centaur-tabs-set-icons t
-  centaur-tabs-icon-type 'all-the-icons
-  centaur-tabs-cycle-scope 'tabs
-
-  ;; org mode
-  org-image-actual-width nil)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Revert buffers when the underlying file has changed
-(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
-(global-hl-line-mode 1)
-(auto-fill-mode t) ;; complete if only
-(savehist-mode) ;; save history
-(transient-mark-mode 1)  ;; selection highlighting
-(which-function-mode 1)  ;; tell which func.
-
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(require 'rainbow-delimiters)
-;; mode hooks
-(require 'nrv-modes) ;; modular af
-;; org
-(require 'org)
-;; my own custom stuff
-(require 'nrv-vterm)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 (use-package evil
@@ -317,14 +204,14 @@
 (defalias 'up 'package-refresh-contents)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
-(setq backup-directory-alist '(("" . "~/.emacs_backups/backup/per-save")))
+(setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
 
 (defun force-backup-of-buffer ()
   ;; Make a special "per session" backup at the first save of each
   ;; emacs session.
   (when (not buffer-backed-up)
     ;; Override the default parameters for per-session backups.
-    (let ((backup-directory-alist '(("" . "~/.emacs_backups/per-session")))
+    (let ((backup-directory-alist '(("" . "~/.config/emacs/backups/per-session")))
           (kept-new-versions 3))
       (backup-buffer)))
   ;; Make a "per save" backup on each save.  The first save results in
