@@ -32,18 +32,21 @@ Version 2021-07-30 2023-03-15 2023-04-05"
   (require 'dired )
   (add-hook 'dired-mode-hook #'dired-init)
  )
-;; python
-(add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
-(add-hook 'python-mode-hook (lambda ()
-                            (guess-style-guess-tab-width)))
-
+;; ---- python mode ----
+(progn
+  (require 'python-isort)
+  (add-hook 'python-mode-hook 'python-isort-on-save-mode)
+  (add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
+  (add-hook 'python-mode-hook (lambda ()
+                              (guess-style-guess-tab-width)))
+)
 ;; ---- programming mode ----
-;; add lines to programming mode
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-;; colour define "(" pairs etc
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
-;; --- vterm mode ---
+(progn
+  ;; add lines to programming mode
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  ;; colour define "(" pairs etc
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+)
 ;; remove trailing whitespace before saving
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;; hook for changing modes

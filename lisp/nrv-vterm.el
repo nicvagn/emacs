@@ -1,3 +1,7 @@
+(defun use-monospace ()
+  "Switch the current buffer to a monospace font."
+  (face-remap-add-relative 'default '(:family "Monospace")))
+
 (use-package vterm
     :ensure t
     :bind (
@@ -10,7 +14,8 @@
     :hook
     (vterm-mode . (lambda ()
 		(buffer-face-mode t)
-		(text-scale-adjust 1.2)))
+		(text-scale-adjust 1.2)
+		(use-monospace)))
 )
 
 (provide 'nrv-vterm)
