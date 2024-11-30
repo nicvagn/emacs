@@ -30,7 +30,16 @@ Version 2021-07-30 2023-03-15 2023-04-05"
 
 (progn
   (require 'dired )
-  (add-hook 'dired-mode-hook #'dired-init)
+  (define-key dired-mode-map (kbd "h") #'dired-previous-line)
+  (define-key dired-mode-map (kbd "t") #'dired-next-line)
+  (define-key dired-mode-map (kbd "u") #'dired-up-directory)
+  (define-key dired-mode-map (kbd "a") #'dired-create-directory)
+  (define-key dired-mode-map (kbd "r") #'dired-do-rename)
+  (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
+  ;; magit
+  (define-key dired-mode-map (kbd "C-x C-g c") #'magit-commit)
+  (define-key dired-mode-map (kbd "C-x C-g l") #'magit-log-current)
+  (define-key dired-mode-map (kbd "C-x C-g p") #'magit-push-current-to-upstream)
  )
 ;; ---- python mode ----
 (progn
