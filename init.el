@@ -192,8 +192,7 @@
 (use-package all-the-icons
   :if (display-graphic-p)
   :ensure t)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Keymaps_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; global keymap
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
