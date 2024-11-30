@@ -164,6 +164,11 @@
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
+;; display possible keyboard shortcuts
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
 
 ;; flymake-codespell - must have codespell installed on your sys
 (use-package flymake-codespell
