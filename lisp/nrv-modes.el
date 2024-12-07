@@ -19,6 +19,7 @@
   (define-key dired-ring-map (kbd "s") #'evil-window-split)
   (define-key dired-ring-map (kbd "v") #'evil-window-vsplit)
   (define-key dired-ring-map (kbd "x") #'delete-window)
+  (define-key dired-ring-map (kbd "k") #'kill-this-buffer)
  )
 ;; ---- python mode ----
 (progn
