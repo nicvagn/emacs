@@ -197,7 +197,7 @@
 (use-package scroll-on-jump
   :ensure t
   :config
-  (setq scroll-on-jump-duration 0.6)
+  (setq scroll-on-jump-duration 0.4)
   (with-eval-after-load 'evil
     (scroll-on-jump-advice-add evil-undo)
     (scroll-on-jump-advice-add evil-redo)
