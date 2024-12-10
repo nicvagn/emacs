@@ -69,7 +69,7 @@
 (setq
   ;; EVIL
   evil-want-C-u-scroll t
-  evil-scroll-count 10
+  evil-scroll-count 20
   evil-want-fine-undo t
 
   ;; JEDI AUTO complete
@@ -193,7 +193,7 @@
 (use-package all-the-icons
   :if (display-graphic-p)
   :ensure t)
-;; Scroll on jump for less jaring jumping around
+;; Scroll on jump for less jarring jumping around
 (use-package scroll-on-jump
   :ensure t
   :config
