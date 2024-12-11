@@ -14,7 +14,7 @@
     :hook
     (vterm-mode . (lambda ()
 		(buffer-face-mode t)
-		(text-scale-adjust 1.2)
+		(text-scale-adjust 1.05)
 		(use-monospace)))
 )
 
