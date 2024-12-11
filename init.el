@@ -78,7 +78,7 @@
   completion-cycle-threshold 2 ;; cycle completions only 2
 
   ;; history/backup
-  savehist-file "~/.emacs_histfile"
+  savehist-file "~/.config/emacs/emacs_histfile"
   version-control t     ;; Use version numbers for backups.
   kept-new-versions 10  ;; Number of newest versions to keep.
   kept-old-versions 0   ;; Number of oldest versions to keep.
