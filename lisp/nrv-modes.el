@@ -24,6 +24,10 @@
 ;; ---- python mode ----
 (progn
   (require 'python-isort)
+  ;; do not enable flymake on temp. buffers
+  (add-hook 'python-mode-hook
+            (lambda ()
+	      (unless (eq buffer-file-name nil) (flymake-mode 1))))
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
   (add-hook 'python-mode-hook 'guess-style-guess-tabs-mode)
   (add-hook 'python-mode-hook (lambda ()
