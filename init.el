@@ -275,7 +275,7 @@
   (when (not buffer-backed-up)
     ;; Override the default parameters for per-session backups.
     (let ((backup-directory-alist '(("" . "~/.config/emacs/backups/per-session")))
-          (kept-new-versions 3))
+          (kept-new-versions 6))
       (backup-buffer)))
   ;; Make a "per save" backup on each save.  The first save results in
   ;; both a per-session and a per-save backup, to keep the numbering
