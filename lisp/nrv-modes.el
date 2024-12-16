@@ -1,4 +1,8 @@
+;;; nrv-modes.el --- My emacs modes, mode keymaps
+;;; commentary:
 ;; mostly keymap's that are mode specific
+
+;;; code:
 (progn
   (require 'dired )
   (define-prefix-command 'dired-ring-map)
@@ -32,12 +36,23 @@
 )
 ;; ---- programming mode ----
 (progn
+  (require 'prog-mode)
   ;; add lines to programming mode
-  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   ;; colour define "(" pairs etc
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  ;; Flymake and codespell
+  (add-hook 'prog-mode-hook 'flymake-mode)
+  (add-hook 'prog-mode-hook 'flymake-codespell-setup-backend)
+  ;; eglot lsp stuff
+  (add-hook 'prog-mode-hook 'eglot-ensure)
+  ;; keybinds
+  (define-key 'prog-mode-map (kbd "C-C l") #'flymake-show-buffer-diagnostics)
+  (define-key 'prog-mode-map (kbd "C-C n") #'flymake-goto-next-error)
+
 )
 ;; remove trailing whitespace before saving
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;; hook for changing modes
 (provide 'nrv-modes)
+;;; nrv-modes.el ends here
