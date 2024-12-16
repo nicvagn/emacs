@@ -9,9 +9,6 @@
   (define-key dired-mode-map (kbd "a") #'dired-create-directory)
   (define-key dired-mode-map (kbd "r") #'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
-  ;; magit
-  (define-key dired-mode-map (kbd "C-x C-g c") #'magit-commit)
-  (define-key dired-mode-map (kbd "C-x C-g l") #'magit-log-current)
 
   ;; switch pains with <SPC>
   (define-key dired-ring-map (kbd "<SPC>") #'evil-window-next)
