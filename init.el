@@ -253,6 +253,8 @@
 (global-set-key (kbd "C-x C-g c") #'magit-commit)
 (global-set-key (kbd "C-x C-g l") #'magit-log-current)
 (global-set-key (kbd "C-x C-g d") #'magit-diff)
+(global-set-key (kbd "C-x C-g p") #'magit-push-current-to-upstream)
+(global-set-key (kbd "C-x C-g u") #'magit-pull-from-upstream)
 
 
 
