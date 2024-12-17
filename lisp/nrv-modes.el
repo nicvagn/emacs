@@ -44,11 +44,9 @@
   ;; Flymake and codespell
   (add-hook 'prog-mode-hook 'flymake-mode)
   (add-hook 'prog-mode-hook 'flymake-codespell-setup-backend)
-  ;; eglot lsp stuff
-  (add-hook 'prog-mode-hook 'eglot-ensure)
   ;; keybinds
-  (define-key 'prog-mode-map (kbd "C-C l") #'flymake-show-buffer-diagnostics)
-  (define-key 'prog-mode-map (kbd "C-C n") #'flymake-goto-next-error)
+  (define-key prog-mode-map (kbd "C-C l") #'flymake-show-buffer-diagnostics)
+  (define-key prog-mode-map (kbd "C-C n") #'flymake-goto-next-error)
 
 )
 ;; remove trailing whitespace before saving

@@ -31,7 +31,12 @@
    '(markdown-mode company eglot scroll-on-jump all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit gnu-elpa-keyring-update evil reformatter))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(warning-suppress-log-types
+   '((flymake flymake)
+     (flymake flymake-codespell)
+     (flymake flymake-codespell)))
+ '(warning-suppress-types '((flymake flymake-codespell) (flymake flymake))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -115,6 +120,8 @@
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
+;; remove the legacy hook from flymake
+(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
