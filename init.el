@@ -28,7 +28,7 @@
    '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(package-selected-packages
-   '(markdown-mode company eglot scroll-on-jump all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit gnu-elpa-keyring-update evil reformatter))
+   '(yasnippet-classic-snippets markup markdown-mode company eglot scroll-on-jump all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons flymake-codespell corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit gnu-elpa-keyring-update evil reformatter))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil)
@@ -48,7 +48,7 @@
  '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
  '(centaur-tabs-unselected ((t (:background "#3D3C3D" :foreground "gray82"))))
  '(cursor ((t (:background "LightGoldenrod4"))))
- '(eglot-highlight-symbol-face ((t (:background "gray5" :foreground "light gray"))))
+ '(eglot-highlight-symbol-face ((t (:background "gray5" :foreground "firebrick1"))))
  '(eglot-mode-line ((t (:inherit font-lock-constant-face :foreground "cornflower blue" :weight bold))))
  '(eglot-parameter-hint-face ((t (:inherit eglot-inlay-hint-face :foreground "dark salmon"))))
  '(font-lock-builtin-face ((t (:foreground "pale violet red"))))
@@ -85,6 +85,10 @@
   evil-scroll-count 20
   evil-want-fine-undo t
 
+  ;; scrolling
+  mouse-wheel-scroll-amount '(0.07)
+  mouse-wheel-progressive-speed nil
+
   ;; JEDI AUTO complete
   jedi:complete-on-dot t
   completion-auto-help t
@@ -109,6 +113,10 @@
   centaur-tabs-set-icons t
   centaur-tabs-icon-type 'all-the-icons
   centaur-tabs-cycle-scope 'tabs
+
+  ;; corfu
+  corfu-auto-delay  0.2  ;; TOO SMALL - NOT RECOMMENDED
+  corfu-auto-prefix 0.2  ;; TOO SMALL - NOT RECOMMENDED
 
   ;; org mode
   org-image-actual-width nil)
@@ -200,7 +208,7 @@
   :custom
   (corfu-auto t)
   (corfu-cycle t)  ;; Enable cycling
-  :config
+  :init
   (global-corfu-mode)
   :bind
   ("<f5>" . corfu-complete)
@@ -242,6 +250,21 @@
     (scroll-on-jump-advice-add goto-last-change)
     (scroll-on-jump-advice-add goto-last-change-reverse)))
 
+;; magit
+(use-package magit
+  :ensure t
+  :bind
+  ;; magit
+  ("C-x C-g c" . #'magit-commit)
+  ("C-x C-g l" . #'magit-log-current)
+  ("C-x C-g d" . #'magit-diff)
+  ("C-x C-g p" . #'magit-push-current-to-upstream)
+  ("C-x C-g u" . #'magit-pull-from-upstream)
+  ("C-x C-g t" . #'magit-tag)
+  ("C-x C-g b" . #'magit-branch)
+  ("C-x C-g s" . #'magit-status-quick))
+
+
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
@@ -261,14 +284,6 @@
 (global-set-key (kbd "<f8>") 'evil-mode)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
-
-;; magit
-(global-set-key (kbd "C-x C-g c") #'magit-commit)
-(global-set-key (kbd "C-x C-g l") #'magit-log-current)
-(global-set-key (kbd "C-x C-g d") #'magit-diff)
-(global-set-key (kbd "C-x C-g p") #'magit-push-current-to-upstream)
-(global-set-key (kbd "C-x C-g u") #'magit-pull-from-upstream)
-(global-set-key (kbd "C-x C-g s") #'magit-status-quick)
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

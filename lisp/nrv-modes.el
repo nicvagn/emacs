@@ -4,7 +4,7 @@
 
 ;;; code:
 (progn
-  (require 'dired )
+  (require 'dired)
   (define-prefix-command 'dired-ring-map)
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   (define-key dired-mode-map (kbd "h") #'dired-previous-line)
@@ -15,12 +15,12 @@
   (define-key dired-mode-map (kbd "<return>") #'dired-find-file)
 
   ;; switch pains with <SPC>
-  (define-key dired-ring-map (kbd "<SPC>") #'evil-window-next)
-  (define-key dired-ring-map (kbd "e") #'dired-find-file)
-  (define-key dired-ring-map (kbd "s") #'evil-window-split)
-  (define-key dired-ring-map (kbd "v") #'evil-window-vsplit)
-  (define-key dired-ring-map (kbd "x") #'delete-window)
-  (define-key dired-ring-map (kbd "k") #'kill-this-buffer)
+  (define-key 'dired-ring-map (kbd "<SPC>") #'evil-window-next)
+  (define-key 'dired-ring-map (kbd "e") #'dired-find-file)
+  (define-key 'dired-ring-map (kbd "s") #'evil-window-split)
+  (define-key 'dired-ring-map (kbd "v") #'evil-window-vsplit)
+  (define-key 'dired-ring-map (kbd "x") #'delete-window)
+  (define-key 'dired-ring-map (kbd "k") #'kill-this-buffer)
  )
 ;; ---- python mode ----
 (progn
