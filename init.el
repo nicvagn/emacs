@@ -50,6 +50,7 @@
  '(cursor ((t (:background "LightGoldenrod4"))))
  '(eglot-highlight-symbol-face ((t (:background "gray5" :foreground "firebrick1"))))
  '(eglot-mode-line ((t (:inherit font-lock-constant-face :foreground "cornflower blue" :weight bold))))
+ '(eglot-highlight-symbol-face ((t (:background "gray11" :foreground "dark orange"))))
  '(eglot-parameter-hint-face ((t (:inherit eglot-inlay-hint-face :foreground "dark salmon"))))
  '(font-lock-builtin-face ((t (:foreground "pale violet red"))))
  '(font-lock-comment-face ((t (:foreground "chartreuse1" :weight bold))))
@@ -115,8 +116,8 @@
   centaur-tabs-cycle-scope 'tabs
 
   ;; corfu
-  corfu-auto-delay  0.2  ;; TOO SMALL - NOT RECOMMENDED
-  corfu-auto-prefix 0.2  ;; TOO SMALL - NOT RECOMMENDED
+  corfu-auto-delay  0.2 ;; may cause issues due to being fast 
+  corfu-auto-prefix 0.2 
 
   ;; org mode
   org-image-actual-width nil)
