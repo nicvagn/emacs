@@ -1,13 +1,19 @@
+;;; nrv-vterm.el --- vterm for inferior term in emacs
+;;; commentary:
+;; better than nothing, as everything must be Emacs
+
+;;; code:
 (defun use-monospace ()
   "Switch the current buffer to a monospace font."
   (face-remap-add-relative 'default '(:family "Monospace")))
 
 (use-package vterm
     :ensure t
-    :bind (
-          :map vterm-mode-map
-           ("<f1>" . centaur-tabs-backward)
-           ("<f2>" . centaur-tabs-forward))
+    :bind
+  ("M-[" . centaur-tabs-backward)
+  ("M-]" . centaur-tabs-forward)
+  ("<f1>" . centaur-tabs-backward-group)
+  ("<f2>" . centaur-tabs-forward-group)
 
     :custom
     (vterm-always-compile t)
@@ -19,3 +25,4 @@
 )
 
 (provide 'nrv-vterm)
+;;; nrv-vterm.el ends here
