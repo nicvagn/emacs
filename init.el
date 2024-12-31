@@ -134,6 +134,17 @@
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  (centaur-tabs-headline-match)
+  :bind
+  ("M-[" . centaur-tabs-backward)
+  ("M-]" . centaur-tabs-forward)
+  ("<f1>" . centaur-tabs-backward-group)
+  ("<f2>" . centaur-tabs-forward-group))
 (use-package evil
   :ensure t
   :demand
@@ -177,17 +188,6 @@
     ("C-x C-' r" . xref-find-references)
   :hook (python-mode . eglot-ensure)
 	(js-mode . eglot-ensure))
-(use-package centaur-tabs
-  :ensure t
-  :demand
-  :config
-  (centaur-tabs-mode t)
-  (centaur-tabs-headline-match)
-  :bind
-  ("M-[" . centaur-tabs-backward)
-  ("M-]" . centaur-tabs-forward)
-  ("<f1>" . centaur-tabs-backward-group)
-  ("<f2>" . centaur-tabs-forward-group))
 (use-package yasnippet
   :ensure t
   :init
