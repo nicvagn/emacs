@@ -263,6 +263,7 @@
   ("C-x C-g u" . #'magit-pull-from-upstream)
   ("C-x C-g t" . #'magit-tag)
   ("C-x C-g b" . #'magit-branch)
+  ("C-x C-g a" . #'magit-stage-buffer-file)
   ("C-x C-g s" . #'magit-status-quick))
 
 
