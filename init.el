@@ -3,7 +3,9 @@
 ;; mostly keymap's that are mode specific
 
 ;;; code:
-(package-initialize) ;; this has to be done first, I think
+(when (< emacs-major-version 27)
+  (package-initialize))
+
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp" )
 (require 'package)
