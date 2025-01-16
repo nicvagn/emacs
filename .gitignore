@@ -7,4 +7,5 @@ auto-save-list
 ac-comphist.dat
 projects
 backups/*
+history
 emacs_histfile
