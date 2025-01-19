@@ -3,8 +3,8 @@
 ;; mostly keymaps that are mode specific
 
 ;;; code:
-(defun prepaire-dired ()
-  "Prepaire Dired mode how I like it."
+(defun prepare-dired ()
+  "Prepare Dired mode how I like it."
   (require 'dired)
   (define-prefix-command 'dired-ring-map)
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
@@ -25,8 +25,8 @@
   (define-key 'dired-ring-map (kbd "k") #'kill-this-buffer)
  )
 ;; ---- python mode ----
-(defun prepaire-python ()
-  "Prepaire to edit python code."
+(defun prepare-python ()
+  "Prepare to edit python code."
   (require 'python-isort)
 
   ;; do not enable flymake on temp. buffers
@@ -36,19 +36,17 @@
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
 )
 ;; ---- programming mode ----
-(defun prepaire-prog ()
-  "Prepaire to enter \='prog-mode'."
+(defun prepare-prog ()
+  "Prepare to enter \='prog-mode'."
   ;; add lines to programming mode
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   ;; colour define "(" pairs etc
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   ;; Flymake and codespell
   (add-hook 'prog-mode-hook 'flymake-mode)
-  (add-hook 'prog-mode-hook 'flymake-cspell-setup)
   ;; keybinds
   (define-key prog-mode-map (kbd "C-C l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-C n") 'flymake-goto-next-error)
-
 )
 ;; remove trailing whitespace before saving
 ;; hook for changing modes

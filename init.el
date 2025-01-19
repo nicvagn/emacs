@@ -1,42 +1,22 @@
 ;;; init.el --- My emacs init.el
 ;;; commentary:
-;; mostly keymap's that are mode specific
+;; mostly keymaps that are mode specific
 
+(provide 'init)
 ;;; code:
 (when (< emacs-major-version 27)
   (package-initialize))
 
-;; add custom dir to load-path
-(add-to-list 'load-path "~/.config/emacs/lisp" )
+;; add lisp dir to load-path
+(let ((default-directory "/home/nrv/.config/emacs/lisp" ))
+  (setq load-path
+        (append
+         (let ((load-path  (copy-sequence load-path))) ;; Shadow
+           (append
+            (copy-sequence (normal-top-level-add-to-load-path '(".")))
+            (normal-top-level-add-subdirs-to-load-path)))
+         load-path)))
 
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(eval-when-compile
-  (require 'use-package))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(custom-safe-themes
-   '("5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
- '(eglot-send-changes-idle-time 0.3)
- '(evil-emacs-state-modes
-   '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
- '(inhibit-startup-screen t)
- '(package-selected-packages
-   '(treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company scroll-on-jump all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit gnu-elpa-keyring-update evil reformatter))
- '(package-vc-selected-packages
-   '((treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
- '(text-mode-hook
-   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
- '(tool-bar-mode nil)
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -67,7 +47,36 @@
  '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "tomato"))))
  '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
- '(region ((t (:extend t :background "dark cyan"))))))
+ '(region ((t (:extend t :background "dark cyan")))))
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(custom-safe-themes
+   '("5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
+ '(eglot-send-changes-idle-time 0.3)
+ '(evil-emacs-state-modes
+   '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   '(typescript-mode treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company scroll-on-jump all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs magit gnu-elpa-keyring-update evil reformatter))
+ '(package-vc-selected-packages
+   '((treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
+ '(text-mode-hook
+   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
+ '(tool-bar-mode nil))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
@@ -77,7 +86,6 @@
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 ;; remove the legacy hook from flymake
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; treesit.el an intelligent way to choose between a default mode, such as python-mode, and it’s tree-sitter enhanced version, python-ts-mode, automatically.
 (use-package treesit-auto
@@ -139,12 +147,14 @@
 
 (use-package centaur-tabs
   :ensure t
-  :demand
+  :demand t
   :config
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   :bind
-  (("M-[" . centaur-tabs-backward)
+  (
+   :map centaur-tabs-mode-map
+        ("M-[" . centaur-tabs-backward)
    ("M-]" . centaur-tabs-forward)
    ("M-{" . centaur-tabs-move-current-tab-to-left)
    ("M-}" .  centaur-tabs-move-current-tab-to-right)
@@ -153,6 +163,7 @@
 
 (use-package yasnippet
   :ensure t
+  :demand t
   :config
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
@@ -163,10 +174,6 @@
   :config
   (which-key-mode))
 
-;; flymake-cspell - must have cspell installed on your sys
-(use-package flymake-cspell
-  :ensure t
-  :hook (prog-mode . flymake-cspell-setup))
 
 ;; corfu autocomplete ui
 (use-package corfu
@@ -189,35 +196,6 @@
   :if (display-graphic-p)
   :ensure t)
 
-;;;; Scroll on jump for less jarring jumping around removed becouse was buggy
-;;(use-package scroll-on-jump
-  ;;:ensure t
-  ;;:config
-  ;;(setq scroll-on-jump-duration 0.1)
-  ;;(with-eval-after-load 'evil
-    ;;(scroll-on-jump-advice-add 'evil-undo)
-    ;;(scroll-on-jump-advice-add 'evil-redo)
-    ;;(scroll-on-jump-advice-add 'evil-jump-item)
-    ;;(scroll-on-jump-advice-add 'evil-jump-forward)
-    ;;(scroll-on-jump-advice-add 'evil-jump-backward)
-    ;;(scroll-on-jump-advice-add 'evil-ex-search-next)
-    ;;(scroll-on-jump-advice-add 'evil-ex-search-previous)
-    ;;(scroll-on-jump-advice-add 'evil-forward-paragraph)
-    ;;(scroll-on-jump-advice-add 'evil-backward-paragraph)
-    ;;(scroll-on-jump-advice-add 'evil-goto-mark)
-;;
-    ;;;; Actions that themselves scroll.
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-goto-line)
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-scroll-down)
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-scroll-up)
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-scroll-line-to-center)
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-scroll-line-to-top)
-    ;;(scroll-on-jump-with-scroll-advice-add 'evil-scroll-line-to-bottom))
-;;
-  ;;(with-eval-after-load 'goto-chg
-    ;;(scroll-on-jump-advice-add 'goto-last-change)
-    ;;(scroll-on-jump-advice-add 'goto-last-change-reverse)))
-
 ;; magit
 (use-package magit
   :ensure t
@@ -235,6 +213,12 @@
    ("C-c C-g s" . #'magit-status-quick)
   )
 )
+
+(use-package typescript-mode
+  :ensure t
+  :mode ("\\.tsx?\\'" . typescript-mode)
+  :config
+  (setq typescript-indent-level 2))
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -298,6 +282,11 @@
 ;; changing buffers
 ;; f9 vterm
 (global-set-key (kbd "<f9>") 'vterm)
+(global-set-key (kbd "<f1>") 'centaur-tabs-forward-group)
+(global-set-key (kbd "<f1>") 'centaur-tabs-backward-group)
+(global-set-key (kbd "A-[") 'centaur-tabs-backward)
+(global-set-key (kbd "A-]") 'centaur-tabs-forward)
+(global-set-key (kbd "<f9>") 'vterm)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; the first require is squiggly no matter
@@ -309,22 +298,21 @@
 (require 'nrv-vterm)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Hooks_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; auto mode typescript-ts-mode on .ts files
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-;; remove trailing whitespace before saving
+;; remove trailing whitespace before saving and make backup
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; ---- typesript mode ----
-(defun ts-setup ()
-  "Set up for ts and js development."
+(add-hook 'before-save-hook  'force-backup-of-buffer)
+(defun css-setup ()
+  "Setup Emacs for css editing."
   (require 'evil)
-  (setq evil-shift-width 2)
+  (setq tab-width 2
+        evil-shift-width 2)
 )
 
-;; the prepaire-XXX are defined in nrv-modes
-(add-hook 'prog-mode-hook #'prepaire-prog)
-(add-hook 'python-mode-hook #'prepaire-python)
-(add-hook 'dired-mode-hook #'prepaire-dired)
-(add-hook 'typescript-ts-mode #'ts-setup)
+;; the prepare-XXX are defined in nrv-modes
+(add-hook 'prog-mode-hook #'prepare-prog)
+(add-hook 'python-mode-hook #'prepare-python)
+(add-hook 'dired-mode-hook #'prepare-dired)
+(add-hook 'css-mode-hook #'css-setup)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
@@ -334,7 +322,7 @@
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
 
 (defun force-backup-of-buffer ()
-  "Make a special 'per session' backup at the first save of each Emacs session."
+  "Make a special /='per session' backup at the first save of each Emacs session."
   (when (not buffer-backed-up)
     ;; Override the default parameters for per-session backups.
     (let ((backup-directory-alist '(("" . "~/.config/emacs/backups/per-session")))
@@ -346,6 +334,6 @@
   (let ((buffer-backed-up nil))
     (backup-buffer)))
 
-(add-hook 'before-save-hook  'force-backup-of-buffer)
-(provide 'init)
+
+(provide 'init.el)
 ;;; init.el ends here
