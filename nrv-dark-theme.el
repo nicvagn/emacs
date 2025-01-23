@@ -1,6 +1,6 @@
 ;;; nrv-dark-theme.el --- A dark color scheme inspired by Adwaita -*- lexical-binding: t; -*-
 ;;
-;; Author: Jessie Hildebrandt <jessieh.net>
+;; Author: Jessie Hildebrandt <jessieh.net> modified by nrv
 ;; Homepage: https://gitlab.com/jessieh/adwaita-dark-theme
 ;; Keywords: mode-line faces
 ;; Version: 1.3.0

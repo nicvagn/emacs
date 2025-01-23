@@ -1,14 +1,11 @@
 ;;; init.el --- My emacs init.el
 ;;; commentary:
-;; mostly key maps that are mode specific
+;; Emacs config
 
 ;;; code:
-(when (< emacs-major-version 27)
-  (package-initialize))
-
+(package-initialize) ;; this has to be done first, I think
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp" )
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -71,6 +68,59 @@
  '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
  '(region ((t (:extend t :background "dark cyan")))))
 
+;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(require 'rainbow-delimiters)
+;; mode hooks
+(require 'nrv-modes) ;; modular af
+;; org
+(require 'org)
+;; my own custom stuff
+(require 'nrv-vterm)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; Use spaces not tabs
+(setq-default indent-tabs-mode nil)
+;; we want vim C-u
+(setq
+  ;; EVIL
+  evil-want-C-u-scroll t
+  evil-scroll-count 20
+  evil-want-fine-undo t
+
+  ;; scrolling
+  mouse-wheel-scroll-amount '(0.07)
+  mouse-wheel-progressive-speed nil
+
+  ;; JEDI AUTO complete
+  jedi:complete-on-dot t
+  completion-auto-help t
+  completion-cycle-threshold 2 ;; cycle completions only 2
+
+  ;; history/backup
+  savehist-file "~/.config/emacs/backups/emacs_histfile"
+  version-control t     ;; Use version numbers for backups.
+  kept-new-versions 10  ;; Number of newest versions to keep.
+  kept-old-versions 0   ;; Number of oldest versions to keep.
+  delete-old-versions t ;; Don't ask to delete excess backup versions.
+  backup-by-copying t   ;; Copy all files, don't rename them.
+
+  ;; Revert/reload Dired and other buffers on filesystem change
+  global-auto-revert-non-file-buffers t
+  ;; but do it quietly
+  auto-revert-verbose nil
+
+  ;; centar tabs
+  centaur-tabs-style "wave"
+  centaur-tabs-height 38
+  centaur-tabs-set-icons t
+  centaur-tabs-icon-type 'all-the-icons
+  centaur-tabs-cycle-scope 'tabs
+
+  ;; corfu
+  corfu-auto-delay  0.2 ;; may cause issues due to being fast
+  corfu-auto-prefix 0.2
+
+  ;; org mode
+  org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Revert buffers when the underlying file has changed
@@ -82,50 +132,38 @@
 (which-function-mode 1)  ;; tell which func.
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; treesit.el an intelligent way to choose between a default mode, such as python-mode, and it’s tree-sitter enhanced version, python-ts-mode, automatically.
-(use-package treesit-auto
-  :demand t
-  :ensure t
-  :config
-  (global-treesit-auto-mode))
 
-(use-package rainbow-delimiters
-  :load-path "lisp"
-  :config
-  (rainbow-delimiters-mode-enable))
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 (use-package evil
   :ensure t
-  :demand t
   :config
-  ;; make c delete
-  (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  (use-package nrv-evil-dvorak
-    :demand t
-    :config
-    (global-evil-dvorak-mode 1))
-  (use-package evil-leader
-    :demand t
-    :config
-    ;; <leader>
-    (evil-leader/set-leader "<SPC>") ;; set to space
-    ;; define leader mappings
-    (evil-leader/set-key
-      "w" 'save-buffer
-      "k" 'kill-this-buffer
-      "q" 'evil-quit
-      "x" 'delete-window
-      "0" 'delete-window
-      "1" 'delete-other-windows
-      "s" 'evil-window-split
-      "v" 'evil-window-vsplit
-      "<SPC>" 'evil-window-next)
-    (global-evil-leader-mode))
+    ;; make c delete
+    (define-key evil-normal-state-map (kbd "c") 'evil-delete)
+    ;; set evil undo to one built into emacs
+    (evil-set-undo-system 'undo-redo)
+    (use-package nrv-evil-dvorak)
+    (use-package evil-leader
+      :config
+        ;; <leader>
+        (evil-leader/set-leader "<SPC>") ;; set to space
+        ;; define leader mappings
+        (evil-leader/set-key
+          "w" 'save-buffer
+          "k" 'kill-this-buffer
+          "q" 'evil-quit
+          "x" 'delete-window
+          "0" 'delete-window
+          "1" 'delete-other-windows
+          "s" 'evil-window-split
+          "v" 'evil-window-vsplit
+          "<SPC>" 'evil-window-next)
 
-  ;; after modes have been loaded, turn on evil
+        (global-evil-leader-mode))
+
+    ;; after modes have been loaded, turn on evil
+  (global-evil-leader-mode 1) ;; activate leader mode, must be done early
+  (global-evil-dvorak-mode 1)
   (evil-mode t))
 
 ;; --- emacs lsp ---
@@ -133,58 +171,49 @@
   :ensure t
   :defer t
   :bind
-  (("C-c b" . xref-go-back)
-   ("C-c d" . xref-find-definitions)
-   ("C-c r" . xref-find-references)
-   ("C-c f" . eglot-format-buffer))
+    ("C-x C-' b" . xref-go-back)
+    ("C-x C-' f" . xref-find-definitions)
+    ("C-x C-' r" . xref-find-references)
   :hook (python-mode . eglot-ensure)
-  (js-mode . eglot-ensure)
-  (typescript-ts-mode . eglot-ensure))
+	(js-mode . eglot-ensure))
 
 (use-package centaur-tabs
   :ensure t
-  :demand
   :config
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   :bind
-  (("M-[" . centaur-tabs-backward)
-   ("M-]" . centaur-tabs-forward)
-   ("M-{" . centaur-tabs-move-current-tab-to-left)
-   ("M-}" .  centaur-tabs-move-current-tab-to-right)
-   ("<f1>" . centaur-tabs-backward-group)
-   ("<f2>" . centaur-tabs-forward-group)))
-
+  ("M-[" . centaur-tabs-backward)
+  ("M-]" . centaur-tabs-forward)
+  ("<f1>" . centaur-tabs-backward-group)
+  ("<f2>" . centaur-tabs-forward-group))
 (use-package yasnippet
   :ensure t
-  :config
+  :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
-
 ;; display possible keyboard shortcuts
 (use-package which-key
   :ensure t
   :config
   (which-key-mode))
 
-;; flymake-cspell - must have cspell installed on your sys
-(use-package flymake-cspell
+;; flymake-codespell - must have codespell installed on your sys
+(use-package flymake-codespell
   :ensure t
-  :hook (prog-mode . flymake-cspell-setup))
+  :hook (prog-mode . flymake-codespell-setup-backend))
 
 ;; corfu autocomplete ui
 (use-package corfu
   :custom
   (corfu-auto t)
   (corfu-cycle t)  ;; Enable cycling
+  :init
   (global-corfu-mode)
   :bind
-  (
-   ("<f5>" . corfu-complete)
-   ("<f6>" . corfu-next)
-   ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit-no-match)
-  )
+  (("<f5>" . corfu-complete)
+  ("<f6>" . corfu-next)
+  ("<f7>" . corfu-previous))
   :ensure t)
 
 ;; all the icons - icons in text
@@ -197,113 +226,40 @@
 (use-package magit
   :ensure t
   :bind
-  (
-   ;; magit
-   ("C-c C-g c" . #'magit-commit)
-   ("C-c C-g l" . #'magit-log-current)
-   ("C-c C-g d" . #'magit-diff)
-   ("C-c C-g p" . #'magit-push-current-to-upstream)
-   ("C-c C-g u" . #'magit-pull-from-upstream)
-   ("C-c C-g t" . #'magit-tag)
-   ("C-c C-g b" . #'magit-branch)
-   ("C-c C-g a" . #'magit-stage-buffer-file)
-   ("C-c C-g s" . #'magit-status-quick)
-  )
-)
+  (("C-x C-g c" . #'magit-commit)
+  ("C-x C-g l" . #'magit-log-current)
+  ("C-x C-g d" . #'magit-diff)
+  ("C-x C-g p" . #'magit-push-current-to-upstream)
+  ("C-x C-g u" . #'magit-pull-from-upstream)
+  ("C-x C-g t" . #'magit-tag)
+  ("C-x C-g b" . #'magit-branch)
+  ("C-x C-g a" . #'magit-stage-buffer-file)
+  ("C-x C-g s" . #'magit-status-quick)))
 
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Use spaces not tabs
-(setq-default indent-tabs-mode nil)
-;; we want vim C-u
-(setq
- ;; EVIL
- evil-want-C-u-scroll t
- evil-scroll-count 20
- evil-want-fine-undo t
-
- ;; scrolling
- mouse-wheel-scroll-amount '(0.07)
- mouse-wheel-progressive-speed nil
-
- ;; JEDI AUTO complete
- jedi:complete-on-dot t
- completion-auto-help t
- completion-cycle-threshold nil ;; don't cycle completions
-
- ;; history/backup
- savehist-file "~/.config/emacs/backups/emacs_histfile"
- version-control t     ;; Use version numbers for backups.
- kept-new-versions 10  ;; Number of newest versions to keep.
- kept-old-versions 0   ;; Number of oldest versions to keep.
- delete-old-versions t ;; Don't ask to delete excess backup versions.
- backup-by-copying t   ;; Copy all files, don't rename them.
-
- ;; debug/backtrace
- debug-on-error t
- backtrace-depth 50
-
- ;; Revert/reload Dired and other buffers on filesystem change
- global-auto-revert-non-file-buffers t
- ;; but do it quietly
- auto-revert-verbose nil
-
- ;; centar tabs
- centaur-tabs-style "wave"
- centaur-tabs-height 38
- centaur-tabs-set-icons t
- centaur-tabs-icon-type 'all-the-icons
- centaur-tabs-cycle-scope 'tabs
-
- ;; corfu
- corfu-auto-delay  0.2 ;; may cause issues due to being fast
- corfu-auto-prefix 0.2
-
- ;; org mode
- org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; scroll on jump
-(global-set-key (kbd "<C-M-next>")  'diff-hl-next-hunk)
-(global-set-key (kbd "<C-M-prior>") 'diff-hl-previous-hunk)
+(global-set-key (kbd "<C-M-next>") (scroll-on-jump-interactive 'diff-hl-next-hunk))
+(global-set-key (kbd "<C-M-prior>") (scroll-on-jump-interactive 'diff-hl-previous-hunk))
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
 ;; changing buffers
-;; f9 vterm
+(global-set-key (kbd "M-[") #'centaur-tabs-backward)
+(global-set-key (kbd "M-]") #'centaur-tabs-forward)
+(global-set-key (kbd "<f1>") #'centaur-tabs-backward-group)
+(global-set-key (kbd "<f2>")  #'centaur-tabs-forward-group)
+;; f8 evil toggle
+(define-key evil-normal-state-map (kbd "<f8>") 'evil-emacs-state)
+(global-set-key (kbd "<f8>") 'evil-mode)
+;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; the first require is squiggly no matter
-;; mode hooks
-(require 'nrv-modes) ;; modular af
-;; org
-(require 'org)
-;; my own custom stuff
-(require 'nrv-vterm)
-
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Hooks_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; auto mode typescript-ts-mode on .ts files
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-;; remove trailing whitespace before saving
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; ---- typesript mode ----
-(defun ts-setup ()
-  "Set up for ts and js development."
-  (require 'evil)
-  (setq evil-shift-width 2)
-)
-
-;; the prepaire-XXX are defined in nrv-modes
-(add-hook 'prog-mode-hook #'prepaire-prog)
-(add-hook 'python-mode-hook #'prepaire-python)
-(add-hook 'dired-mode-hook #'prepaire-dired)
-(add-hook 'typescript-ts-mode #'ts-setup)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
