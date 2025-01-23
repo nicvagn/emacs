@@ -1,5 +1,6 @@
 eln-cache
 emacs_histfile
+history
 elpa/*
 url/*
 transient/*
@@ -7,5 +8,3 @@ auto-save-list
 ac-comphist.dat
 projects
 backups/*
-history
-emacs_histfile
