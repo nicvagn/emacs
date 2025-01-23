@@ -1,5 +1,6 @@
 eln-cache
 emacs_histfile
+history
 elpa/*
 url/*
 transient/*
