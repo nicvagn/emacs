@@ -35,7 +35,6 @@
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 
-
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -171,9 +170,9 @@
   :ensure t
   :defer t
   :bind
-    ("C-x C-' b" . xref-go-back)
+  (("C-x C-' b" . xref-go-back)
     ("C-x C-' f" . xref-find-definitions)
-    ("C-x C-' r" . xref-find-references)
+    ("C-x C-' r" . xref-find-references))
   :hook (python-mode . eglot-ensure)
 	(js-mode . eglot-ensure))
 
@@ -183,10 +182,13 @@
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
   :bind
-  ("M-[" . centaur-tabs-backward)
+  (("M-[" . centaur-tabs-backward)
   ("M-]" . centaur-tabs-forward)
+  ("M-}" . centaur-tabs-move-current-tab-to-right)
+  ("M-{" . centaur-tabs-move-current-tab-to-left)
+  ("M-}" . centaur-tabs-forward)
   ("<f1>" . centaur-tabs-backward-group)
-  ("<f2>" . centaur-tabs-forward-group))
+  ("<f2>" . centaur-tabs-forward-group)))
 (use-package yasnippet
   :ensure t
   :init
@@ -213,7 +215,8 @@
   :bind
   (("<f5>" . corfu-complete)
   ("<f6>" . corfu-next)
-  ("<f7>" . corfu-previous))
+  ("<f7>" . corfu-previous)
+  ("<f8>" . corfu-quit-no-match))
   :ensure t)
 
 ;; all the icons - icons in text
@@ -246,16 +249,18 @@
 (global-set-key (kbd "<C-M-prior>") (scroll-on-jump-interactive 'diff-hl-previous-hunk))
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
-;; changing buffers
-(global-set-key (kbd "M-[") #'centaur-tabs-backward)
-(global-set-key (kbd "M-]") #'centaur-tabs-forward)
-(global-set-key (kbd "<f1>") #'centaur-tabs-backward-group)
-(global-set-key (kbd "<f2>")  #'centaur-tabs-forward-group)
 ;; f8 evil toggle
-(define-key evil-normal-state-map (kbd "<f8>") 'evil-emacs-state)
-(global-set-key (kbd "<f8>") 'evil-mode)
+(define-key evil-normal-state-map (kbd "<f12>") 'evil-emacs-state)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
+
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(add-hook 'prog-mode-hook #'prepare-prog)
+(add-hook 'python-mode-hook #'prepare-python)
+(add-hook 'dired-mode-hook #'prepare-dired)
+(add-hook 'typescript-ts-mode #'ts-setup)
+(add-hook 'css-mode-hook #'css-setup)
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
