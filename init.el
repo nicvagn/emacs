@@ -178,6 +178,8 @@
 
 (use-package centaur-tabs
   :ensure t
+  ;; without this demand, tabs don't show of the bat
+  :demand
   :config
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
@@ -244,9 +246,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
-;; scroll on jump
-(global-set-key (kbd "<C-M-next>") (scroll-on-jump-interactive 'diff-hl-next-hunk))
-(global-set-key (kbd "<C-M-prior>") (scroll-on-jump-interactive 'diff-hl-previous-hunk))
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
 ;; f8 evil toggle
