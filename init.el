@@ -191,11 +191,13 @@
   ("M-}" . centaur-tabs-forward)
   ("<f1>" . centaur-tabs-backward-group)
   ("<f2>" . centaur-tabs-forward-group)))
+
 (use-package yasnippet
   :ensure t
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
+
 ;; display possible keyboard shortcuts
 (use-package which-key
   :ensure t
@@ -231,25 +233,23 @@
 (use-package magit
   :ensure t
   :bind
-  (("C-x C-g c" . #'magit-commit)
-  ("C-x C-g l" . #'magit-log-current)
-  ("C-x C-g d" . #'magit-diff)
-  ("C-x C-g p" . #'magit-push-current-to-upstream)
-  ("C-x C-g u" . #'magit-pull-from-upstream)
-  ("C-x C-g t" . #'magit-tag)
-  ("C-x C-g b" . #'magit-branch)
-  ("C-x C-g a" . #'magit-stage-buffer-file)
-  ("C-x C-g s" . #'magit-status-quick)))
+  (("C-c C-g c" . #'magit-commit)
+  ("C-c C-g l" . #'magit-log-current)
+  ("C-c C-g d" . #'magit-diff)
+  ("C-c C-g p" . #'magit-push-current-to-upstream)
+  ("C-c C-g u" . #'magit-pull-from-upstream)
+  ("C-c C-g t" . #'magit-tag)
+  ("C-c C-g b" . #'magit-branch)
+  ("C-c C-g a" . #'magit-stage-buffer-file)
+  ("C-c C-g s" . #'magit-status-quick)))
 
 
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Keymaps-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Maps_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
-;; f8 evil toggle
-(define-key evil-normal-state-map (kbd "<f12>") 'evil-emacs-state)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 
@@ -258,8 +258,7 @@
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'python-mode-hook #'prepare-python)
 (add-hook 'dired-mode-hook #'prepare-dired)
-(add-hook 'typescript-ts-mode #'ts-setup)
-(add-hook 'css-mode-hook #'css-setup)
+(add-hook 'css-mode-hook #'prepaire-css)
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
