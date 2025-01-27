@@ -8,7 +8,7 @@
 (defvar java-tab-width 4 "Tab width for java source files.")
 (defvar css-tab-width 2 "Tab width for css source files.")
 (defvar js-tab-width 4 "Tab width for js source files.")
-(defvar html-tab-width 2 "Tab width for html files.")
+(defvar html-tab-width 4 "Tab width for html files.")
 (defvar prog-tab-width 4 "Tab width for general programming files.")
 (defvar lisp-tab-width 2 "Tab width for Lisp files.")
 
