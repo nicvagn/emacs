@@ -78,6 +78,10 @@
 (require 'org)
 ;; my own custom stuff
 (require 'nrv-vterm)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun nrv-error-handler (err)
+  "handle errors by printing them to minibuffer"
+  (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
@@ -85,6 +89,11 @@
 (customize-set-variable 'treesit-font-lock-level 4)
 ;; we want vim C-u
 (setq
+  ;; debugging + error handling
+  debug-on-error t ;; get backtraces
+  user-error-exceptions nil ;; treat errs as real errs
+  error-handler #'nrv-error-handler
+
   ;; EVIL
   evil-want-C-u-scroll t
   evil-scroll-count 20
@@ -97,7 +106,7 @@
   ;; JEDI AUTO complete
   jedi:complete-on-dot t
   completion-auto-help t
-  completion-cycle-threshold 2 ;; cycle completions only 2
+  completion-cycle-threshold 1 ;; cycle completions NEVER
 
   ;; history/backup
   savehist-file "~/.config/emacs/backups/emacs_histfile"
@@ -225,7 +234,7 @@
   (("<f5>" . corfu-complete)
   ("<f6>" . corfu-next)
   ("<f7>" . corfu-previous)
-  ("<f8>" . corfu-quit-no-match))
+  ("<f8>" . corfu-quit))
   :ensure t)
 
 ;; all the icons - icons in text
@@ -244,21 +253,25 @@
   ("C-c C-g p" . #'magit-push-current-to-upstream)
   ("C-c C-g u" . #'magit-pull-from-upstream)
   ("C-c C-g t" . #'magit-tag)
-  ("C-c C-g b" . #'magit-branch) 
+  ("C-c C-g b" . #'magit-branch)
   ("C-c C-g a" . #'magit-stage-buffer-file)
-  ("C-c C-g s" . #'magit-status-quick)))
+  ("C-c C-g s" . #'magit-status-quick))
+  :config
+  (setq magit-status-show-untracked-files t))
 
 (use-package web-mode
   :ensure t
   :defer t
   :mode
-  (("\\.phtml\\'" . web-mode)
+  (("\\.html\\'" . web-mode)
+   ("\\.phtml\\'" . web-mode)
    ("\\.php\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
+   ("\\.ts\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
 
@@ -272,11 +285,14 @@
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'python-mode-hook #'prepare-python)
 (add-hook 'dired-mode-hook #'prepare-dired)
 (add-hook 'css-mode-hook #'prepaire-css)
 
+;; Delete trailing whitespace always
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
