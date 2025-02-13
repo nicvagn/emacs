@@ -106,6 +106,6 @@
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
 
-(provide 'nrv-evil-dvorak)
+(provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak.el ends here

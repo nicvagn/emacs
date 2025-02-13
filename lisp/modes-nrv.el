@@ -1,14 +1,13 @@
-;;; nrv-modes.el --- My emacs modes, mode keymaps
+;;; modes-nrv.el --- My emacs modes, mode keymaps
 ;;; commentary:
-;; mostly keymaps that are mode specific
+;; mostly keymaps and tab width that are mode specific
 
 ;;; code:
-
 (defvar python-tab-width 4 "Tab width for python source files.")
 (defvar java-tab-width 4 "Tab width for java source files.")
 (defvar css-tab-width 2 "Tab width for css source files.")
 (defvar js-tab-width 4 "Tab width for js source files.")
-(defvar html-tab-width 4 "Tab width for html files.")
+(defvar web-tab-width 2 "Tab width for web files.")
 (defvar prog-tab-width 4 "Tab width for general programming files.")
 (defvar lisp-tab-width 2 "Tab width for Lisp files.")
 
@@ -34,7 +33,7 @@
   (define-key 'dired-ring-map (kbd "k") #'kill-this-buffer)
  )
 ;; ---- css mode ----
-(defun prepaire-css ()
+(defun prepare-css ()
   "Setup Emacs for css editing."
   (setq tab-width css-tab-width
         evil-shift-width 2)
@@ -46,6 +45,15 @@
   (setq tab-width python-tab-width)
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
 )
+
+;; ---- html stuff ----
+(defun prepare-web ()
+  "set up for web mode. (html, js, mustache etc.)"
+  (setq tab-width html-tab-width)
+  (add-hook 'web-mode-hook 'display-line-numbers-mode)
+  (add-hook 'web-mode-hook 'rainbow-delimiters-mode)
+)
+
 ;; ---- programming mode ----
 (defun prepare-prog ()
   "Prepare to enter \='prog-mode'."
@@ -55,14 +63,14 @@
   ;; colour define "(" pairs etc
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   ;; keybinds
-  (define-key prog-mode-map (kbd "C-C l") 'flymake-show-buffer-diagnostics)
-  (define-key prog-mode-map (kbd "C-C n") 'flymake-goto-next-error)
+  (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
+  (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
 )
 
 ;; remove trailing whitespace before saving
 ;; hook for changing modes
-(provide 'nrv-modes)
+(provide 'modes-nrv)
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars dired-mode-map evil-shift-width)
 ;; End:
-;;; nrv-modes.el ends here
+;;; modes-nrv.el ends here
