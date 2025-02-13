@@ -1,6 +1,6 @@
 ;;; sudo-nrv.el --- edit files with root
 ;;; Commentary: find file function and open file edditing as root.
-;;; Change Log: NA
+;;; Change Log: made tramp not ask for backup permission, because I rmed it
 ;;; Code:
 
 (defun sudo-find-file (file-name)
@@ -13,6 +13,11 @@
   "edit the file in the buffer as root."
   (interactive)
   (sudo-find-file (buffer-file-name)))
+
+
+;; Turn of backup feature for "remote" files
+(add-to-list 'backup-directory-alist
+             (cons tramp-file-name-regexp nil))
 
 ;; edit the current file as root
 (global-set-key (kbd "C-c !") #'sudo)

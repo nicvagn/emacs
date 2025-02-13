@@ -1,10 +1,37 @@
-;; -*- emacs-lisp -*- <25/02/12 19:10:09 ~/.config/emacs/tramp>
+;; -*- emacs-lisp -*- <25/02/13 13:30:13 ~/.config/emacs/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; Run `M-x tramp-cleanup-all-connections' instead.
 
 (((tramp-file-name "cache" nil nil nil nil nil nil)
   ("tramp-version" "2.6.3"))
  ((tramp-file-name "sudo" "root" nil "desk" nil nil nil)
-  nil)
+  ("null-device" "/dev/null")
+  ("uname" "Linux 6.12.11-200.fc41.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/usr/bin" "/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("pipe-buf" 4096)
+  ("remote-shell" "/bin/sh")
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("file-exists" "test -e")
+  ("readlink" "\\readlink")
+  ("stat" "env QUOTING_STYLE=locale \\stat")
+  ("id" "/usr/bin/id")
+  ("uid-integer" 0)
+  ("uid-string" "root")
+  ("gid-integer" 0)
+  ("gid-string" "root")
+  ("groups-integer"
+   (0))
+  ("groups-string"
+   ("root"))
+  ("ls" "/usr/bin/ls --color=never")
+  ("ln" "\\ln")
+  ("case-insensitive" nil)
+  ("~" "/root")
+  ("~root" "/root"))
  ((tramp-file-name "sudo" "nrv" nil "desk" nil nil nil)
   nil))

@@ -47,12 +47,20 @@
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
 )
 
-;; ---- html stuff ----
+;; ---- web stuff ----
 (defun prepare-web ()
   "set up for web mode. (html, js, mustache etc.)"
-  (setq tab-width html-tab-width)
+  (setq tab-width web-tab-width)
   (add-hook 'web-mode-hook 'display-line-numbers-mode)
   (add-hook 'web-mode-hook 'rainbow-delimiters-mode)
+)
+
+;; ---- html stuff ----
+(defun prepare-html ()
+  "set up for web mode. (html, js, mustache etc.)"
+  (setq tab-width html-tab-width)
+  (add-hook 'html-mode-hook 'display-line-numbers-mode)
+  (add-hook 'html-mode-hook 'rainbow-delimiters-mode)
 )
 
 ;; ---- programming mode ----
