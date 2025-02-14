@@ -95,51 +95,51 @@
 (customize-set-variable 'treesit-font-lock-level 4)
 ;; we want vim C-u
 (setq
-  ;; debugging + error handling
-  debug-on-error nil ;; no backtraces
-  user-error-exceptions nil ;; treat errs as real errs
-  error-handler #'nrv-error-handler
+ ;; debugging + error handling
+ debug-on-error nil ;; no backtraces
+ user-error-exceptions nil ;; treat errs as real errs
+ error-handler #'nrv-error-handler
 
-  ;; EVIL
-  evil-want-C-u-scroll t
-  evil-scroll-count 20
-  evil-want-fine-undo t
+ ;; EVIL
+ evil-want-C-u-scroll t
+ evil-scroll-count 20
+ evil-want-fine-undo t
 
-  ;; scrolling
-  mouse-wheel-scroll-amount '(0.07)
-  mouse-wheel-progressive-speed nil
+ ;; scrolling
+ mouse-wheel-scroll-amount '(0.07)
+ mouse-wheel-progressive-speed nil
 
-  ;; JEDI AUTO complete
-  jedi:complete-on-dot t
-  completion-auto-help t
-  completion-cycle-threshold 1 ;; cycle completions NEVER
+ ;; JEDI AUTO complete
+ jedi:complete-on-dot t
+ completion-auto-help t
+ completion-cycle-threshold 1 ;; cycle completions NEVER
 
-  ;; history/backup
-  savehist-file "~/.config/emacs/backups/emacs_histfile"
-  version-control t     ;; Use version numbers for backups.
-  kept-new-versions 10  ;; Number of newest versions to keep.
-  kept-old-versions 10   ;; Number of oldest versions to keep.
-  delete-old-versions t ;; Don't ask to delete excess backup versions.
-  backup-by-copying t   ;; Copy all files, don't rename them.
+ ;; history/backup
+ savehist-file "~/.config/emacs/backups/emacs_histfile"
+ version-control t     ;; Use version numbers for backups.
+ kept-new-versions 10  ;; Number of newest versions to keep.
+ kept-old-versions 10   ;; Number of oldest versions to keep.
+ delete-old-versions t ;; Don't ask to delete excess backup versions.
+ backup-by-copying t   ;; Copy all files, don't rename them.
 
-  ;; Revert/reload Dired and other buffers on filesystem change
-  global-auto-revert-non-file-buffers t
-  ;; but do it quietly
-  auto-revert-verbose nil
+ ;; Revert/reload Dired and other buffers on filesystem change
+ global-auto-revert-non-file-buffers t
+ ;; but do it quietly
+ auto-revert-verbose nil
 
-  ;; centar tabs
-  centaur-tabs-style "wave"
-  centaur-tabs-height 38
-  centaur-tabs-set-icons t
-  centaur-tabs-icon-type 'all-the-icons
-  centaur-tabs-cycle-scope 'tabs
+ ;; centar tabs
+ centaur-tabs-style "wave"
+ centaur-tabs-height 38
+ centaur-tabs-set-icons t
+ centaur-tabs-icon-type 'all-the-icons
+ centaur-tabs-cycle-scope 'tabs
 
-  ;; corfu
-  corfu-auto-delay  0.2 ;; may cause issues due to being fast
-  corfu-auto-prefix 0.2
+ ;; corfu
+ corfu-auto-delay  0.2 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.2
 
-  ;; org mode
-  org-image-actual-width nil)
+ ;; org mode
+ org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Revert buffers when the underlying file has changed
@@ -157,46 +157,46 @@
 (use-package evil
   :ensure t
   :config
-    ;; make c delete
-    (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-    ;; set evil undo to one built into emacs
-    (evil-set-undo-system 'undo-redo)
-    (use-package evil-dvorak-nrv)
-    (use-package evil-leader
-      :config
-        ;; <leader>
-        (evil-leader/set-leader "<SPC>") ;; set to space
-        ;; define leader mappings
-        (evil-leader/set-key
-          "w" 'save-buffer
-          "k" 'kill-this-buffer
-          "q" 'evil-quit
-          "x" 'delete-window
-          "0" 'delete-window
-          "1" 'delete-other-windows
-          "s" 'evil-window-split
-          "v" 'evil-window-vsplit
-          "<SPC>" 'evil-window-next)
+  ;; make c delete
+  (define-key evil-normal-state-map (kbd "c") 'evil-delete)
+  ;; set evil undo to one built into emacs
+  (evil-set-undo-system 'undo-redo)
+  (use-package evil-dvorak-nrv)
 
-        (global-evil-leader-mode))
-
-    ;; after modes have been loaded, turn on evil
+  ;; after modes have been loaded, turn on evil
   (global-evil-leader-mode 1) ;; activate leader mode, must be done early
   (global-evil-dvorak-mode 1)
   (evil-mode t))
 
+(use-package evil-leader
+  :config
+  ;; <leader>
+  (evil-leader/set-leader "<SPC>") ;; set to space
+  ;; define leader mappings
+  (evil-leader/set-key
+    "w" 'save-buffer
+    "k" 'kill-this-buffer
+    "q" 'evil-quit
+    "x" 'delete-window
+    "0" 'delete-window
+    "1" 'delete-other-windows
+    "s" 'evil-window-split
+    "v" 'evil-window-vsplit
+    "<SPC>" 'evil-window-next)
+
+  (global-evil-leader-mode))
 ;; --- emacs lsp ---
 (use-package eglot
   :ensure t
   :defer t
   :bind
   (("C-x C-' b" . xref-go-back)
-    ("C-x C-' f" . xref-find-definitions)
-    ("C-x C-' r" . xref-find-references))
+   ("C-x C-' f" . xref-find-definitions)
+   ("C-x C-' r" . xref-find-references))
   :hook (python-mode . eglot-ensure)
-    (html-mode . eglot-ensure)
-	(js-mode . eglot-ensure)
-	(css-mode . eglot-ensure))
+  (html-mode . eglot-ensure)
+  (js-mode . eglot-ensure)
+  (css-mode . eglot-ensure))
 
 (use-package centaur-tabs
   :ensure t
@@ -207,12 +207,12 @@
   (centaur-tabs-headline-match)
   :bind
   (("M-[" . centaur-tabs-backward)
-  ("M-]" . centaur-tabs-forward)
-  ("M-}" . centaur-tabs-move-current-tab-to-right)
-  ("M-{" . centaur-tabs-move-current-tab-to-left)
-  ("M-}" . centaur-tabs-forward)
-  ("<f1>" . centaur-tabs-backward-group)
-  ("<f2>" . centaur-tabs-forward-group)))
+   ("M-]" . centaur-tabs-forward)
+   ("M-}" . centaur-tabs-move-current-tab-to-right)
+   ("M-{" . centaur-tabs-move-current-tab-to-left)
+   ("M-}" . centaur-tabs-forward)
+   ("<f1>" . centaur-tabs-backward-group)
+   ("<f2>" . centaur-tabs-forward-group)))
 
 (use-package yasnippet
   :ensure t
@@ -240,9 +240,9 @@
   (global-corfu-mode)
   :bind
   (("<f5>" . corfu-complete)
-  ("<f6>" . corfu-next)
-  ("<f7>" . corfu-previous)
-  ("<f8>" . corfu-quit))
+   ("<f6>" . corfu-next)
+   ("<f7>" . corfu-previous)
+   ("<f8>" . corfu-quit))
   :ensure t)
 
 ;; all the icons - icons in text
@@ -256,14 +256,14 @@
   :ensure t
   :bind
   (("C-c C-g c" . #'magit-commit)
-  ("C-c C-g l" . #'magit-log-current)
-  ("C-c C-g d" . #'magit-diff)
-  ("C-c C-g p" . #'magit-push-current-to-upstream)
-  ("C-c C-g u" . #'magit-pull-from-upstream)
-  ("C-c C-g t" . #'magit-tag)
-  ("C-c C-g b" . #'magit-branch)
-  ("C-c C-g a" . #'magit-stage-buffer-file)
-  ("C-c C-g s" . #'magit-status-quick))
+   ("C-c C-g l" . #'magit-log-current)
+   ("C-c C-g d" . #'magit-diff)
+   ("C-c C-g p" . #'magit-push-current-to-upstream)
+   ("C-c C-g u" . #'magit-pull-from-upstream)
+   ("C-c C-g t" . #'magit-tag)
+   ("C-c C-g b" . #'magit-branch)
+   ("C-c C-g a" . #'magit-stage-buffer-file)
+   ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
 
@@ -291,6 +291,7 @@
 (global-set-key (kbd "<f9>") 'vterm)
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
+(global-set-key (kbd "M-k") 'split-window-right)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
