@@ -289,7 +289,8 @@
 (global-set-key (kbd "M-l") 'eval-buffer)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
-
+;; Horizontal split w alt -
+(global-set-key (kbd "M--") 'split-window-below)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
