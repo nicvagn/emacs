@@ -107,7 +107,7 @@
 
  ;; EVIL
  evil-want-C-u-scroll t
- evil-scroll-count 20
+ evil-scroll-count 15
  evil-want-fine-undo t
 
  ;; scrolling
