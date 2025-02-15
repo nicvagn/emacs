@@ -28,11 +28,10 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
- '(tab-width 4)
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -91,14 +90,20 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
+;; default to 4 space width tabs
+(setq-default tab-width 4)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 ;; we want vim C-u
 (setq
  ;; debugging + error handling
- debug-on-error nil ;; no backtraces
+ debug-on-error t ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
+
+ ;; tabs and indenting
+ backward-delete-char-untabify-method nil ;; delete full tab if able
+ indent-line-function 'insert-tab
 
  ;; EVIL
  evil-want-C-u-scroll t
@@ -164,11 +169,11 @@
   (use-package evil-dvorak-nrv)
 
   ;; after modes have been loaded, turn on evil
-  (global-evil-leader-mode 1) ;; activate leader mode, must be done early
   (global-evil-dvorak-mode 1)
   (evil-mode t))
 
 (use-package evil-leader
+  :ensure t
   :config
   ;; <leader>
   (evil-leader/set-leader "<SPC>") ;; set to space
@@ -183,8 +188,8 @@
     "s" 'evil-window-split
     "v" 'evil-window-vsplit
     "<SPC>" 'evil-window-next)
-
   (global-evil-leader-mode))
+
 ;; --- emacs lsp ---
 (use-package eglot
   :ensure t
@@ -233,6 +238,7 @@
 
 ;; corfu autocomplete ui
 (use-package corfu
+  :ensure t
   :custom
   (corfu-auto t)
   (corfu-cycle t)  ;; Enable cycling
@@ -242,8 +248,7 @@
   (("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit))
-  :ensure t)
+   ("<f8>" . corfu-quit)))
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -302,7 +307,11 @@
 (add-hook 'web-mode-hook #'prepare-web)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-
+;; export the EDITOR env var when in ***mode***
+(add-hook 'shell-mode-hook  'with-editor-export-editor)
+(add-hook 'eshell-mode-hook 'with-editor-export-editor)
+(add-hook 'term-exec-hook   'with-editor-export-editor)
+(add-hook 'vterm-mode-hook  'with-editor-export-editor)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
