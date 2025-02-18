@@ -28,7 +28,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -83,6 +83,8 @@
 (require 'vterm-nrv)
 ;; our lsp servers
 (require 'language-servers-nrv)
+;; python ide stuff
+(require 'python-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
   "handle errors by printing them to minibuffer"
@@ -114,7 +116,8 @@
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
 
- ;; JEDI AUTO complete
+
+ ;; corfu ant jedi complete
  jedi:complete-on-dot t
  completion-auto-help t
  completion-cycle-threshold 1 ;; cycle completions NEVER
@@ -248,7 +251,8 @@
   (("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit)))
+   ("<f8>" . corfu-quit)
+   ("<escape>" . corfu-quit)))
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts

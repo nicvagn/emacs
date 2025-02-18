@@ -16,14 +16,14 @@
   "Prepare Dired mode how I like it."
   (require 'dired)
   (define-prefix-command 'dired-ring-map)
-  (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   (define-key dired-mode-map (kbd "h") 'dired-previous-line)
   (define-key dired-mode-map (kbd "t") 'dired-next-line)
   (define-key dired-mode-map (kbd "u") 'dired-up-directory)
   (define-key dired-mode-map (kbd "a") 'dired-create-directory)
   (define-key dired-mode-map (kbd "r") 'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") 'dired-find-file)
-
+  ;; "leader"
+  (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   ;; add leader via dired ring map
   ;; switch pains with <SPC>
   (define-key 'dired-ring-map (kbd "<SPC>") 'evil-window-next)
