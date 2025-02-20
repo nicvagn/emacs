@@ -85,8 +85,6 @@
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
 )
 
-;; remove trailing whitespace before saving
-;; hook for changing modes
 (provide 'modes-nrv)
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars dired-mode-map evil-shift-width)
