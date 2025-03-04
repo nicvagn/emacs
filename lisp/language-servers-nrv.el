@@ -5,9 +5,10 @@
   (add-to-list 'eglot-server-programs
                '(html-mode . ("vscode-html-language-server" "--stdio"))
                '((css-mode css-ts-mode) . ("vscode-css-language-server" "--stdio"))
-               '(python-mode . ("pylsp")))
+               '(rescript-mode . ("rescript-language-server" "--stdio")))
 
   ;; add the correct mode hooks
+  (add-hook (rescript-mode . eglot-ensure))
   (add-hook  (python-mode-hook . eglot-ensure))
   (add-hook  (html-mode-hook . eglot-ensure))
   (add-hook  (js-mode-hook . eglot-ensure))

@@ -1,5 +1,6 @@
 ;;; init.el --- My emacs init.el
-;;; commentary: Emacs config
+;;; Commentary:
+;;  muh Emacs config
 
 ;;; code:
 (package-initialize) ;; this has to be done first, I think
@@ -28,48 +29,13 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-    '(scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+    '(rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
     '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
       (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
  '(text-mode-hook
     '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "gray8" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 117 :width normal :foundry "ADBO" :family "Source Code Pro"))))
- '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
- '(centaur-tabs-default ((t (:background "dark gray" :foreground "dim gray"))))
- '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
- '(centaur-tabs-unselected ((t (:background "#3D3C3D" :foreground "gray82"))))
- '(cursor ((t (:background "LightGoldenrod4"))))
- '(eglot-highlight-symbol-face ((t (:background "gray5" :foreground "firebrick1"))))
- '(eglot-mode-line ((t (:inherit font-lock-constant-face :foreground "cornflower blue" :weight bold))))
- '(eglot-parameter-hint-face ((t (:inherit eglot-inlay-hint-face :foreground "dark salmon"))))
- '(font-lock-builtin-face ((t (:foreground "pale violet red"))))
- '(font-lock-comment-face ((t (:foreground "chartreuse1" :weight bold))))
- '(font-lock-constant-face ((t (:foreground "light slate blue"))))
- '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "pink1"))))
- '(font-lock-string-face ((t (:foreground "spring green"))))
- '(font-lock-variable-name-face ((t (:foreground "pale green" :weight extra-bold))))
- '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
- '(hl-line ((t (:extend t :background "grey18"))))
- '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "LightGoldenrod4"))))
- '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
- '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
- '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
- '(rainbow-delimiters-depth-5-face ((t (:inherit rainbow-delimiters-base-face :foreground "MistyRose1"))))
- '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "tomato"))))
- '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
- '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
- '(region ((t (:extend t :background "dark cyan"))))
- '(web-mode-html-attr-name-face ((t (:foreground "deep pink"))))
- '(web-mode-html-tag-face ((t (:foreground "cornflower blue")))))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
@@ -87,7 +53,7 @@
 (require 'python-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
-  "handle errors by printing them to minibuffer"
+  "Handle errors by printing them to minibuffer (ERR: error)."
   (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Use spaces not tabs
@@ -102,26 +68,20 @@
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
-
  ;; tabs and indenting
  backward-delete-char-untabify-method nil ;; delete full tab if able
  indent-line-function 'insert-tab
-
  ;; EVIL
  evil-want-C-u-scroll t
  evil-scroll-count 15
  evil-want-fine-undo t
-
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
-
-
  ;; corfu ant jedi complete
  jedi:complete-on-dot t
  completion-auto-help t
  completion-cycle-threshold 1 ;; cycle completions NEVER
-
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
@@ -129,23 +89,19 @@
  kept-old-versions 10   ;; Number of oldest versions to keep.
  delete-old-versions t ;; Don't ask to delete excess backup versions.
  backup-by-copying t   ;; Copy all files, don't rename them.
-
  ;; Revert/reload Dired and other buffers on filesystem change
  global-auto-revert-non-file-buffers t
  ;; but do it quietly
  auto-revert-verbose nil
-
  ;; centar tabs
  centaur-tabs-style "wave"
  centaur-tabs-height 38
  centaur-tabs-set-icons t
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
-
  ;; corfu
- corfu-auto-delay  0.2 ;; may cause issues due to being fast
- corfu-auto-prefix 0.2
-
+ corfu-auto-delay  0.1 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.1
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; org mode
@@ -163,6 +119,7 @@
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
 
 (use-package evil
   :ensure t
@@ -210,6 +167,14 @@
   :interpreter
     ("scala" . scala-mode))
 
+(use-package rescript-mode
+  :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
+  :ensure t
+  :mode
+  (("\\.bs.js\\'" . rescript-mode)
+  ("\\.res\\'" . rescript-mode)
+  ("\\.resi\\'" . rescript-mode)))
+
 (use-package centaur-tabs
   :ensure t
   ;; without this demand, tabs don't show of the bat
@@ -222,7 +187,6 @@
    ("M-]" . centaur-tabs-forward)
    ("M-}" . centaur-tabs-move-current-tab-to-right)
    ("M-{" . centaur-tabs-move-current-tab-to-left)
-   ("M-}" . centaur-tabs-forward)
    ("<f1>" . centaur-tabs-backward-group)
    ("<f2>" . centaur-tabs-forward-group)))
 
@@ -271,6 +235,7 @@
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
    ("C-c C-g d" . #'magit-diff)
+   ("C-c C-g g" . #'magit-status)
    ("C-c C-g p" . #'magit-push-current-to-upstream)
    ("C-c C-g u" . #'magit-pull-from-upstream)
    ("C-c C-g t" . #'magit-tag)
@@ -294,14 +259,19 @@
    ("\\.ts\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
-
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Maps_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; ace-flyspell
+(require 'ace-flyspell)
+(ace-flyspell-setup)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
+;; f12 to spellcheck
+(global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
 (global-set-key (kbd "M-k") 'split-window-right)
@@ -323,6 +293,40 @@
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
+;; custom faces, at the bottom bc was in the way
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "gray8" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 117 :width normal :foundry "ADBO" :family "Source Code Pro"))))
+ '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(centaur-tabs-default ((t (:background "dark gray" :foreground "dim gray"))))
+ '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
+ '(centaur-tabs-unselected ((t (:background "#3D3C3D" :foreground "gray82"))))
+ '(cursor ((t (:background "LightGoldenrod4"))))
+ '(eglot-highlight-symbol-face ((t (:background "gray5" :foreground "firebrick1"))))
+ '(eglot-mode-line ((t (:inherit font-lock-constant-face :foreground "cornflower blue" :weight bold))))
+ '(eglot-parameter-hint-face ((t (:inherit eglot-inlay-hint-face :foreground "dark salmon"))))
+ '(font-lock-builtin-face ((t (:foreground "pale violet red"))))
+ '(font-lock-comment-face ((t (:foreground "chartreuse1" :weight bold))))
+ '(font-lock-constant-face ((t (:foreground "light slate blue"))))
+ '(font-lock-doc-face ((t (:inherit font-lock-string-face :foreground "pink1"))))
+ '(font-lock-string-face ((t (:foreground "spring green"))))
+ '(font-lock-variable-name-face ((t (:foreground "pale green" :weight extra-bold))))
+ '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
+ '(hl-line ((t (:extend t :background "grey18"))))
+ '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "LightGoldenrod4"))))
+ '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
+ '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
+ '(rainbow-delimiters-depth-4-face ((t (:inherit rainbow-delimiters-base-face :foreground "dark cyan"))))
+ '(rainbow-delimiters-depth-5-face ((t (:inherit rainbow-delimiters-base-face :foreground "MistyRose1"))))
+ '(rainbow-delimiters-depth-6-face ((t (:inherit rainbow-delimiters-base-face :foreground "tomato"))))
+ '(rainbow-delimiters-depth-7-face ((t (:inherit rainbow-delimiters-base-face :foreground "lawn green"))))
+ '(rainbow-delimiters-depth-9-face ((t (:inherit rainbow-delimiters-base-face :foreground "DeepSkyBlue1"))))
+ '(region ((t (:extend t :background "dark cyan"))))
+ '(web-mode-html-attr-name-face ((t (:foreground "deep pink"))))
+ '(web-mode-html-tag-face ((t (:foreground "cornflower blue")))))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
