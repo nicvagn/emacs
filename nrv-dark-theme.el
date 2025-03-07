@@ -174,8 +174,8 @@
 
        ;; Background colors
        ;; [True color | 256-compatible]
-       (bg (if true-color-available-p "#1c1c1c" "gray11"))               ; #1c1c1c
-       (bg-alt (if true-color-available-p "#242424" "gray14"))           ; #242424
+       (bg (if true-color-available-p "#030303" "gray9"))               ; #030303
+       (bg-alt (if true-color-available-p "#242424" "gray12"))           ; #242424
        (bg-osd (if true-color-available-p "#060606" "gray3"))            ; #080808
        (base-0 (if true-color-available-p "#202020" "gray13"))           ; #212121
        (base-1 (if true-color-available-p "#262626" "gray15"))           ; #262626
@@ -199,8 +199,8 @@
        (green (if true-color-available-p "#54d18c" "seagreen3"))         ; #43cd80
        (teal (if true-color-available-p "#5bc8af" "mediumaquamarine"))   ; #66cdaa
        (yellow (if true-color-available-p "#f8e45c" "gold2"))            ; #eec900
-       (blue (if true-color-available-p "#64a6f4" "steelblue2"))         ; #5cacee
-       (dark-blue (if true-color-available-p "#1a5fb4" "dodgerblue4"))   ; #104e8b
+       (blue (if true-color-available-p "#64eef4" "steelblue2"))         ; #5cacee
+       (dark-blue (if true-color-available-p "#3f91f2" "dodgerblue3"))   ; #104e8b
        (magenta (if true-color-available-p "#dd80de" "orchid3"))         ; #cd69c9
        (pink (if true-color-available-p "#edb8ee" "plum"))               ; #dda0dd
        (violet (if true-color-available-p "#7d8ac7" "mediumpurple3"))    ; #8968cd

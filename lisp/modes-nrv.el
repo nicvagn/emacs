@@ -48,6 +48,8 @@
         evil-shift-width python-tab-width
         c-basic-offset python-tab-width)
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+
 )
 
 ;; ---- web stuff ----

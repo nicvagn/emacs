@@ -22,19 +22,19 @@
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(custom-safe-themes
-    '("5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
+   '("14d11e2acebfa2b3d779bf06142c2d23a4b0593706cf35303e8c60f9cfcfd3f8" "5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-    '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
+   '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-    '(rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
-    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
-      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
+   '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
+     (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
  '(text-mode-hook
-    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
+   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
@@ -47,10 +47,10 @@
 (require 'org)
 ;; my own custom vterm
 (require 'vterm-nrv)
-;; our lsp servers
-(require 'language-servers-nrv)
 ;; python ide stuff
 (require 'python-nrv)
+;; fzf.el -- includes fzf-git and fzf-find-file
+(require 'fzf)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
@@ -64,6 +64,8 @@
 (customize-set-variable 'treesit-font-lock-level 4)
 ;; we want vim C-u
 (setq
+ ;; mode remaping
+ major-mode-remap-alist '((python-mode . python-ts-mode))
  ;; debugging + error handling
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
@@ -100,8 +102,8 @@
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
  ;; corfu
- corfu-auto-delay  0.1 ;; may cause issues due to being fast
- corfu-auto-prefix 0.1
+ corfu-auto-delay  0.2 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.2
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; org mode
@@ -117,10 +119,7 @@
 (which-function-mode 1)  ;; tell which func.
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-
-
 (use-package evil
   :ensure t
   :config
@@ -157,19 +156,36 @@
   ;; language server config and mode hooks in language-servers-nrv.el
   :ensure t
   :defer t
+  :config
+  (add-to-list 'eglot-server-programs
+               '(html-mode . ("vscode-html-language-server" "--stdio"))
+               '(css-mode . ("vscode-css-language-server" "--stdio")))
+  ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
+  (add-to-list 'eglot-server-programs
+                `(python-mode
+                 . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+                                          "jedi-language-server"
+                                          "pylsp"))))
+  ;; eglot HOOKS! add the correct mode hooks
+  :hook
+  ((python-mode-hook . eglot-ensure)
+  (html-mode-hook . eglot-ensure)
+  (js-mode-hook . eglot-ensure)
+  (css-mode-hook . eglot-ensure))
   :bind
   ("C-c f" . eglot-format))
-;; language sever config
-(require 'language-servers-nrv)
 
 (use-package scala-mode
   :ensure t
   :interpreter
     ("scala" . scala-mode))
 
+;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
   :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
   :ensure t
+  :after
+  (eglot)
   :mode
   (("\\.bs.js\\'" . rescript-mode)
   ("\\.res\\'" . rescript-mode)
@@ -215,12 +231,12 @@
   (corfu-cycle t)  ;; Enable cycling
   :init
   (global-corfu-mode)
+  (corfu-popupinfo-mode 1)
   :bind
   (("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit)
-   ("<escape>" . corfu-quit)))
+   ("<f8>" . corfu-quit)))
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -244,7 +260,6 @@
    ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
-
 (use-package web-mode
   :ensure t
   :defer t
@@ -275,7 +290,6 @@
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
 (global-set-key (kbd "M-k") 'split-window-right)
-(global-set-key (kbd "<escape>") 'corfu-quit)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)

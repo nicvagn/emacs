@@ -56,3 +56,9 @@ showTournamentBtn
 btn
 showTournamentLst
 txt
+endblock
+endfor
+outerHTML
+hx
+nrv
+SortButton
