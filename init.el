@@ -133,6 +133,8 @@
   (global-evil-dvorak-mode 1)
   (evil-mode t))
 
+(use-package avy 
+    :ensure t)
 (use-package evil-leader
   :ensure t
   :config
