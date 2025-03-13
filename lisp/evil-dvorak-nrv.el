@@ -36,11 +36,18 @@
 ;; (global-evil-dvorak-mode 1)
 
 ;;; Code:
-(require 'evil)
+;;(require 'evil)
+(use-package evil
+  :ensure t
+  :config
+  ;; set evil undo to one built into emacs
+  (evil-set-undo-system 'undo-redo)
+  ;; after modes have been loaded, turn on evil
+  (global-evil-dvorak-mode 1)
+  (evil-mode t))
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
-  :lighter " ED"
   :keymap (make-sparse-keymap))
 
 (defun turn-on-evil-dvorak-mode ()
@@ -59,17 +66,11 @@
   "t" #'evil-next-line
   "h" #'evil-previous-line
   "d" #'evil-backward-char
-  "e" #'evil-forward-char
-  ;;I what to be able to use vaw (visual around word) and viw (visual inner word)
-  ;; that's why in visual mode, u and a are not defined.
-  ;; BUT it would be cool to say cie and mean change forward to word-end
-  ;; and cio to mean change backward word-end
-  ;;(evil-define-key 'visual "u" 'evil-end-of-line)
-  ;;(evil-define-key 'visual "a" 'evil-first-non-blank
-  ;;(evil-define-key 'visual "u" 'evil-end-of-line)
-  )
+  "e" #'evil-forward-char)
 
 (evil-define-key 'normal evil-dvorak-mode-map
+  ;; c and d switch
+  (kbd "c") 'evil-delete
   ;; Miscellancus
   (kbd "t") #'evil-next-line
   (kbd "h") #'previous-line
@@ -84,19 +85,16 @@
   (kbd "C-l") 'recenter-top-bottom
 
   ;;line manipulation
-  "J" 'join-line
-  "j" #'(lambda () (interactive)
+  (kbd "J") 'join-line
+  (kbd "j") #'(lambda () (interactive)
           "join this line at the end of the line below"
           (join-line 1))
-  (kbd "C-M-h") 'evil-open-below
-  (kbd "C-M-t") 'evil-open-above
-
+  (kbd "C-c h") 'evil-open-below
+  (kbd "C-c t") 'evil-open-above
+  (kbd "<return>") 'newline-and-indent
   "'" 'evil-goto-mark)
-  ;;there is no need to set return to newline-and-indent, because electric-indent-mode is now on by default.
-  ;; (kbd "<return>") 'newline-and-indent)
 
 (evil-define-key 'insert evil-dvorak-mode-map
-  (kbd "C-z") #'evil-normal-state
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
   (kbd "<backspace>") #'delete-backward-char
@@ -105,6 +103,26 @@
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
+
+(use-package evil-leader
+  :ensure t
+  :config
+  ;; <leader>
+  (evil-leader/set-leader "<SPC>") ;; set to space
+  ;; define leader mappings
+  (evil-leader/set-key
+    "w" 'save-buffer
+    "k" 'kill-this-buffer
+    "q" 'evil-quit
+    "x" 'delete-window
+    "0" 'delete-window
+    "1" 'delete-other-windows
+    "s" 'evil-window-split
+    "v" 'evil-window-vsplit
+    "h" 'evil-open-below
+    "t" 'evil-open-above
+    "<SPC>" 'evil-window-next)
+  (global-evil-leader-mode))
 
 (provide 'evil-dvorak-nrv)
 

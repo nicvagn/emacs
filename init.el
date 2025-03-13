@@ -30,7 +30,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -52,6 +52,8 @@
 (require 'python-nrv)
 ;; fzf.el -- includes fzf-git and fzf-find-file
 (require 'fzf)
+;; evil devorak costom evil and keymap
+(require 'evil-dvorak-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
@@ -124,38 +126,8 @@
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(use-package evil
-  :ensure t
-  :config
-  ;; make c delete
-  (define-key evil-normal-state-map (kbd "c") 'evil-delete)
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  (use-package evil-dvorak-nrv)
-
-  ;; after modes have been loaded, turn on evil
-  (global-evil-dvorak-mode 1)
-  (evil-mode t))
-
 (use-package avy
     :ensure t)
-(use-package evil-leader
-  :ensure t
-  :config
-  ;; <leader>
-  (evil-leader/set-leader "<SPC>") ;; set to space
-  ;; define leader mappings
-  (evil-leader/set-key
-    "w" 'save-buffer
-    "k" 'kill-this-buffer
-    "q" 'evil-quit
-    "x" 'delete-window
-    "0" 'delete-window
-    "1" 'delete-other-windows
-    "s" 'evil-window-split
-    "v" 'evil-window-vsplit
-    "<SPC>" 'evil-window-next)
-  (global-evil-leader-mode))
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -304,7 +276,7 @@
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
 (global-set-key (kbd "M-k") 'split-window-right)
-;; Remove a tab worth of spaces at
+;; Remove a tab worth of spaces at a time ? with setp
 (define-key evil-insert-state-map [remap backward-delete-char-untabify] 'backward-delete-char)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
