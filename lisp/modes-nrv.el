@@ -36,7 +36,7 @@
 ;; ---- css mode ----
 (defun prepare-css ()
   "Setup Emacs for css editing."
-  (setq evil-shift-width css-tab-width
+  (setq-local evil-shift-width css-tab-width
         tab-width css-tab-width
         c-basic-offset css-tab-width)
 )
@@ -44,9 +44,10 @@
 (defun prepare-python ()
   "Prepare to edit python code."
   (require 'python-isort)
-  (setq tab-width python-tab-width
-        evil-shift-width python-tab-width
-        c-basic-offset python-tab-width)
+  (setq-local electric-indent-inhibit nil
+              tab-width python-tab-width
+              evil-shift-width python-tab-width
+              c-basic-offset python-tab-width)
   (add-hook 'python-mode-hook 'python-isort-on-save-mode)
   (add-hook 'python-mode-hook 'eglot-ensure)
 
@@ -55,7 +56,7 @@
 ;; ---- web stuff ----
 (defun prepare-web ()
   "set up for web mode. (html, js, mustache etc.)"
-  (setq tab-width web-tab-width
+  (setq-local tab-width web-tab-width
         evil-shift-width web-tab-width
         c-basic-offset web-tab-width)
   (add-hook 'web-mode-hook 'display-line-numbers-mode)
@@ -65,7 +66,7 @@
 ;; ---- html stuff ----
 (defun prepare-html ()
   "set up for web mode. (html, js, mustache etc.)"
-  (setq tab-width html-tab-width
+  (setq-local tab-width html-tab-width
         evil-shift-width html-tab-width
         c-basic-offset html-tab-width)
   (add-hook 'html-mode-hook 'display-line-numbers-mode)
@@ -75,7 +76,7 @@
 ;; ---- programming mode ----
 (defun prepare-prog ()
   "Prepare to enter \='prog-mode'."
-  (setq tab-width prog-tab-width
+  (setq-local tab-width prog-tab-width
         evil-shift-width prog-tab-width
         c-basic-offset prog-tab-width)
   ;; add lines to programming mode
