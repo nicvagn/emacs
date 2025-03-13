@@ -61,8 +61,11 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
+
 ;; default to 4 space width tabs
-(setq-default tab-width 4)
+(setq-default tab-width 4
+    c-basic-offset tab-width
+    cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 
@@ -75,7 +78,10 @@
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
- backward-delete-char-untabify-method 'hungry ;; delete full tab if able
+ ;; if the value is nil, then TAB indents the current line only if
+ ;; point is at the left margin or in the line’s indentation;
+ ;; otherwise, it inserts a tab character
+ tab-always-indent nil
  indent-line-function 'insert-tab
  ;; EVIL
  evil-want-C-u-scroll t
@@ -131,7 +137,7 @@
 
 ;; --- emacs lsp ---
 (use-package eglot
-  ;; language server config and mode hooks in language-servers-nrv.el
+  ;; language server config and mode hooks in language-servers-nrv.
   :ensure t
   :defer t
   :config
@@ -239,6 +245,7 @@
    ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
+
 (use-package web-mode
   :ensure t
   :defer t
@@ -276,8 +283,6 @@
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
 (global-set-key (kbd "M-k") 'split-window-right)
-;; Remove a tab worth of spaces at a time ? with setp
-(define-key evil-insert-state-map [remap backward-delete-char-untabify] 'backward-delete-char)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el

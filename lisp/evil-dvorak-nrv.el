@@ -36,15 +36,7 @@
 ;; (global-evil-dvorak-mode 1)
 
 ;;; Code:
-;;(require 'evil)
-(use-package evil
-  :ensure t
-  :config
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  ;; after modes have been loaded, turn on evil
-  (global-evil-dvorak-mode 1)
-  (evil-mode t))
+(require 'evil)
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
@@ -61,6 +53,15 @@
 (define-globalized-minor-mode global-evil-dvorak-mode
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
+
+(use-package evil
+  :ensure t
+  :config
+  ;; set evil undo to one built into emacs
+  (evil-set-undo-system 'undo-redo)
+  ;; after modes have been loaded, turn on evil
+  (global-evil-dvorak-mode 1)
+  (evil-mode t))
 
 (evil-define-key 'visual evil-dvorak-mode-map
   "t" #'evil-next-line
@@ -104,6 +105,7 @@
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
 
+
 (use-package evil-leader
   :ensure t
   :config
@@ -124,6 +126,10 @@
     "<SPC>" 'evil-window-next)
   (global-evil-leader-mode))
 
+  ;; set evil undo to one built into emacs
+  (evil-set-undo-system 'undo-redo)
+  ;; after modes have been loaded, turn on evil
+  (global-evil-dvorak-mode 1)
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak.el ends here
