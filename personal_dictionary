@@ -65,3 +65,6 @@ SortButton
 br
 textarea
 dir
+TMS
+tms
+readonly

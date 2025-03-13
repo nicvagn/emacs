@@ -63,16 +63,17 @@
 (setq-default tab-width 4)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
-;; we want vim C-u
+
+;; mode remaping
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+
 (setq
- ;; mode remaping
- major-mode-remap-alist '((python-mode . python-ts-mode))
  ;; debugging + error handling
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
- backward-delete-char-untabify-method nil ;; delete full tab if able
+ backward-delete-char-untabify-method 'hungry ;; delete full tab if able
  indent-line-function 'insert-tab
  ;; EVIL
  evil-want-C-u-scroll t
@@ -107,6 +108,8 @@
  corfu-auto-prefix 0.2
  ;; tramp
  tramp-allow-unsafe-temporary-files t
+ ;; flymake
+ next-error-function 'flymake-goto-next-error
  ;; org mode
  org-image-actual-width nil)
 
@@ -171,7 +174,7 @@
                                           "pylsp"))))
   ;; eglot HOOKS! add the correct mode hooks
   :hook
-  ((python-mode . eglot-ensure)
+  ((python-ts-mode . eglot-ensure)
   (html-mode . eglot-ensure)
   (js-mode . eglot-ensure)
   (css-mode . eglot-ensure))
@@ -278,6 +281,12 @@
    ("\\.ts\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
+;; auto use treesitter mode
+(use-package treesit-auto
+  :demand t
+  :config
+  (global-treesit-auto-mode))
+
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; ace-flyspell
@@ -295,6 +304,9 @@
 ;; Horizontal split w alt -
 (global-set-key (kbd "M--") 'split-window-below)
 (global-set-key (kbd "M-k") 'split-window-right)
+;; Remove a tab worth of spaces at
+(define-key evil-insert-state-map [remap backward-delete-char-untabify] 'backward-delete-char)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
