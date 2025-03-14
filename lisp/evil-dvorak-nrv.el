@@ -64,10 +64,10 @@
   (evil-mode t))
 
 (evil-define-key 'visual evil-dvorak-mode-map
-  "t" #'evil-next-line
-  "h" #'evil-previous-line
-  "d" #'evil-backward-char
-  "e" #'evil-forward-char)
+  (kbd "t") #'evil-next-line
+  (kbd "h") #'evil-previous-line
+  (kbd "d") #'evil-backward-char
+  (kbd "e") #'evil-forward-char)
 
 (evil-define-key 'normal evil-dvorak-mode-map
   ;; c and d switch
@@ -104,7 +104,6 @@
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
-
 
 (use-package evil-leader
   :ensure t
