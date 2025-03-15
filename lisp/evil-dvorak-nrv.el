@@ -61,7 +61,10 @@
   (evil-set-undo-system 'undo-redo)
   ;; after modes have been loaded, turn on evil
   (global-evil-dvorak-mode 1)
-  (evil-mode t))
+  (evil-mode t)
+
+  (evil-global-set-key 'insert (kbd "M-[") 'centaur-tabs-backward)
+  (evil-global-set-key 'insert (kbd "M-]") 'centaur-tabs-forward))
 
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd "t") #'evil-next-line
