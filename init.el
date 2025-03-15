@@ -37,29 +37,6 @@
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
-(require 'sudo-nrv)
-;; pretty colours
-(require 'rainbow-delimiters)
-;; mode hooks
-(require 'modes-nrv) ;; modular af
-;; org
-(require 'org)
-;; my own custom vterm
-(require 'vterm-nrv)
-;; yapsnippit completion at point
-(provide 'yasnippet-capf)
-;; python ide stuff
-(require 'python-nrv)
-;; fzf.el -- includes fzf-git and fzf-find-file
-(require 'fzf)
-;; evil devorak costom evil and keymap
-(require 'evil-dvorak-nrv)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
@@ -133,6 +110,29 @@
 (which-function-mode 1)  ;; tell which func.
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
+(require 'sudo-nrv)
+;; pretty colours
+(require 'rainbow-delimiters)
+;; mode hooks
+(require 'modes-nrv) ;; modular af
+;; org
+(require 'org)
+;; my own custom vterm
+(require 'vterm-nrv)
+;; yapsnippit completion at point
+(require 'yasnippet-capf)
+;; python ide stuff
+(require 'python-nrv)
+;; fzf.el -- includes fzf-git and fzf-find-file
+(require 'fzf)
+;; evil devorak costom evil and keymap
+(require 'evil-dvorak-nrv)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun nrv-error-handler (err)
+  "Handle errors by printing them to minibuffer (ERR: error)."
+  (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
     :ensure t)
