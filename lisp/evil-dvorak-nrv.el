@@ -1,4 +1,4 @@
-;;; evil-dvorak.el --- allows you to use evil with appropriate dvorak bindings
+;;; evil-dvorak.el -- evil with appropriate dvorak bindings and nrv custom
 ;; l-dvorak version by nrv
 ;; Copyright (C) 2015 Joshua Branson
 ;; Author: Joshua Branson
@@ -37,7 +37,6 @@
 
 ;;; Code:
 (require 'evil)
-
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
   :keymap (make-sparse-keymap))
@@ -64,8 +63,8 @@
   (evil-mode t)
 )
 
+;; normal mode custom
 (evil-global-set-key 'normal (kbd "C-y") 'yank)
-
 (evil-global-set-key 'normal (kbd "M--") 'split-window-below)
 (evil-global-set-key 'normal (kbd "M-k") 'split-window-right)
 (evil-global-set-key 'normal (kbd "M-[") #'centaur-tabs-backward)
@@ -75,16 +74,17 @@
 (evil-global-set-key 'normal (kbd "<f1>") #'centaur-tabs-backward-group)
 (evil-global-set-key 'normal (kbd "<f2>") #'centaur-tabs-forward-group)
 
-(evil-global-set-key 'insert (kbd "C-y") 'yank)
-
-(evil-global-set-key 'insert (kbd "M--") 'split-window-below)
-(evil-global-set-key 'insert (kbd "M-k") 'split-window-right)
+;; insert mode custom
+(evil-global-set-key 'insert (kbd "C-y") #'yank)
+(evil-global-set-key 'insert (kbd "M--") #'split-window-below)
+(evil-global-set-key 'insert (kbd "M-k") #'split-window-right)
 (evil-global-set-key 'insert (kbd "M-[") #'centaur-tabs-backward)
 (evil-global-set-key 'insert (kbd "M-]") #'centaur-tabs-forward)
 (evil-global-set-key 'insert (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
 (evil-global-set-key 'insert (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
 (evil-global-set-key 'insert (kbd "<f1>") #'centaur-tabs-backward-group)
 (evil-global-set-key 'insert (kbd "<f2>") #'centaur-tabs-forward-group)
+
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
@@ -93,14 +93,14 @@
 
 (evil-define-key 'normal evil-dvorak-mode-map
   ;; c and d switch
-  (kbd "c") 'evil-delete
+  (kbd "c") #'evil-delete
   ;; Miscellancus
   (kbd "t") #'evil-next-line
   (kbd "h") #'previous-line
   (kbd "d") #'backward-char
   (kbd "e") #'forward-char
-  "k" 'kill-line
-  "K" #'(lambda () (interactive)
+  (kbd "k") #'kill-line
+  (kbd "K") #'(lambda () (interactive)
           "kill from point to the beginning of the line"
           (kill-line 0))
 
@@ -112,16 +112,19 @@
   (kbd "j") #'(lambda () (interactive)
           "join this line at the end of the line below"
           (join-line 1))
-  (kbd "<return>") 'newline-and-indent
+  (kbd "<return>") #'newline-and-indent
+  (kbd "<tab>") #'evil-shift-right
+  (kbd "<backtab>") #'evil-shift-left
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char
-  "'" 'evil-goto-mark)
+  (kbd "'") #'evil-goto-mark)
 
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
+  (kbd "<backtab>") #'evil-shift-left
   (kbd "<backspace>") #'delete-backward-char
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line
@@ -149,10 +152,10 @@
     "<SPC>" 'evil-window-next)
   (global-evil-leader-mode))
 
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  ;; after modes have been loaded, turn on evil
-  (global-evil-dvorak-mode 1)
+;; set evil undo to one built into emacs
+(evil-set-undo-system 'undo-redo)
+;; after modes have been loaded, turn on evil
+(global-evil-dvorak-mode 1)
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak.el ends here

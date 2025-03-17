@@ -62,6 +62,8 @@
  ;; otherwise, it inserts a tab character
  tab-always-indent nil
  indent-line-function 'insert-tab
+ ;; indent-level highlighting
+ highlight-indent-guides-method 'bitmap
  ;; EVIL
  evil-want-C-u-scroll t
  evil-scroll-count 15
@@ -108,9 +110,10 @@
 (savehist-mode) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
-;; remove the legacy hook from flymake
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; Indentation marks
+(require 'highlight-indent-guides)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -129,10 +132,6 @@
 (require 'fzf)
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
     :ensure t)
@@ -302,6 +301,14 @@
 ;; ace-flyspell
 (require 'ace-flyspell)
 (ace-flyspell-setup)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; remove the legacy hook from flymake
+(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+(add-hook 'text-mode 'highlight-indent-guides-mode)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(defun nrv-error-handler (err)
+  "Handle errors by printing them to minibuffer (ERR: error)."
+  (message "Error: %S" err))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
