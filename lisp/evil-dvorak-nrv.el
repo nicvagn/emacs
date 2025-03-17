@@ -62,13 +62,29 @@
   ;; after modes have been loaded, turn on evil
   (global-evil-dvorak-mode 1)
   (evil-mode t)
-  (evil-global-set-key 'normal (kbd "C-y") 'yank)
-  (eval-after-load 'centaur-tabs
-    (progn
-    (evil-set-key 'insert evil-insert-state-map (kbd "M-[") 'centaur-tabs-backward)
-    (evil-set-key 'insert evil-insert-state-map (kbd "M-]") 'centaur-tabs-forward)
-    )))
+)
 
+(evil-global-set-key 'normal (kbd "C-y") 'yank)
+
+(evil-global-set-key 'normal (kbd "M--") 'split-window-below)
+(evil-global-set-key 'normal (kbd "M-k") 'split-window-right)
+(evil-global-set-key 'normal (kbd "M-[") #'centaur-tabs-backward)
+(evil-global-set-key 'normal (kbd "M-]") #'centaur-tabs-forward)
+(evil-global-set-key 'normal (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
+(evil-global-set-key 'normal (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
+(evil-global-set-key 'normal (kbd "<f1>") #'centaur-tabs-backward-group)
+(evil-global-set-key 'normal (kbd "<f2>") #'centaur-tabs-forward-group)
+
+(evil-global-set-key 'insert (kbd "C-y") 'yank)
+
+(evil-global-set-key 'insert (kbd "M--") 'split-window-below)
+(evil-global-set-key 'insert (kbd "M-k") 'split-window-right)
+(evil-global-set-key 'insert (kbd "M-[") #'centaur-tabs-backward)
+(evil-global-set-key 'insert (kbd "M-]") #'centaur-tabs-forward)
+(evil-global-set-key 'insert (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
+(evil-global-set-key 'insert (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
+(evil-global-set-key 'insert (kbd "<f1>") #'centaur-tabs-backward-group)
+(evil-global-set-key 'insert (kbd "<f2>") #'centaur-tabs-forward-group)
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
@@ -96,9 +112,11 @@
   (kbd "j") #'(lambda () (interactive)
           "join this line at the end of the line below"
           (join-line 1))
-  (kbd "C-c h") 'evil-open-below
-  (kbd "C-c t") 'evil-open-above
   (kbd "<return>") 'newline-and-indent
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line
+  (kbd "C-b") #'backward-char
+  (kbd "C-f") #'forward-char
   "'" 'evil-goto-mark)
 
 (evil-define-key 'insert evil-dvorak-mode-map

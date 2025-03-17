@@ -312,9 +312,6 @@
 ;; f12 to spellcheck
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; Horizontal split w alt -
-(global-set-key (kbd "M--") 'split-window-below)
-(global-set-key (kbd "M-k") 'split-window-right)
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
