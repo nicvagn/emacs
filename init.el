@@ -61,9 +61,6 @@
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
  tab-always-indent nil
- indent-line-function 'insert-tab
- ;; indent-level highlighting
- highlight-indent-guides-method 'bitmap
  ;; EVIL
  evil-want-C-u-scroll t
  evil-scroll-count 15
@@ -113,7 +110,7 @@
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Indentation marks
-(require 'highlight-indent-guides)
+(require 'highlight-indentation)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -304,7 +301,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-(add-hook 'text-mode 'highlight-indent-guides-mode)
+(highlight-indentation-mode t)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
