@@ -130,6 +130,7 @@
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
 (use-package avy
     :ensure t)
 
@@ -306,6 +307,16 @@
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
   (message "Error: %S" err))
+
+(defun delete-this-file (&optional forever)
+  "Delete the file associated with `current-buffer'.
+If FOREVER is non-nil, the file is deleted without being moved to trash."
+  (interactive "P")
+  (when-let ((file (or (buffer-file-name)
+                       (user-error "Current buffer is not visiting a file")))
+             ((y-or-n-p "Delete this file? ")))
+    (delete-file file (not forever))
+    (kill-buffer (current-buffer))))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
@@ -333,6 +344,7 @@
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
+(defalias 'del 'delete-this-file)
 ;; custom faces, at the bottom bc was in the way
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -102,7 +102,7 @@
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
-  (kbd "<backtab>") #'evil-shift-line-left
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "<backspace>") #'delete-backward-char
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line
@@ -137,4 +137,4 @@
 (global-evil-dvorak-mode 1)
 (provide 'evil-dvorak-nrv)
 
-;;; evil-dvorak.el ends here
+;;; evil-dvorak-nrv.el ends here
