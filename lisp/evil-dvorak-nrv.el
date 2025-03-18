@@ -63,28 +63,6 @@
   (evil-mode t)
 )
 
-;; normal mode custom
-(evil-global-set-key 'normal (kbd "C-y") 'yank)
-(evil-global-set-key 'normal (kbd "M--") 'split-window-below)
-(evil-global-set-key 'normal (kbd "M-k") 'split-window-right)
-(evil-global-set-key 'normal (kbd "M-[") #'centaur-tabs-backward)
-(evil-global-set-key 'normal (kbd "M-]") #'centaur-tabs-forward)
-(evil-global-set-key 'normal (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
-(evil-global-set-key 'normal (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
-(evil-global-set-key 'normal (kbd "<f1>") #'centaur-tabs-backward-group)
-(evil-global-set-key 'normal (kbd "<f2>") #'centaur-tabs-forward-group)
-
-;; insert mode custom
-(evil-global-set-key 'insert (kbd "C-y") #'yank)
-(evil-global-set-key 'insert (kbd "M--") #'split-window-below)
-(evil-global-set-key 'insert (kbd "M-k") #'split-window-right)
-(evil-global-set-key 'insert (kbd "M-[") #'centaur-tabs-backward)
-(evil-global-set-key 'insert (kbd "M-]") #'centaur-tabs-forward)
-(evil-global-set-key 'insert (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
-(evil-global-set-key 'insert (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
-(evil-global-set-key 'insert (kbd "<f1>") #'centaur-tabs-backward-group)
-(evil-global-set-key 'insert (kbd "<f2>") #'centaur-tabs-forward-group)
-
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
@@ -113,8 +91,8 @@
           "join this line at the end of the line below"
           (join-line 1))
   (kbd "<return>") #'newline-and-indent
-  (kbd "<tab>") #'evil-shift-right
-  (kbd "<backtab>") #'evil-shift-left
+  (kbd "<tab>") #'evil-shift-right-line
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
@@ -124,7 +102,7 @@
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
-  (kbd "<backtab>") #'evil-shift-left
+  (kbd "<backtab>") #'evil-shift-line-left
   (kbd "<backspace>") #'delete-backward-char
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line
@@ -132,6 +110,7 @@
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
 
+;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
   :ensure t
   :config
