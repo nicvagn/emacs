@@ -13,6 +13,7 @@
 (defvar lisp-tab-width 2 "Tab width for Lisp files.")
 
 (require 'highlight-indentation) ;; for tab highlights
+(require 'rainbow-delimiters)
 
 (defun prepare-text ()
   (rainbow-delimiters-mode 1)
@@ -64,7 +65,7 @@
               c-basic-offset python-tab-width)
   ('python-isort-on-save-mode t)
   ('eglot-ensure t)
-
+  (prepare-text)
 )
 
 ;; ---- web stuff ----
@@ -73,8 +74,7 @@
   (setq-local tab-width web-tab-width
         evil-shift-width web-tab-width
         c-basic-offset web-tab-width)
-  (display-line-numbers-mode t)
-  (rainbow-delimiters-mode t)
+  (prepare-text)
 )
 
 ;; ---- html stuff ----
@@ -83,8 +83,7 @@
   (setq-local tab-width html-tab-width
         evil-shift-width html-tab-width
         c-basic-offset html-tab-width)
-  (display-line-numbers-mode t)
-  (rainbow-delimiters-mode t)
+  (prepare-text)
 )
 
 ;; ---- programming mode ----
@@ -93,14 +92,10 @@
   (setq-local tab-width prog-tab-width
         evil-shift-width prog-tab-width
         c-basic-offset prog-tab-width)
-
-  ;; add lines to programming mode
-  (display-line-numbers-mode t)
-  ;; colour define "(" pairs etc
-  (rainbow-delimiters-mode)
   ;; keybinds
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
+  (prepare-text)
 )
 
 (provide 'modes-nrv)

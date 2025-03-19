@@ -30,7 +30,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -113,6 +113,12 @@
 (require 'sudo-nrv)
 ;; pretty colours
 (require 'rainbow-delimiters)
+;; functions-nrv -- useful functions?
+;; nrv-error-handler -- I don't honestly know handles errors?
+;; delete-this-file -- delete the file in a buffer
+;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
+;;                                         kill newline.
+(require 'functions-nrv)
 ;; mode hooks
 (require 'modes-nrv) ;; modular af
 ;; org
@@ -254,8 +260,7 @@
 
   :config
   ;; add yasnippit snippits to completion at point
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-  )
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -305,26 +310,14 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
-
-(defun delete-this-file (&optional forever)
-  "Delete the file associated with `current-buffer'.
-If FOREVER is non-nil, the file is deleted without being moved to trash."
-  (interactive "P")
-  (when-let ((file (or (buffer-file-name)
-                       (user-error "Current buffer is not visiting a file")))
-             ((y-or-n-p "Delete this file? ")))
-    (delete-file file (not forever))
-    (kill-buffer (current-buffer))))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
+;; do not kill back over new line with kill back word
+(global-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 ;; f12 to spellcheck
