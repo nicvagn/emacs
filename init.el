@@ -41,10 +41,6 @@
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
 
-(setq-default mode-line-buffer-identification
-              (list 'buffer-file-name
-                    (propertized-buffer-identification "%12f")
-                    (propertized-buffer-identification "%12b")))
 ;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
@@ -56,52 +52,56 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
- ;; debugging + error handling
- debug-on-error nil ;; no backtraces
- user-error-exceptions nil ;; treat errs as real errs
- error-handler #'nrv-error-handler
- ;; tabs and indenting
- ;; if the value is nil, then TAB indents the current line only if
- ;; point is at the left margin or in the line’s indentation;
- ;; otherwise, it inserts a tab character
- tab-always-indent nil
- ;; EVIL
- evil-want-C-u-scroll t
- evil-scroll-count 15
- evil-want-fine-undo t
- ;; scrolling
- mouse-wheel-scroll-amount '(0.07)
- mouse-wheel-progressive-speed nil
- ;; corfu ant jedi complete
- jedi:complete-on-dot t
- completion-auto-help t
- completion-cycle-threshold 1 ;; cycle completions NEVER
- ;; history/backup
- savehist-file "~/.config/emacs/backups/emacs_histfile"
- version-control t     ;; Use version numbers for backups.
- kept-new-versions 10  ;; Number of newest versions to keep.
- kept-old-versions 10   ;; Number of oldest versions to keep.
- delete-old-versions t ;; Don't ask to delete excess backup versions.
- backup-by-copying t   ;; Copy all files, don't rename them.
- ;; Revert/reload Dired and other buffers on filesystem change
- global-auto-revert-non-file-buffers t
- ;; but do it quietly
- auto-revert-verbose nil
- ;; centar tabs
- centaur-tabs-style "wave"
- centaur-tabs-height 38
- centaur-tabs-set-icons t
- centaur-tabs-icon-type 'all-the-icons
- centaur-tabs-cycle-scope 'tabs
- ;; corfu
- corfu-auto-delay  0.2 ;; may cause issues due to being fast
- corfu-auto-prefix 0.2
- ;; tramp
- tramp-allow-unsafe-temporary-files t
- ;; flymake
- next-error-function 'flymake-goto-next-error
- ;; org mode
- org-image-actual-width nil)
+ mode-line-buffer-identification
+ (list 'buffer-file-name
+       (propertized-buffer-identification "%12f")
+       (propertized-buffer-identification "%12b"))
+;; debugging + error handling
+debug-on-error nil ;; no backtraces
+user-error-exceptions nil ;; treat errs as real errs
+error-handler #'nrv-error-handler
+;; tabs and indenting
+;; if the value is nil, then TAB indents the current line only if
+;; point is at the left margin or in the line’s indentation;
+;; otherwise, it inserts a tab character
+tab-always-indent nil
+;; EVIL
+evil-want-C-u-scroll t
+evil-scroll-count 15
+evil-want-fine-undo t
+;; scrolling
+mouse-wheel-scroll-amount '(0.07)
+mouse-wheel-progressive-speed nil
+;; corfu ant jedi complete
+jedi:complete-on-dot t
+completion-auto-help t
+completion-cycle-threshold 1 ;; cycle completions NEVER
+;; history/backup
+savehist-file "~/.config/emacs/backups/emacs_histfile"
+version-control t     ;; Use version numbers for backups.
+kept-new-versions 10  ;; Number of newest versions to keep.
+kept-old-versions 10   ;; Number of oldest versions to keep.
+delete-old-versions t ;; Don't ask to delete excess backup versions.
+backup-by-copying t   ;; Copy all files, don't rename them.
+;; Revert/reload Dired and other buffers on filesystem change
+global-auto-revert-non-file-buffers t
+;; but do it quietly
+auto-revert-verbose nil
+;; centar tabs
+centaur-tabs-style "wave"
+centaur-tabs-height 38
+centaur-tabs-set-icons t
+centaur-tabs-icon-type 'all-the-icons
+centaur-tabs-cycle-scope 'tabs
+;; corfu
+corfu-auto-delay  0.2 ;; may cause issues due to being fast
+corfu-auto-prefix 0.2
+;; tramp
+tramp-allow-unsafe-temporary-files t
+;; flymake
+next-error-function 'flymake-goto-next-error
+;; org mode
+org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; Revert buffers when the underlying file has changed
@@ -330,9 +330,9 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; Horizontal split w alt -
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; some global modes because
-(highlight-indentation-mode 1)
 ;; hooks are defined in nrv-modes.el
+(add-hook 'text-mode-hook #'prepare-text)
+(add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'python-mode-hook #'prepare-python)
 (add-hook 'dired-mode-hook #'prepare-dired)

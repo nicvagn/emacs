@@ -8,9 +8,20 @@
 (defvar css-tab-width 2 "Tab width for css source files.")
 (defvar js-tab-width 2 "Tab width for js source files.")
 (defvar web-tab-width 2 "Tab width for web files.")
-(defvar html-tab-width 2 "Tab width for web files.")
+(defvar html-tab-width 2 "Tab width for html files.")
 (defvar prog-tab-width 4 "Tab width for general programming files.")
 (defvar lisp-tab-width 2 "Tab width for Lisp files.")
+
+
+(defun prepare-text ()
+  (add-hook 'text-mode-hook (lambda () (highlight-indentation-mode 1)))
+  (add-hook 'text-mode-hook 'rainbow-delimiters-mode))
+
+(defun prepare-lisp ()
+  "Prepare lisp to be eddited how I like."
+  (setq-local evil-shift-width lisp-tab-width
+        tab-width lisp-tab-width
+        c-basic-offset lisp-tab-width))
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
@@ -79,6 +90,7 @@
   (setq-local tab-width prog-tab-width
         evil-shift-width prog-tab-width
         c-basic-offset prog-tab-width)
+
   ;; add lines to programming mode
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   ;; colour define "(" pairs etc
