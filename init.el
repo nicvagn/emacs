@@ -118,7 +118,6 @@
 (ace-flyspell-setup)
 ;; Indentation marks
 (require 'highlight-indentation)
-(highlight-indentation-mode 1)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -306,7 +305,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-(highlight-indentation-mode t)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
@@ -332,6 +330,8 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; Horizontal split w alt -
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; some global modes because
+(highlight-indentation-mode 1)
 ;; hooks are defined in nrv-modes.el
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'python-mode-hook #'prepare-python)
