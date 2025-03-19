@@ -41,10 +41,14 @@
 ;; Use spaces not tabs
 (setq-default indent-tabs-mode nil)
 
+(setq-default mode-line-buffer-identification
+              (list 'buffer-file-name
+                    (propertized-buffer-identification "%12f")
+                    (propertized-buffer-identification "%12b")))
 ;; default to 4 space width tabs
 (setq-default tab-width 4
-    c-basic-offset tab-width
-    cperl-indent-level tab-width)
+              c-basic-offset tab-width
+              cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 
@@ -108,9 +112,13 @@
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; ace-flyspell
+(require 'ace-flyspell)
+(ace-flyspell-setup)
 ;; Indentation marks
 (require 'highlight-indentation)
+(highlight-indentation-mode 1)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -132,7 +140,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 (use-package avy
-    :ensure t)
+  :ensure t)
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -145,23 +153,23 @@
                '(css-mode . ("vscode-css-language-server" "--stdio")))
   ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
-                `(python-mode
+               `(python-mode
                  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
                                           "jedi-language-server"
                                           "pylsp"))))
   ;; eglot HOOKS! add the correct mode hooks
   :hook
   ((python-ts-mode . eglot-ensure)
-  (html-mode . eglot-ensure)
-  (js-mode . eglot-ensure)
-  (css-mode . eglot-ensure))
+   (html-mode . eglot-ensure)
+   (js-mode . eglot-ensure)
+   (css-mode . eglot-ensure))
   :bind
   ("C-c f" . eglot-format))
 
 (use-package scala-mode
   :ensure t
   :interpreter
-    ("scala" . scala-mode))
+  ("scala" . scala-mode))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
@@ -171,8 +179,8 @@
   (eglot)
   :mode
   (("\\.bs.js\\'" . rescript-mode)
-  ("\\.res\\'" . rescript-mode)
-  ("\\.resi\\'" . rescript-mode)))
+   ("\\.res\\'" . rescript-mode)
+   ("\\.resi\\'" . rescript-mode)))
 
 (use-package centaur-tabs
   :ensure t
@@ -248,7 +256,7 @@
   :config
   ;; add yasnippit snippits to completion at point
   (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-)
+  )
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -295,10 +303,6 @@
   (global-treesit-auto-mode))
 
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; ace-flyspell
-(require 'ace-flyspell)
-(ace-flyspell-setup)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
