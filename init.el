@@ -56,61 +56,52 @@
  (list 'buffer-file-name
        (propertized-buffer-identification "%12f")
        (propertized-buffer-identification "%12b"))
-;; debugging + error handling
-debug-on-error nil ;; no backtraces
-user-error-exceptions nil ;; treat errs as real errs
-error-handler #'nrv-error-handler
-;; tabs and indenting
-;; if the value is nil, then TAB indents the current line only if
-;; point is at the left margin or in the line’s indentation;
-;; otherwise, it inserts a tab character
-tab-always-indent nil
-;; EVIL
-evil-want-C-u-scroll t
-evil-scroll-count 15
-evil-want-fine-undo t
-;; scrolling
-mouse-wheel-scroll-amount '(0.07)
-mouse-wheel-progressive-speed nil
-;; corfu ant jedi complete
-jedi:complete-on-dot t
-completion-auto-help t
-completion-cycle-threshold 1 ;; cycle completions NEVER
-;; history/backup
-savehist-file "~/.config/emacs/backups/emacs_histfile"
-version-control t     ;; Use version numbers for backups.
-kept-new-versions 10  ;; Number of newest versions to keep.
-kept-old-versions 10   ;; Number of oldest versions to keep.
-delete-old-versions t ;; Don't ask to delete excess backup versions.
-backup-by-copying t   ;; Copy all files, don't rename them.
-;; Revert/reload Dired and other buffers on filesystem change
-global-auto-revert-non-file-buffers t
-;; but do it quietly
-auto-revert-verbose nil
-;; centar tabs
-centaur-tabs-style "wave"
-centaur-tabs-height 38
-centaur-tabs-set-icons t
-centaur-tabs-icon-type 'all-the-icons
-centaur-tabs-cycle-scope 'tabs
-;; corfu
-corfu-auto-delay  0.2 ;; may cause issues due to being fast
-corfu-auto-prefix 0.2
-;; tramp
-tramp-allow-unsafe-temporary-files t
-;; flymake
-next-error-function 'flymake-goto-next-error
-;; org mode
-org-image-actual-width nil)
-
-;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Revert buffers when the underlying file has changed
-(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
-(global-hl-line-mode 1)
-(auto-fill-mode t) ;; complete if only
-(savehist-mode) ;; save history
-(transient-mark-mode 1)  ;; selection highlighting
-(which-function-mode 1)  ;; tell which func.
+ ;; debugging + error handling
+ debug-on-error nil ;; no backtraces
+ user-error-exceptions nil ;; treat errs as real errs
+ error-handler #'nrv-error-handler
+ ;; tabs and indenting
+ ;; if the value is nil, then TAB indents the current line only if
+ ;; point is at the left margin or in the line’s indentation;
+ ;; otherwise, it inserts a tab character
+ tab-always-indent nil
+ ;; EVIL
+ evil-want-C-u-scroll t
+ evil-scroll-count 15
+ evil-want-fine-undo t
+ ;; scrolling
+ mouse-wheel-scroll-amount '(0.07)
+ mouse-wheel-progressive-speed nil
+ ;; corfu ant jedi complete
+ jedi:complete-on-dot t
+ completion-auto-help t
+ completion-cycle-threshold 1 ;; cycle completions NEVER
+ ;; history/backup
+ savehist-file "~/.config/emacs/backups/emacs_histfile"
+ version-control t     ;; Use version numbers for backups.
+ kept-new-versions 10  ;; Number of newest versions to keep.
+ kept-old-versions 10   ;; Number of oldest versions to keep.
+ delete-old-versions t ;; Don't ask to delete excess backup versions.
+ backup-by-copying t   ;; Copy all files, don't rename them.
+ ;; Revert/reload Dired and other buffers on filesystem change
+ global-auto-revert-non-file-buffers t
+ ;; but do it quietly
+ auto-revert-verbose nil
+ ;; centar tabs
+ centaur-tabs-style "wave"
+ centaur-tabs-height 38
+ centaur-tabs-set-icons t
+ centaur-tabs-icon-type 'all-the-icons
+ centaur-tabs-cycle-scope 'tabs
+ ;; corfu
+ corfu-auto-delay  0.2 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.2
+ ;; tramp
+ tramp-allow-unsafe-temporary-files t
+ ;; flymake
+ next-error-function 'flymake-goto-next-error
+ ;; org mode
+ org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; ace-flyspell
@@ -136,6 +127,15 @@ org-image-actual-width nil)
 (require 'fzf)
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
+(global-hl-line-mode 1)
+(auto-fill-mode t) ;; complete if only
+(savehist-mode) ;; save history
+(transient-mark-mode 1)  ;; selection highlighting
+(which-function-mode 1)  ;; tell which func.
+(highlight-indentation-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 (use-package avy
@@ -319,6 +319,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
              ((y-or-n-p "Delete this file? ")))
     (delete-file file (not forever))
     (kill-buffer (current-buffer))))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)

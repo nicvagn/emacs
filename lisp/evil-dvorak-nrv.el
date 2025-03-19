@@ -61,9 +61,11 @@
   ;; after modes have been loaded, turn on evil
   (global-evil-dvorak-mode 1)
   (evil-mode t)
-)
+  )
 
 (evil-define-key 'visual evil-dvorak-mode-map
+  (kbd "<tab>") #'evil-shift-right-line
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
@@ -79,8 +81,8 @@
   (kbd "e") #'forward-char
   (kbd "k") #'kill-line
   (kbd "K") #'(lambda () (interactive)
-          "kill from point to the beginning of the line"
-          (kill-line 0))
+                "kill from point to the beginning of the line"
+                (kill-line 0))
 
   ;;move the cursor around
   (kbd "C-l") 'recenter-top-bottom
@@ -88,8 +90,8 @@
   ;;line manipulation
   (kbd "J") 'join-line
   (kbd "j") #'(lambda () (interactive)
-          "join this line at the end of the line below"
-          (join-line 1))
+                "join this line at the end of the line below"
+                (join-line 1))
   (kbd "<return>") #'newline-and-indent
   (kbd "<tab>") #'evil-shift-right-line
   (kbd "<backtab>") #'evil-shift-left-line
