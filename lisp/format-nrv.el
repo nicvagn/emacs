@@ -1,6 +1,6 @@
 ;;; modes-nrv.el --- My emacs modes, mode keymaps
 ;;; commentary:
-;; mostly keymaps and tab width that are mode specific
+;; mostly nothing
 
 ;;; code:
 ;; TODO

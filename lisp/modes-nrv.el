@@ -8,9 +8,23 @@
 (defvar css-tab-width 2 "Tab width for css source files.")
 (defvar js-tab-width 2 "Tab width for js source files.")
 (defvar web-tab-width 2 "Tab width for web files.")
-(defvar html-tab-width 2 "Tab width for web files.")
+(defvar html-tab-width 2 "Tab width for html files.")
 (defvar prog-tab-width 4 "Tab width for general programming files.")
 (defvar lisp-tab-width 2 "Tab width for Lisp files.")
+
+(require 'highlight-indentation) ;; for tab highlights
+(require 'rainbow-delimiters)
+
+(defun prepare-text ()
+  (rainbow-delimiters-mode 1)
+  (highlight-indentation-mode 1))
+
+(defun prepare-lisp ()
+  "Prepare lisp to be eddited how I like."
+  (setq-local evil-shift-width lisp-tab-width
+        tab-width lisp-tab-width
+        c-basic-offset lisp-tab-width)
+  (prepare-text))
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
@@ -39,6 +53,7 @@
   (setq-local evil-shift-width css-tab-width
         tab-width css-tab-width
         c-basic-offset css-tab-width)
+  (prepare-text)
 )
 ;; ---- python mode ----
 (defun prepare-python ()
@@ -48,9 +63,9 @@
               tab-width python-tab-width
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
-  (add-hook 'python-mode-hook 'python-isort-on-save-mode)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-
+  ('python-isort-on-save-mode t)
+  ('eglot-ensure t)
+  (prepare-text)
 )
 
 ;; ---- web stuff ----
@@ -59,8 +74,7 @@
   (setq-local tab-width web-tab-width
         evil-shift-width web-tab-width
         c-basic-offset web-tab-width)
-  (add-hook 'web-mode-hook 'display-line-numbers-mode)
-  (add-hook 'web-mode-hook 'rainbow-delimiters-mode)
+  (prepare-text)
 )
 
 ;; ---- html stuff ----
@@ -69,8 +83,7 @@
   (setq-local tab-width html-tab-width
         evil-shift-width html-tab-width
         c-basic-offset html-tab-width)
-  (add-hook 'html-mode-hook 'display-line-numbers-mode)
-  (add-hook 'html-mode-hook 'rainbow-delimiters-mode)
+  (prepare-text)
 )
 
 ;; ---- programming mode ----
@@ -79,13 +92,10 @@
   (setq-local tab-width prog-tab-width
         evil-shift-width prog-tab-width
         c-basic-offset prog-tab-width)
-  ;; add lines to programming mode
-  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  ;; colour define "(" pairs etc
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
   ;; keybinds
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
+  (prepare-text)
 )
 
 (provide 'modes-nrv)

@@ -31,7 +31,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -44,8 +44,8 @@
 
 ;; default to 4 space width tabs
 (setq-default tab-width 4
-    c-basic-offset tab-width
-    cperl-indent-level tab-width)
+              c-basic-offset tab-width
+              cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 
@@ -55,6 +55,11 @@
 (setq
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow
+;; diff filenames with their path
+ mode-line-buffer-identification
+ (list 'buffer-file-name
+       (propertized-buffer-identification "%12f")
+       (propertized-buffer-identification "%12b"))
  ;; debugging + error handling
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
@@ -64,7 +69,6 @@
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
  tab-always-indent nil
- indent-line-function 'insert-tab
  ;; EVIL
  evil-want-C-u-scroll t
  evil-scroll-count 15
@@ -103,23 +107,24 @@
  ;; org mode
  org-image-actual-width nil)
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Revert buffers when the underlying file has changed
-(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
-(global-hl-line-mode 1)
-(auto-fill-mode t) ;; complete if only
-(savehist-mode) ;; save history
-(transient-mark-mode 1)  ;; selection highlighting
-(which-function-mode 1)  ;; tell which func.
-;; remove the legacy hook from flymake
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; ace-flyspell
+(require 'ace-flyspell)
+(ace-flyspell-setup)
+;; Indentation marks
+(require 'highlight-indentation)
 ;; nerdtree for files
 (require 'neotree)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
 (require 'rainbow-delimiters)
+;; functions-nrv -- useful functions?
+;; nrv-error-handler -- I don't honestly know handles errors?
+;; delete-this-file -- delete the file in a buffer
+;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
+;;                                         kill newline.
+(require 'functions-nrv)
 ;; mode hooks
 (require 'modes-nrv) ;; modular af
 ;; org
@@ -134,13 +139,19 @@
 (require 'fzf)
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
+;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
+(global-hl-line-mode 1)
+(auto-fill-mode t) ;; complete if only
+(savehist-mode) ;; save history
+(transient-mark-mode 1)  ;; selection highlighting
+(which-function-mode 1)  ;; tell which func.
+(highlight-indentation-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
 (use-package avy
-    :ensure t)
+  :ensure t)
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -153,23 +164,23 @@
                '(css-mode . ("vscode-css-language-server" "--stdio")))
   ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
-                `(python-mode
+               `(python-mode
                  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
                                           "jedi-language-server"
                                           "pylsp"))))
   ;; eglot HOOKS! add the correct mode hooks
   :hook
   ((python-ts-mode . eglot-ensure)
-  (html-mode . eglot-ensure)
-  (js-mode . eglot-ensure)
-  (css-mode . eglot-ensure))
+   (html-mode . eglot-ensure)
+   (js-mode . eglot-ensure)
+   (css-mode . eglot-ensure))
   :bind
   ("C-c f" . eglot-format))
 
 (use-package scala-mode
   :ensure t
   :interpreter
-    ("scala" . scala-mode))
+  ("scala" . scala-mode))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
@@ -179,8 +190,8 @@
   (eglot)
   :mode
   (("\\.bs.js\\'" . rescript-mode)
-  ("\\.res\\'" . rescript-mode)
-  ("\\.resi\\'" . rescript-mode)))
+   ("\\.res\\'" . rescript-mode)
+   ("\\.resi\\'" . rescript-mode)))
 
 (use-package centaur-tabs
   :ensure t
@@ -255,8 +266,7 @@
 
   :config
   ;; add yasnippit snippits to completion at point
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf)
-)
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -303,10 +313,10 @@
   (global-treesit-auto-mode))
 
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; ace-flyspell
-(require 'ace-flyspell)
-(ace-flyspell-setup)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; remove the legacy hook from flymake
+(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; open neotree with f3 f4: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
@@ -315,16 +325,17 @@
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
 (global-set-key (kbd "M-l") 'eval-buffer)
+;; do not kill back over new line with kill back word
+(global-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 ;; f12 to spellcheck
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; Horizontal split w alt -
-(global-set-key (kbd "M--") 'split-window-below)
-(global-set-key (kbd "M-k") 'split-window-right)
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
+(add-hook 'text-mode-hook #'prepare-text)
+(add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'python-mode-hook #'prepare-python)
 (add-hook 'dired-mode-hook #'prepare-dired)
@@ -340,6 +351,7 @@
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
+(defalias 'del 'delete-this-file)
 ;; custom faces, at the bottom bc was in the way
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

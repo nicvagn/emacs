@@ -1,4 +1,4 @@
-;;; evil-dvorak.el --- allows you to use evil with appropriate dvorak bindings
+;;; evil-dvorak.el -- evil with appropriate dvorak bindings and nrv custom
 ;; l-dvorak version by nrv
 ;; Copyright (C) 2015 Joshua Branson
 ;; Author: Joshua Branson
@@ -37,7 +37,6 @@
 
 ;;; Code:
 (require 'evil)
-
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
   :keymap (make-sparse-keymap))
@@ -62,11 +61,11 @@
   ;; after modes have been loaded, turn on evil
   (global-evil-dvorak-mode 1)
   (evil-mode t)
-
-  (evil-global-set-key 'insert (kbd "M-[") 'centaur-tabs-backward)
-  (evil-global-set-key 'insert (kbd "M-]") 'centaur-tabs-forward))
+  )
 
 (evil-define-key 'visual evil-dvorak-mode-map
+  (kbd "<tab>") #'evil-shift-right-line
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
@@ -74,16 +73,16 @@
 
 (evil-define-key 'normal evil-dvorak-mode-map
   ;; c and d switch
-  (kbd "c") 'evil-delete
+  (kbd "c") #'evil-delete
   ;; Miscellancus
   (kbd "t") #'evil-next-line
   (kbd "h") #'previous-line
   (kbd "d") #'backward-char
   (kbd "e") #'forward-char
-  "k" 'kill-line
-  "K" #'(lambda () (interactive)
-          "kill from point to the beginning of the line"
-          (kill-line 0))
+  (kbd "k") #'kill-line
+  (kbd "K") #'(lambda () (interactive)
+                "kill from point to the beginning of the line"
+                (kill-line 0))
 
   ;;move the cursor around
   (kbd "C-l") 'recenter-top-bottom
@@ -91,16 +90,21 @@
   ;;line manipulation
   (kbd "J") 'join-line
   (kbd "j") #'(lambda () (interactive)
-          "join this line at the end of the line below"
-          (join-line 1))
-  (kbd "C-c h") 'evil-open-below
-  (kbd "C-c t") 'evil-open-above
-  (kbd "<return>") 'newline-and-indent
-  "'" 'evil-goto-mark)
+                "join this line at the end of the line below"
+                (join-line 1))
+  (kbd "<return>") #'newline-and-indent
+  (kbd "<tab>") #'evil-shift-right-line
+  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line
+  (kbd "C-b") #'backward-char
+  (kbd "C-f") #'forward-char
+  (kbd "'") #'evil-goto-mark)
 
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "<backspace>") #'delete-backward-char
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line
@@ -108,6 +112,7 @@
   (kbd "C-b") #'backward-char
   (kbd "C-f") #'forward-char)
 
+;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
   :ensure t
   :config
@@ -128,10 +133,10 @@
     "<SPC>" 'evil-window-next)
   (global-evil-leader-mode))
 
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  ;; after modes have been loaded, turn on evil
-  (global-evil-dvorak-mode 1)
+;; set evil undo to one built into emacs
+(evil-set-undo-system 'undo-redo)
+;; after modes have been loaded, turn on evil
+(global-evil-dvorak-mode 1)
 (provide 'evil-dvorak-nrv)
 
-;;; evil-dvorak.el ends here
+;;; evil-dvorak-nrv.el ends here
