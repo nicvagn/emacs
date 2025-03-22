@@ -1,0 +1,4 @@
+[submodule "lisp/emacs-neotree"]
+	path = lisp/emacs-neotree
+	url = https://github.com/jaypei/emacs-neotree.git
+	branch = dev

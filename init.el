@@ -5,7 +5,8 @@
 ;;; code:
 (package-initialize) ;; this has to be done first, I think
 ;; add custom dir to load-path
-(add-to-list 'load-path "~/.config/emacs/lisp" )
+(add-to-list 'load-path "~/.config/emacs/lisp")
+(add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree")
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -52,6 +53,8 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ;; pop up file maneger theme
+ neo-theme (if (display-graphic-p) 'icons 'arrow
  ;; debugging + error handling
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs
@@ -111,6 +114,8 @@
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_elisp I found/require_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;; nerdtree for files
+(require 'neotree)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -303,6 +308,9 @@
 (require 'ace-flyspell)
 (ace-flyspell-setup)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; open neotree with f3 f4: (overshadows keyboard macro)
+(global-set-key (kbd "<f3>") 'neotree-toggle)
+(global-set-key (kbd "<f4>") 'neotree-toggle)
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
