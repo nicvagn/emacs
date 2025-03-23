@@ -11,7 +11,7 @@
 
 (defun sudo ()
   "edit the file in the buffer as root."
-  (interactive)
+  (interactive "sudo! editing as root")
   (sudo-find-file (buffer-file-name)))
 
 

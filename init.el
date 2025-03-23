@@ -54,7 +54,7 @@
 
 (setq
  ;; pop up file maneger theme
- neo-theme (if (display-graphic-p) 'icons 'arrow
+ neo-theme (if (display-graphic-p) 'icons 'arrow)
 ;; diff filenames with their path
  mode-line-buffer-identification
  (list 'buffer-file-name
@@ -110,7 +110,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; ace-flyspell
 (require 'ace-flyspell)
-(ace-flyspell-setup)
 ;; Indentation marks
 (require 'highlight-indentation)
 ;; nerdtree for files
@@ -140,11 +139,12 @@
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
 (auto-fill-mode t) ;; complete if only
-(savehist-mode) ;; save history
+(savehist-mode t) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
@@ -349,6 +349,20 @@
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'term-exec-hook   'with-editor-export-editor)
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
+;; Neotree -- popup file manager
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "t") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 (defalias 'del 'delete-this-file)
