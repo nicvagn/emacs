@@ -5,7 +5,8 @@
 ;;; code:
 (package-initialize) ;; this has to be done first, I think
 ;; add custom dir to load-path
-(add-to-list 'load-path "~/.config/emacs/lisp" )
+(add-to-list 'load-path "~/.config/emacs/lisp")
+(add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree")
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -26,11 +27,11 @@
    '("4876347a77e6f9b3afad962104962ea2b051922e325dcc24776974c256885e30" "131e0902a346cbd3cb1f944cdd6bd9bf0a3c5270528741ac8b303bd9b2819af5" "14d11e2acebfa2b3d779bf06142c2d23a4b0593706cf35303e8c60f9cfcfd3f8" "5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(dired-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
+   '(dired-mode eshell-mode vterm-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(projectile use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -52,7 +53,11 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
- mode-line-buffer-identification (list 'buffer-file-name
+ ;; pop up file maneger theme
+ neo-theme (if (display-graphic-p) 'icons 'arrow)
+ ;; diff filenames with their path
+ mode-line-buffer-identification
+ (list 'buffer-file-name
        (propertized-buffer-identification "%12f")
        (propertized-buffer-identification "%12b"))
  ;; debugging + error handling
@@ -103,11 +108,13 @@
  org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(require 'eshell-toggle)
 ;; ace-flyspell
 (require 'ace-flyspell)
-(ace-flyspell-setup)
 ;; visable indentation marks
 (require 'highlight-indentation)
+;; nerdtree for files
+(require 'neotree)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -133,11 +140,12 @@
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
 (auto-fill-mode t) ;; complete if only
-(savehist-mode) ;; save history
+(savehist-mode t) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
@@ -304,10 +312,15 @@
   :ensure t
   :config
   (global-treesit-auto-mode))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; open neotree with f3 f4: (overshadows keyboard macro)
+(global-set-key (kbd "<f3>") 'neotree-toggle)
+;; eshell popup term
+(global-set-key (kbd "<f4>") 'eshell-toggle)
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; alt - l (lisp) eval buffer
@@ -336,6 +349,20 @@
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'term-exec-hook   'with-editor-export-editor)
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
+;; Neotree -- popup file manager
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "t") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 (defalias 'del 'delete-this-file)
