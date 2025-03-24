@@ -188,6 +188,7 @@
 (use-package rescript-mode
   :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
   :ensure t
+  :defer t
   :after
   (eglot)
   :mode
