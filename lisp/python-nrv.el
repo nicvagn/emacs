@@ -37,5 +37,9 @@
         (list (lambda ()
                 (setq python-shell-interpreter "python3")))))
 
+;; sort python import's on save
+(require 'python-isort)
+(add-hook 'python-mode-hook 'python-isort-on-save-mode)
+
 (provide 'python-nrv)
 ;;; python-nrv.el ends here

@@ -124,6 +124,8 @@
 ;; delete-this-file -- delete the file in a buffer
 ;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
 ;;                                         kill newline.
+;; djoyner/evil-shift-****-visual -- do not loose selection when you shift
+;;                                                                  (L or R)
 (require 'functions-nrv)
 ;; mode hooks
 (require 'modes-nrv) ;; modular af

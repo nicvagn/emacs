@@ -23,6 +23,5 @@
 (global-set-key (kbd "C-c !") #'sudo)
 (global-set-key (kbd "C-c C-!") #'sudo-find-file)
 
-
 (provide 'sudo-nrv)
 ;;; sudo-nrv.el ends here

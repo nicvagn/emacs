@@ -63,7 +63,7 @@
   :group 'eshell-toggle)
 
 (defcustom eshell-toggle-default-directory
-  nil
+  "/home/nrv"
   "Default directory to open eshell at if buffer has no associated file."
   :type 'directory
   :group 'eshell-toggle)
@@ -73,7 +73,7 @@
 (defalias 'eshell-toggle-use-projectile-root 'eshell-toggle-find-project-root-package)
 
 (defcustom eshell-toggle-find-project-root-package
-  nil
+  'project
   "To open an eshell at project root use on of the following options.
 set to `'project` to use the built-in `project.el`,
 if set to `'projectile` it uses `projectile`,
@@ -110,7 +110,7 @@ Bind `eshell-toggle' in `term-raw-map'."
   :group 'eshell-toggle)
 
 (defcustom eshell-toggle-use-git-root
-  nil
+  t
   "Open eshell at git root directory, if exists."
   :type '(choice (const :tag "Disabled" nil)
                  (const :tag "Enabled" t))
