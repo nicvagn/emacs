@@ -39,12 +39,12 @@
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Use spaces not tabs
-(setq-default indent-tabs-mode nil)
 
 ;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
+              ;; Use spaces not tabs
+              indent-tabs-mode nil
               cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
@@ -53,13 +53,11 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ;; display full path in frame title
+ frame-title-format '("%f")
+ mode-line-buffer-identification '("%f")
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
- ;; diff filenames with their path
- mode-line-buffer-identification
- (list 'buffer-file-name
-       (propertized-buffer-identification "%12f")
-       (propertized-buffer-identification "%12b"))
  ;; debugging + error handling
  debug-on-error nil ;; no backtraces
  user-error-exceptions nil ;; treat errs as real errs

@@ -16,6 +16,8 @@
 (require 'rainbow-delimiters)
 
 (defun prepare-text ()
+  "Prepare all text buffers"
+  ;; diff filenames with their path
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1))
 
