@@ -23,19 +23,20 @@
 
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
+;; editing
+(defun djoyner/evil-shift-left-visual ()
+  "Evil shift left, but do not loose selection"
+  (interactive)
+  (call-interactively 'evil-shift-left)
+  (evil-normal-state)
+  (evil-visual-restore))
 
-(defun delete-this-file (&optional forever)
-  "Delete the file associated with `current-buffer'.
-If FOREVER is non-nil, the file is deleted without being moved to trash."
-  (interactive "P")
-  (when-let ((file (or (buffer-file-name)
-                       (user-error "Current buffer is not visiting a file")))
-             ((y-or-n-p "Delete this file? ")))
-    (delete-file file (not forever))
-    (kill-buffer (current-buffer))))
+(defun djoyner/evil-shift-right-visual ()
+  "Evil shift right, but do not loose selection"
+  (interactive)
+  (call-interactively 'evil-shift-right)
+  (evil-normal-state)
+  (evil-visual-restore))
 
 (defun tjwh/backward-kill-word-on-this-line ()
   "Delete previous word on this line or leave point at the beginning of the line"
@@ -53,6 +54,21 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
             (goto-char beg-line-point)
           (backward-kill-word 1))
        ))))
+
+;; non editing
+(defun nrv-error-handler (err)
+  "Handle errors by printing them to minibuffer (ERR: error)."
+  (message "Error: %S" err))
+
+(defun delete-this-file (&optional forever)
+  "Delete the file associated with `current-buffer'.
+If FOREVER is non-nil, the file is deleted without being moved to trash."
+  (interactive "P")
+  (when-let ((file (or (buffer-file-name)
+                       (user-error "Current buffer is not visiting a file")))
+             ((y-or-n-p "Delete this file? ")))
+    (delete-file file (not forever))
+    (kill-buffer (current-buffer))))
 
 (provide 'functions-nrv)
 

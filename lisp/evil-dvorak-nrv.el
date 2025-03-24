@@ -63,9 +63,12 @@
   (evil-mode t)
   )
 
+;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
-  (kbd "<tab>") #'evil-shift-right-line
-  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "<tab>") #'djoyner/evil-shift-right-visual
+  (kbd "<backtab>") #'djoyner/evil-shift-left-visual
+  (kbd ">") #'djoyner/evil-shift-right-visual
+  (kbd "<") #'djoyner/evil-shift-left-visual
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
@@ -83,18 +86,16 @@
   (kbd "K") #'(lambda () (interactive)
                 "kill from point to the beginning of the line"
                 (kill-line 0))
-
   ;;move the cursor around
   (kbd "C-l") 'recenter-top-bottom
-
   ;;line manipulation
   (kbd "J") 'join-line
   (kbd "j") #'(lambda () (interactive)
                 "join this line at the end of the line below"
                 (join-line 1))
   (kbd "<return>") #'newline-and-indent
-  (kbd "<tab>") #'evil-shift-right-line
-  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "<tab>") #'evil-shift-right
+  (kbd "<backtab>") #'evil-shift-left
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
@@ -104,7 +105,8 @@
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
-  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "<backtab>") #'evil-shift-left
+  (kbd "C-<tab>") #'evil-shift-right
   (kbd "<backspace>") #'delete-backward-char
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line

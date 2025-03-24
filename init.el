@@ -52,8 +52,7 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
- mode-line-buffer-identification
- (list 'buffer-file-name
+ mode-line-buffer-identification (list 'buffer-file-name
        (propertized-buffer-identification "%12f")
        (propertized-buffer-identification "%12b"))
  ;; debugging + error handling
@@ -107,7 +106,7 @@
 ;; ace-flyspell
 (require 'ace-flyspell)
 (ace-flyspell-setup)
-;; Indentation marks
+;; visable indentation marks
 (require 'highlight-indentation)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
@@ -143,8 +142,8 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-
 (use-package avy
+  ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
   :ensure t)
 
 ;; --- emacs lsp ---
@@ -305,12 +304,9 @@
   :ensure t
   :config
   (global-treesit-auto-mode))
-
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
@@ -396,4 +392,5 @@
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 (provide 'init)
+
 ;;; init.el ends here
