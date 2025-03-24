@@ -1,6 +1,6 @@
-;;; modes-nrv.el --- My emacs modes, mode keymaps
+;;; prepare-nrv.el --- My prepare for mode functions
 ;;; commentary:
-;; mostly keymaps and tab width that are mode specific
+;; mostly for keymaps and tab width that are mode specific
 
 ;;; code:
 (defvar python-tab-width 4 "Tab width for python source files.")
@@ -17,7 +17,7 @@
 
 (defun prepare-text ()
   "Prepare all text buffers"
-  ;; diff filenames with their path
+  (setq mode-line-buffer-identification '("%f"))
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1))
 
@@ -100,8 +100,8 @@
   (prepare-text)
 )
 
-(provide 'modes-nrv)
+(provide 'prepare-nrv)
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars dired-mode-map evil-shift-width)
 ;; End:
-;;; modes-nrv.el ends here
+;;; prepare-nrv.el ends here

@@ -45,7 +45,8 @@
               c-basic-offset tab-width
               ;; Use spaces not tabs
               indent-tabs-mode nil
-              cperl-indent-level tab-width)
+              cperl-indent-level tab-width
+              mode-line-buffer-identification '("%f"))
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 
@@ -126,7 +127,7 @@
 ;;                                                                  (L or R)
 (require 'functions-nrv)
 ;; mode hooks
-(require 'modes-nrv) ;; modular af
+(require 'prepare-nrv) ;; modular af
 ;; org
 (require 'org)
 ;; my own custom vterm
@@ -331,7 +332,6 @@
 (global-set-key (kbd "<f9>") 'vterm)
 ;; f12 to spellcheck
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
-;; Horizontal split w alt -
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'text-mode-hook #'prepare-text)
@@ -405,7 +405,7 @@
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
 
 (defun force-backup-of-buffer ()
-  "Make a special 'per session' backup at the first save of each Emacs session."
+  "Make a special per session backup at the first save of each Emacs session."
   (when (not buffer-backed-up)
     ;; Override the default parameters for per-session backups.
     (let ((backup-directory-alist '(("" . "~/.config/emacs/backups/per-session")))
