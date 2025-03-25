@@ -145,6 +145,7 @@
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
+(global-display-line-numbers-mode 1) ;; global display line numbers
 (auto-fill-mode t) ;; complete if only
 (savehist-mode t) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
