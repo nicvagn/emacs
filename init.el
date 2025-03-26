@@ -60,7 +60,7 @@
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error nil ;; no backtraces
+ debug-on-error t ;; yes backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
@@ -145,7 +145,6 @@
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
-(global-display-line-numbers-mode 1) ;; global display line numbers
 (auto-fill-mode t) ;; complete if only
 (savehist-mode t) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
@@ -337,13 +336,20 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; hooks are defined in nrv-modes.el
 (add-hook 'text-mode-hook #'prepare-text)
+(add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
+(add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'prepare-prog)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'python-mode-hook #'prepare-python)
+(add-hook 'python-mode-hook 'display-line-numbers-mode)
 (add-hook 'dired-mode-hook #'prepare-dired)
 (add-hook 'css-mode-hook #'prepare-css)
+(add-hook 'css-mode-hook 'display-line-numbers-mode)
 (add-hook 'html-mode-hook #'prepare-html)
+(add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)
+(add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;; export the EDITOR env var when in ***mode***
