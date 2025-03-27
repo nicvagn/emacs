@@ -49,6 +49,7 @@
   (define-key 'dired-ring-map (kbd "x") #'delete-window)
   (define-key 'dired-ring-map (kbd "k") #'kill-this-buffer)
  )
+
 ;; ---- css mode ----
 (defun prepare-css ()
   "Setup Emacs for css editing."

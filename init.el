@@ -360,6 +360,7 @@
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
           (lambda ()
+            (evil-dvorak-mode -1) ;; buffer local wen set
             (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
             (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
             (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
