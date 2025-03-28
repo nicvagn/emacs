@@ -53,7 +53,7 @@
         (if (> beg-line-point backward-word-point)
             (goto-char beg-line-point)
           (backward-kill-word 1))
-       ))))
+        ))))
 
 ;; non editing
 (defun nrv-error-handler (err)
@@ -69,6 +69,13 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
              ((y-or-n-p "Delete this file? ")))
     (delete-file file (not forever))
     (kill-buffer (current-buffer))))
+
+(defun add-dirtrack ()
+  "Show the current directory in the mode-line."
+  (interactive)
+  (add-to-list 'mode-line-buffer-identification
+               '(:propertize (" " default-directory " ") face dired-directory)))
+
 
 (provide 'functions-nrv)
 

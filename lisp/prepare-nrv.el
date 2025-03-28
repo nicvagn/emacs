@@ -14,12 +14,15 @@
 
 (require 'highlight-indentation) ;; for tab highlights
 (require 'rainbow-delimiters)
+(require 'minibuffer-complete-cycle) ;; for cycling backwards
+(require 'dired)
+(require 'minor-modes-nrv)
 
 (defun prepare-text ()
   "Prepare all text buffers"
-  (setq mode-line-buffer-identification '("%f"))
   (rainbow-delimiters-mode 1)
-  (highlight-indentation-mode 1))
+  (highlight-indentation-mode 1)
+  (mode-line-dirtrack-mode 1))
 
 (defun prepare-lisp ()
   "Prepare lisp to be eddited how I like."
@@ -30,7 +33,6 @@
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
-  (require 'dired)
   (define-prefix-command 'dired-ring-map)
   (define-key dired-mode-map (kbd "h") 'dired-previous-line)
   (define-key dired-mode-map (kbd "t") 'dired-next-line)
@@ -66,8 +68,8 @@
               tab-width python-tab-width
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
-  ('python-isort-on-save-mode t)
-  ('eglot-ensure t)
+  ('python-isort-on-save-mode 1)
+  ('eglot-ensure 1)
   (prepare-text)
 )
 

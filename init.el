@@ -46,8 +46,7 @@
               c-basic-offset tab-width
               ;; Use spaces not tabs
               indent-tabs-mode nil
-              cperl-indent-level tab-width
-              mode-line-buffer-identification '("%f"))
+              cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
 
@@ -60,7 +59,6 @@
  python-shell-interpreter-args "-i"
  ;; display full path in frame title
  frame-title-format '("%f")
- mode-line-buffer-identification '("%f")
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
@@ -82,7 +80,9 @@
  ;; corfu ant jedi complete
  jedi:complete-on-dot t
  completion-auto-help t
- completion-cycle-threshold 1 ;; cycle completions NEVER
+ ;; cycle through completions with tab
+ completion-cycle-threshold t
+ minibuffer-complete-cycle 'auto  ;; also do so in minibuffer... see minibuffer-complete-cycle.el
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
@@ -135,6 +135,8 @@
 (require 'functions-nrv)
 ;; mode hooks
 (require 'prepare-nrv) ;; modular af
+;; my minor modes
+(require 'minor-modes-nrv)
 ;; org
 (require 'org)
 ;; my own custom vterm
@@ -147,6 +149,8 @@
 (require 'fzf)
 ;; evil devorak costom evil and keymap
 (require 'evil-dvorak-nrv)
+;; minibuffer completion cycling for cycling completions backward
+(require 'minibuffer-complete-cycle)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
@@ -341,7 +345,7 @@
 ;; remove hooks
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-;; hooks are defined in nrv-modes.el
+;; prepaire functions  are defined in prepaire-nrv.el
 (add-hook 'text-mode-hook #'prepare-text)
 (add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
