@@ -359,15 +359,21 @@
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; export the EDITOR env var when in ***mode***
+;; shell mode, vterm, eshell hooks
 (add-hook 'shell-mode-hook  'with-editor-export-editor)
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'term-exec-hook   'with-editor-export-editor)
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
+;; set *shell modes to use evil emacs state
+(dolist (p '((shell-mode . emacs)
+             (vterm-mode . emacs)
+             (eshell-mode . emacs)))
+  (evil-set-initial-state (car p) (cdr p)))
+
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
           (lambda ()
-            (evil-dvorak-mode -1) ;; buffer local wen set
+            (evil-dvorak-mode -1) ;; buffer local when set
             (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
             (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
             (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
