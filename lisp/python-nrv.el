@@ -23,6 +23,15 @@
 ;; Open emacs M-x pyvenv-activate RET dir_to_the_environment/env
 ;;; Code:
 
+(use-package reformatter
+  :ensure t)
+
+;; elpy python "IDE"
+(use-package elpy
+  :ensure t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
+
 (use-package pyvenv
   :ensure t
   :config
@@ -31,14 +40,38 @@
   ;; Set correct Python interpreter
   (setq pyvenv-post-activate-hooks
         (list (lambda ()
-                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
 
   (setq pyvenv-post-deactivate-hooks
         (list (lambda ()
-                (setq python-shell-interpreter "python3")))))
+                (setq python-shell-interpreter "python")))))
+
+;; I do not know if this is required
+(require 'reformatter)
+
+(defgroup python-isort nil
+  "Python isort."
+  :group 'python
+  :prefix "python-isort-")
+
+(defcustom python-isort-command "isort"
+  "The name or the path to the `isort' command."
+  :type 'string
+  :group 'python-isort)
+
+(defcustom python-isort-arguments '("--stdout" "--atomic" "-")
+  "Arguments to `python-isort-command'."
+  :type '(repeat string)
+  :group 'python-isort)
+
+;;;###autoload (autoload 'python-isort-buffer "python-isort" nil t)
+;;;###autoload (autoload 'python-isort-region "python-isort" nil t)
+;;;###autoload (autoload 'python-isort-on-save-mode "python-isort" nil t)
+(reformatter-define python-isort
+  :program python-isort-command
+  :args python-isort-arguments)
 
 ;; sort python import's on save
-(require 'python-isort)
 (add-hook 'python-mode-hook 'python-isort-on-save-mode)
 
 (provide 'python-nrv)

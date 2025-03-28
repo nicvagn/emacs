@@ -31,6 +31,8 @@
 ;;
 
 ;;; Code:
+(use-package reformatter
+  :ensure t)
 
 (require 'reformatter)
 

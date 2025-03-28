@@ -31,10 +31,11 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
+ '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -54,6 +55,9 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ;; python for elpy
+ python-shell-interpreter "python"
+ python-shell-interpreter-args "-i"
  ;; display full path in frame title
  frame-title-format '("%f")
  mode-line-buffer-identification '("%f")
@@ -107,6 +111,9 @@
  org-image-actual-width nil)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; find-file-in-project.el -- elpy wants it
+(require 'find-file-in-project)
+;; toggle eshell popup
 (require 'eshell-toggle)
 ;; ace-flyspell
 (require 'ace-flyspell)
@@ -315,9 +322,6 @@
   :config
   (global-treesit-auto-mode))
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_Global (ish) hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; remove the legacy hook from flymake
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; open neotree with f3 f4: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
@@ -334,6 +338,9 @@
 ;; f12 to spellcheck
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; remove hooks
+;; remove the legacy hook from flymake
+(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;; hooks are defined in nrv-modes.el
 (add-hook 'text-mode-hook #'prepare-text)
 (add-hook 'text-mode-hook 'display-line-numbers-mode)

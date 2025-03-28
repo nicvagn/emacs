@@ -58,9 +58,6 @@
   :config
   ;; set evil undo to one built into emacs
   (evil-set-undo-system 'undo-redo)
-  ;; after modes have been loaded, turn on evil
-  (global-evil-dvorak-mode 1)
-  (evil-mode t)
   )
 
 ;; The djoyner/** keep visual selection when indenting
@@ -133,7 +130,11 @@
     "h" 'evil-open-below
     "t" 'evil-open-above
     "<SPC>" 'evil-window-next)
-  (global-evil-leader-mode))
+  (global-evil-leader-mode)
+  ;; after evil leader has been loaded, turn on evil.
+  ;; So leader is availible in all buffers
+  (global-evil-dvorak-mode 1)
+  (evil-mode t))
 
 ;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)
