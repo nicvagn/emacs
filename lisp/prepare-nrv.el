@@ -16,13 +16,12 @@
 (require 'rainbow-delimiters)
 (require 'minibuffer-complete-cycle) ;; for cycling backwards
 (require 'dired)
-(require 'minor-modes-nrv)
 
 (defun prepare-text ()
   "Prepare all text buffers"
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
-  (mode-line-dirtrack-mode 1))
+  (dir-track))
 
 (defun prepare-lisp ()
   "Prepare lisp to be eddited how I like."

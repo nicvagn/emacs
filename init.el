@@ -82,7 +82,7 @@
  completion-auto-help t
  ;; cycle through completions with tab
  completion-cycle-threshold t
- minibuffer-complete-cycle 'auto  ;; also do so in minibuffer... see minibuffer-complete-cycle.el
+ minibuffer-complete-cycle t  ;; see minibuffer-complete-cycle.el
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
@@ -125,7 +125,7 @@
 (require 'sudo-nrv)
 ;; pretty colours
 (require 'rainbow-delimiters)
-;; functions-nrv -- useful functions?
+;;; functions-nrv -- useful functions?
 ;; nrv-error-handler -- I don't honestly know handles errors?
 ;; delete-this-file -- delete the file in a buffer
 ;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
@@ -136,7 +136,7 @@
 ;; mode hooks
 (require 'prepare-nrv) ;; modular af
 ;; my minor modes
-(require 'minor-modes-nrv)
+;; (require 'minor-modes-nrv) -- rmed because I could not figure
 ;; org
 (require 'org)
 ;; my own custom vterm
@@ -147,7 +147,7 @@
 (require 'python-nrv)
 ;; fzf.el -- includes fzf-git and fzf-find-file
 (require 'fzf)
-;; evil devorak costom evil and keymap
+;; evil dvorak custom evil and keymap
 (require 'evil-dvorak-nrv)
 ;; minibuffer completion cycling for cycling completions backward
 (require 'minibuffer-complete-cycle)
@@ -337,6 +337,7 @@
 (global-set-key (kbd "M-l") 'eval-buffer)
 ;; do not kill back over new line with kill back word
 (global-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
+(global-set-key (kbd "C-c d") #'dir-track)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 ;; f12 to spellcheck
