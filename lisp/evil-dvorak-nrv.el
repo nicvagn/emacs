@@ -57,8 +57,7 @@
   :ensure t
   :config
   ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo)
-  )
+  (evil-set-undo-system 'undo-redo))
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
@@ -91,8 +90,8 @@
                 "join this line at the end of the line below"
                 (join-line 1))
   (kbd "<return>") #'newline-and-indent
-  (kbd "<tab>") #'evil-shift-right
-  (kbd "<backtab>") #'evil-shift-left
+  (kbd "<tab>") #'evil-shift-right-line
+  (kbd "<backtab>") #'evil-shift-left-line
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
   (kbd "C-b") #'backward-char
@@ -103,8 +102,9 @@
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
   (kbd "<backtab>") #'evil-shift-left
-  (kbd "C-<tab>") #'evil-shift-right
+  (kbd "C-<tab>") #'evil-shift-left-line
   (kbd "<backspace>") #'delete-backward-char
+  (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line
   (kbd "<return>") #'newline-and-indent
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
@@ -130,11 +130,11 @@
     "h" 'evil-open-below
     "t" 'evil-open-above
     "<SPC>" 'evil-window-next)
-  (global-evil-leader-mode)
+  (global-evil-leader-mode 1)
   ;; after evil leader has been loaded, turn on evil.
   ;; So leader is availible in all buffers
   (global-evil-dvorak-mode 1)
-  (evil-mode t))
+  (evil-mode 1))
 
 ;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)

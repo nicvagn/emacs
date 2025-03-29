@@ -31,7 +31,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(smart-hungry-delete elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -165,6 +165,13 @@
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
   :ensure t)
+;; smart-hungry-delete for better del behavior for whitespace
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (([remap backward-delete-char-untabify] . smart-hungry-delete-backward-char)
+	       ([remap delete-backward-char] . smart-hungry-delete-backward-char)
+	       ([remap delete-char] . smart-hungry-delete-forward-char))
+  :init (smart-hungry-delete-add-default-hooks))
 
 ;; --- emacs lsp ---
 (use-package eglot
