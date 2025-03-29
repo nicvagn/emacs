@@ -81,7 +81,7 @@
  jedi:complete-on-dot t
  completion-auto-help t
  ;; cycle through completions with tab
- completion-cycle-threshold t
+ completion-cycle-threshold 3
  minibuffer-complete-cycle t  ;; see minibuffer-complete-cycle.el
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
