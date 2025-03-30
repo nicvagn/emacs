@@ -15,19 +15,23 @@
 (require 'highlight-indentation) ;; for tab highlights
 (require 'rainbow-delimiters)
 (require 'dired)
+(require 'functions-nrv)
 
 (defun prepare-text ()
   "Prepare all text buffers"
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
-  (dir-track))
+  (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
+ )
 
 (defun prepare-lisp ()
   "Prepare lisp to be eddited how I like."
   (setq-local evil-shift-width lisp-tab-width
         tab-width lisp-tab-width
         c-basic-offset lisp-tab-width)
-  (prepare-text))
+  (local-set-key (kbd "M-l") 'eval-buffer)
+  (prepare-text)
+ )
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
@@ -57,7 +61,7 @@
         tab-width css-tab-width
         c-basic-offset css-tab-width)
   (prepare-text)
-)
+ )
 ;; ---- python mode ----
 (defun prepare-python ()
   "Prepare to edit python code."
@@ -78,7 +82,7 @@
         evil-shift-width web-tab-width
         c-basic-offset web-tab-width)
   (prepare-text)
-)
+ )
 
 ;; ---- html stuff ----
 (defun prepare-html ()
@@ -87,7 +91,7 @@
         evil-shift-width html-tab-width
         c-basic-offset html-tab-width)
   (prepare-text)
-)
+ )
 
 ;; ---- programming mode ----
 (defun prepare-prog ()
@@ -99,6 +103,12 @@
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)
+ )
+
+(defun prepare-minibuffer ()
+  "Prepare minibuffer keymaps"
+  (local-set-key (kbd "C-<tab>") 'next-line)
+  (local-set-key (kbd "<backtab>") 'previous-line)
 )
 
 (provide 'prepare-nrv)

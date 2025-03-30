@@ -74,7 +74,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
   "Show the current directory in the mode-line."
   (interactive)
   (add-to-list 'mode-line-buffer-identification
-               '(:propertize (" " default-directory) face mode-line)))
+               '(:propertize ("" default-directory) face mode-line)))
 
 
 (provide 'functions-nrv)

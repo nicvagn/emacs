@@ -78,11 +78,9 @@
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
- ;; corfu ant jedi complete
- jedi:complete-on-dot t
- completion-auto-help t
  ;; completions customizing
- completion-cycle-threshold 2 ;; cycle through completions when 3 or less
+ completion-auto-help
+ completion-cycle-threshold 1 ;; cycle through completions when 1 or less
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
@@ -109,9 +107,6 @@
  next-error-function 'flymake-goto-next-error
  ;; org mode
  org-image-actual-width nil)
-;; what the man suggested
-(setopt ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) ")
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; find-file-in-project.el -- elpy wants it
@@ -152,8 +147,6 @@
 (require 'fzf)
 ;; evil dvorak custom evil and key-map
 (require 'evil-dvorak-nrv)
-;; from lisp/swiper git dir -- autocomplete 
-(require 'ivy)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
@@ -164,6 +157,7 @@
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
+(rainbow-delimiters-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
@@ -337,10 +331,6 @@
 (global-set-key (kbd "<f4>") 'eshell-toggle)
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
-;; alt - l (lisp) eval buffer
-(global-set-key (kbd "M-l") 'eval-buffer)
-;; do not kill back over new line with kill back word
-(global-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
 (global-set-key (kbd "C-c d") #'dir-track)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
@@ -450,5 +440,4 @@
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 (provide 'init)
-
 ;;; init.el ends here
