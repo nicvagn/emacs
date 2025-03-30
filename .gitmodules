@@ -2,3 +2,6 @@
 	path = lisp/emacs-neotree
 	url = https://github.com/jaypei/emacs-neotree.git
 	branch = dev
+[submodule "lisp/swiper"]
+	path = lisp/swiper
+	url = https://github.com/abo-abo/swiper.git

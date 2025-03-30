@@ -14,7 +14,6 @@
 
 (require 'highlight-indentation) ;; for tab highlights
 (require 'rainbow-delimiters)
-(require 'minibuffer-complete-cycle) ;; for cycling backwards
 (require 'dired)
 
 (defun prepare-text ()
