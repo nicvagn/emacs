@@ -32,7 +32,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(avy elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(ido-completing-read+ ido-vertical-mode flx-ido flyspell-correct-popup avy elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -105,6 +105,8 @@
  tramp-allow-unsafe-temporary-files t
  ;; flymake
  next-error-function 'flymake-goto-next-error
+ ;; ido
+ ido-vertical-define-keys 'C-n-C-p-up-down-left-right
  ;; org mode
  org-image-actual-width nil)
 
@@ -152,16 +154,50 @@
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
-(auto-fill-mode t) ;; complete if only
-(savehist-mode t) ;; save history
+(auto-fill-mode 1) ;; complete if only
+(savehist-mode 1) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
   :ensure t)
+
+(use-package ido
+  :ensure t
+  :config
+  (setq ido-everywhere t
+        ido-virtual-buffers t
+        ido-use-faces t
+        ido-default-buffer-method 'selected-window
+        ido-auto-merge-work-directories-length -1)
+  (ido-mode))
+
+(use-package flx-ido
+  :ensure t
+  :requires ido
+  :config (flx-ido-mode))
+
+(use-package ido-vertical-mode
+  :ensure t
+  :requires ido
+  :config (ido-vertical-mode))
+
+(use-package ido-completing-read+ :requires ido
+  :ensure t
+  :config
+  (setq ido-ubiquitous-max-items 50000
+        ido-cr+-max-items 50000)
+  (ido-ubiquitous-mode +1))
+
+(use-package flyspell-correct-popup
+  :bind ("C-M-;" . flyspell-correct-wrapper)
+  :ensure t
+  :init
+  (setq flyspell-correct-interface #'flyspell-correct-popup))
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -386,11 +422,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
-  (around ibuffer-point-to-most-recent) ()
-  "Open ibuffer with cursor pointed to most recent buffer name."
-  (let ((recent-buffer-name (buffer-name)))
-    ad-do-it
-    (ibuffer-jump-to-buffer recent-buffer-name)))
+    (around ibuffer-point-to-most-recent) ()
+    "Open ibuffer with cursor pointed to most recent buffer name."
+    (let ((recent-buffer-name (buffer-name)))
+      ad-do-it
+      (ibuffer-jump-to-buffer recent-buffer-name)))
 (ad-activate 'ibuffer)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove hooks

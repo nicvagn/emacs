@@ -89,7 +89,8 @@
   (kbd "j") #'(lambda () (interactive)
                 "join this line at the end of the line below"
                 (join-line 1))
-  (kbd "<return>") #'newline-and-indent
+  (kbd "<return>") #'nrv/normal-newline
+  (kbd "C-<return>") #'newline-and-indent
   (kbd "<tab>") #'evil-shift-right-line
   (kbd "<backtab>") #'evil-shift-left-line
   (kbd "C-n") #'evil-next-line

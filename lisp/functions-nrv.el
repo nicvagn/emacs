@@ -55,6 +55,12 @@
           (backward-kill-word 1))
         ))))
 
+(defun nrv/normal-newline ()
+  "Create a newline on next line, without breaking the line your on."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
 ;; non editing
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
