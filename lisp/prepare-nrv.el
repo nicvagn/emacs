@@ -3,14 +3,14 @@
 ;; mostly for keymaps and tab width that are mode specific
 
 ;;; code:
-(defvar python-tab-width 4 "Tab width for python source files.")
-(defvar java-tab-width 4 "Tab width for java source files.")
-(defvar css-tab-width 2 "Tab width for css source files.")
-(defvar js-tab-width 2 "Tab width for js source files.")
-(defvar web-tab-width 2 "Tab width for web files.")
-(defvar html-tab-width 2 "Tab width for html files.")
-(defvar prog-tab-width 4 "Tab width for general programming files.")
-(defvar lisp-tab-width 2 "Tab width for Lisp files.")
+(defconst python-tab-width 4 "Tab width for python source files.")
+(defconst java-tab-width 4 "Tab width for java source files.")
+(defconst css-tab-width 2 "Tab width for css source files.")
+(defconst js-tab-width 2 "Tab width for js source files.")
+(defconst web-tab-width 2 "Tab width for web files.")
+(defconst html-tab-width 2 "Tab width for html files.")
+(defconst prog-tab-width 4 "Tab width for general programming files.")
+(defconst lisp-tab-width 2 "Tab width for Lisp files.")
 
 (require 'highlight-indentation) ;; for tab highlights
 (require 'rainbow-delimiters)
@@ -22,6 +22,12 @@
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
+ )
+
+(defun prepare-magit ()
+  "Prepaire to enter magit"
+  (local-set-key (kbd "t") #'magit-next-line)
+  (local-set-key (kbd "h") #'magit-previous-line)
  )
 
 (defun prepare-lisp ()
@@ -107,8 +113,8 @@
 
 (defun prepare-minibuffer ()
   "Prepare minibuffer keymaps"
-  (local-set-key (kbd "C-<tab>") 'next-line)
-  (local-set-key (kbd "<backtab>") 'previous-line)
+    (define-key minibuffer-local-completion-map (kbd "C-<tab>") 'minibuffer-next-completion)
+    (define-key minibuffer-local-completion-map (kbd "<backtab>") 'minibuffer-previous-completion)
 )
 
 (provide 'prepare-nrv)

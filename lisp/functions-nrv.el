@@ -76,6 +76,10 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
   (add-to-list 'mode-line-buffer-identification
                '(:propertize ("" default-directory) face mode-line)))
 
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (provide 'functions-nrv)
 
