@@ -32,7 +32,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(ido-completing-read+ ido-vertical-mode flx-ido flyspell-correct-popup avy elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode flymake-cspell treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(ido-completing-read+ ido-vertical-mode flx-ido flyspell-correct-popup avy elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
      (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
@@ -107,6 +107,7 @@
  next-error-function 'flymake-goto-next-error
  ;; ido
  ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+ magit-completing-read-function 'magit-ido-completing-read
  ;; org mode
  org-image-actual-width nil)
 
@@ -174,20 +175,32 @@
         ido-use-faces t
         ido-default-buffer-method 'selected-window
         ido-auto-merge-work-directories-length -1)
-  (ido-mode))
+  (ido-mode 1))
 
 (use-package flx-ido
   :ensure t
   :requires ido
-  :config (flx-ido-mode))
+  :config (flx-ido-mode 1))
 
 (use-package ido-vertical-mode
   :ensure t
   :requires ido
-  :config (ido-vertical-mode))
+  :after ido
+  :config
+  (setq ido-use-faces t)
+    (set-face-attribute 'ido-vertical-first-match-face nil
+                    :background nil
+                    :foreground "orange")
+    (set-face-attribute 'ido-vertical-only-match-face nil
+                    :background nil
+                    :foreground nil)
+    (set-face-attribute 'ido-vertical-match-face nil
+                    :foreground nil)
+    (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
   :ensure t
+  :requires ido
   :config
   (setq ido-ubiquitous-max-items 50000
         ido-cr+-max-items 50000)
@@ -307,11 +320,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :config
   (which-key-mode))
 
-;; flymake-codespell - must have codespell installed on your sys
-(use-package flymake-codespell
-  :ensure t
-  :hook (prog-mode . flymake-codespell-setup-backend))
-
 ;; corfu autocomplete ui
 (use-package corfu
   :ensure t
@@ -419,7 +427,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; better buffer summary
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
+;; ido find file
+(global-set-key (kbd "C-x C-f") #'ido-find-file)
+;; find the definition with eglot
+(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
     (around ibuffer-point-to-most-recent) ()
