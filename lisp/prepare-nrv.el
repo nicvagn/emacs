@@ -16,6 +16,8 @@
 (require 'rainbow-delimiters)
 (require 'dired)
 (require 'functions-nrv)
+(require 'ido)
+(require 'ido-vertical-mode)
 
 (defun prepare-text ()
   "Prepare all text buffers"
@@ -111,11 +113,17 @@
   (prepare-text)
  )
 
-(defun prepare-minibuffer ()
-  "Prepare minibuffer keymaps"
-    (define-key minibuffer-local-completion-map (kbd "C-<tab>") 'minibuffer-next-completion)
-    (define-key minibuffer-local-completion-map (kbd "<backtab>") 'minibuffer-previous-completion)
-)
+(defun prepare-ido ()
+  "Prepare ido keymaps"
+  (define-key ido-completion-map (kbd "<tab>") #'ido-complete)
+  (define-key ido-completion-map (kbd "C-<tab>") #'ido-next-match)
+  (define-key ido-completion-map (kbd "<backtab>") #'ido-prev-match)
+  (define-key ido-completion-map (kbd "<f5>") #'ido-exit-minibuffer)
+  (define-key ido-completion-map (kbd "<f6>") #'ido-next-match)
+  (define-key ido-completion-map (kbd "<f7>") #'ido-prev-match)
+  (define-key ido-completion-map (kbd "<f8>") #'abort-minibuffers)
+ )
+
 
 (provide 'prepare-nrv)
 ;; Local Variables:

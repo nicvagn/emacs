@@ -1,0 +1,26 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/nrv/emacs/" . "lisp/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/nrv/emacs/lisp/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "prepare-nrv.el"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/nrv/emacs/lisp/" (26609 57268 476360 256000) "7" "igscicles/" "evil-dvorak-nrv.el" "minor-modes-nrv.el" "emacs-neotree/" "highlight-indentation.el" "yasnippet-capf.el" "fzf.el" "ace-flyspell.el" "format-nrv.el" "python-nrv.el" "vterm-nrv.el" "prepare-nrv.el" "functions-nrv.el" "find-file-in-project.el" "eshell-toggle.el" "sudo-nrv.el" "reformatter.el" "rainbow-delimiters.el" "evil-leader.el" "../" "./")
+
+ ("/home/nrv/emacs/" (26609 57401 931372 363000) ".gitmodules" "config_utils/" "nrv-dark-theme.el" "tramp" "auto-save/" "init.el" "personal_dictionary" ".gitignore" "eshell/" "projects" "history" "elpa/" "tree-sitter/" "url/" "backups/" "elpy/" "lisp/" "snippets/" "transient/" "auto-save-list/" "eln-cache/" ".python-environments/" ".git/" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

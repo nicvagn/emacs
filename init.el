@@ -161,7 +161,9 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
-
+;; ido, but vertigo
+(ido-mode 1)
+(ido-vertical-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
@@ -471,6 +473,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
              (vterm-mode . emacs)
              (eshell-mode . emacs)))
   (evil-set-initial-state (car p) (cdr p)))
+
+;; prepaire ido
+(add-hook 'ido-setup-hook #'prepare-ido)
 
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
