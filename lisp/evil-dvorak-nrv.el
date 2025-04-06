@@ -102,8 +102,8 @@
 (evil-define-key 'insert evil-dvorak-mode-map
   (kbd "ESC") #'evil-normal-state
   (kbd "C-d") #'delete-char
-  (kbd "<backtab>") #'evil-shift-left
-  (kbd "C-<tab>") #'evil-shift-left-line
+  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "C-<tab>") #'evil-indent
   (kbd "<backspace>") #'delete-backward-char
   (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line
   (kbd "<return>") #'newline-and-indent

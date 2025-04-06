@@ -476,6 +476,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (evil-set-initial-state (car p) (cdr p)))
 
 ;; prepaire ido
+;; ido everywhere messes with dired in vertical ido-mode
+(add-hook 'dired-mode-hook #'disable-ido-everywhere)
 (add-hook 'ido-setup-hook #'prepare-ido)
 
 ;; Neotree -- popup file manager

@@ -27,7 +27,7 @@
  )
 
 (defun prepare-magit ()
-  "Prepaire to enter magit"
+  "Prepare to enter magit"
   (local-set-key (kbd "t") #'magit-next-line)
   (local-set-key (kbd "h") #'magit-previous-line)
  )
@@ -112,7 +112,8 @@
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)
  )
-
+(defun disable-ido-everywhere ()
+  (ido-everywhere -1))
 (defun prepare-ido ()
   "Prepare ido keymaps"
   (define-key ido-completion-map (kbd "<tab>") #'ido-complete)
@@ -122,6 +123,7 @@
   (define-key ido-completion-map (kbd "<f6>") #'ido-next-match)
   (define-key ido-completion-map (kbd "<f7>") #'ido-prev-match)
   (define-key ido-completion-map (kbd "<f8>") #'abort-minibuffers)
+
  )
 
 
