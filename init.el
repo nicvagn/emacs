@@ -382,6 +382,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g g" . #'magit-status)
    ("C-c C-g p" . #'magit-push-current-to-upstream)
    ("C-c C-g u" . #'magit-pull-from-upstream)
+   ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-stage-buffer-file)
