@@ -75,3 +75,5 @@ cfc
 url
 endif
 fieldset
+csrf
+optgroup

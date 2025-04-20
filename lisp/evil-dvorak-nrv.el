@@ -121,7 +121,7 @@
   ;; define leader mappings
   (evil-leader/set-key
     "w" 'save-buffer
-    "k" 'kill-this-buffer
+    "k" 'kill-current-buffer
     "q" 'evil-quit
     "x" 'delete-window
     "0" 'delete-window
