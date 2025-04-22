@@ -25,17 +25,91 @@
  '(column-number-mode t)
  '(custom-enabled-themes '(tramp))
  '(custom-safe-themes
-   '("4876347a77e6f9b3afad962104962ea2b051922e325dcc24776974c256885e30" "131e0902a346cbd3cb1f944cdd6bd9bf0a3c5270528741ac8b303bd9b2819af5" "14d11e2acebfa2b3d779bf06142c2d23a4b0593706cf35303e8c60f9cfcfd3f8" "5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d" "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2" "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a" "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf" default))
+   '("4876347a77e6f9b3afad962104962ea2b051922e325dcc24776974c256885e30"
+     "131e0902a346cbd3cb1f944cdd6bd9bf0a3c5270528741ac8b303bd9b2819af5"
+     "14d11e2acebfa2b3d779bf06142c2d23a4b0593706cf35303e8c60f9cfcfd3f8"
+     "5f4b294798037c1abe4be3ee481897f533f2b088465c1f10f1ae8a0f297b4b1d"
+     "ee0785c299c1d228ed30cf278aab82cf1fa05a2dc122e425044e758203f097d2"
+     "3f75d4633820090be31d1f91fa1e33427b5dc09235efa189157592c822d1843a"
+     "7fd8b914e340283c189980cd1883dbdef67080ad1a3a9cc3df864ca53bdc89cf"
+     default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(dired-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode blackbox-mode bookmark-bmenu-mode bookmark-edit-annotation-mode browse-kill-ring-mode bs-mode bubbles-mode bzr-annotate-mode calc-mode cfw:calendar-mode completion-list-mode Custom-mode custom-theme-choose-mode debugger-mode delicious-search-mode desktop-menu-blist-mode desktop-menu-mode doc-view-mode dun-mode dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode dvc-status-mode dvc-tips-mode ediff-mode ediff-meta-mode efs-mode Electric-buffer-menu-mode emms-browser-mode emms-mark-mode emms-metaplaylist-mode emms-playlist-mode ess-help-mode etags-select-mode fj-mode gc-issues-mode gdb-breakpoints-mode gdb-disassembly-mode gdb-frames-mode gdb-locals-mode gdb-memory-mode gdb-registers-mode gdb-threads-mode gist-list-mode git-rebase-mode gnus-article-mode gnus-browse-mode gnus-group-mode gnus-server-mode gnus-summary-mode gomoku-mode google-maps-static-mode ibuffer-mode jde-javadoc-checker-report-mode magit-cherry-mode magit-diff-mode magit-log-mode magit-log-select-mode magit-popup-mode magit-popup-sequence-mode magit-process-mode magit-reflog-mode magit-refs-mode magit-revision-mode magit-stash-mode magit-stashes-mode magit-status-mode mh-folder-mode monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode mu4e-view-mode notmuch-hello-mode notmuch-search-mode notmuch-show-mode notmuch-tree-mode occur-mode org-agenda-mode package-menu-mode pdf-outline-buffer-mode pdf-view-mode proced-mode rcirc-mode rebase-mode recentf-dialog-mode reftex-select-bib-mode reftex-select-label-mode reftex-toc-mode sldb-mode slime-inspector-mode slime-thread-control-mode slime-xref-mode snake-mode solitaire-mode sr-buttons-mode sr-mode sr-tree-mode sr-virtual-mode tar-mode tetris-mode tla-annotate-mode tla-archive-list-mode tla-bconfig-mode tla-bookmarks-mode tla-branch-list-mode tla-browse-mode tla-category-list-mode tla-changelog-mode tla-follow-symlinks-mode tla-inventory-file-mode tla-inventory-mode tla-lint-mode tla-logs-mode tla-revision-list-mode tla-revlog-mode tla-tree-lint-mode tla-version-list-mode twittering-mode urlview-mode vc-annotate-mode vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode wab-compilation-mode xgit-annotate-mode xgit-changelog-mode xgit-diff-mode xgit-revlog-mode xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode xhg-mq-sub-mode xhg-status-extra-mode))
+   '(dired-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode
+                blackbox-mode bookmark-bmenu-mode
+                bookmark-edit-annotation-mode browse-kill-ring-mode
+                bs-mode bubbles-mode bzr-annotate-mode calc-mode
+                cfw:calendar-mode completion-list-mode Custom-mode
+                custom-theme-choose-mode debugger-mode
+                delicious-search-mode desktop-menu-blist-mode
+                desktop-menu-mode doc-view-mode dun-mode
+                dvc-bookmarks-mode dvc-diff-mode dvc-info-buffer-mode
+                dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode
+                dvc-status-mode dvc-tips-mode ediff-mode
+                ediff-meta-mode efs-mode Electric-buffer-menu-mode
+                emms-browser-mode emms-mark-mode
+                emms-metaplaylist-mode emms-playlist-mode
+                ess-help-mode etags-select-mode fj-mode gc-issues-mode
+                gdb-breakpoints-mode gdb-disassembly-mode
+                gdb-frames-mode gdb-locals-mode gdb-memory-mode
+                gdb-registers-mode gdb-threads-mode gist-list-mode
+                git-rebase-mode gnus-article-mode gnus-browse-mode
+                gnus-group-mode gnus-server-mode gnus-summary-mode
+                gomoku-mode google-maps-static-mode ibuffer-mode
+                jde-javadoc-checker-report-mode magit-cherry-mode
+                magit-diff-mode magit-log-mode magit-log-select-mode
+                magit-popup-mode magit-popup-sequence-mode
+                magit-process-mode magit-reflog-mode magit-refs-mode
+                magit-revision-mode magit-stash-mode
+                magit-stashes-mode magit-status-mode mh-folder-mode
+                monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode
+                mu4e-view-mode notmuch-hello-mode notmuch-search-mode
+                notmuch-show-mode notmuch-tree-mode occur-mode
+                org-agenda-mode package-menu-mode
+                pdf-outline-buffer-mode pdf-view-mode proced-mode
+                rcirc-mode rebase-mode recentf-dialog-mode
+                reftex-select-bib-mode reftex-select-label-mode
+                reftex-toc-mode sldb-mode slime-inspector-mode
+                slime-thread-control-mode slime-xref-mode snake-mode
+                solitaire-mode sr-buttons-mode sr-mode sr-tree-mode
+                sr-virtual-mode tar-mode tetris-mode tla-annotate-mode
+                tla-archive-list-mode tla-bconfig-mode
+                tla-bookmarks-mode tla-branch-list-mode
+                tla-browse-mode tla-category-list-mode
+                tla-changelog-mode tla-follow-symlinks-mode
+                tla-inventory-file-mode tla-inventory-mode
+                tla-lint-mode tla-logs-mode tla-revision-list-mode
+                tla-revlog-mode tla-tree-lint-mode
+                tla-version-list-mode twittering-mode urlview-mode
+                vc-annotate-mode vc-dir-mode vc-git-log-view-mode
+                vc-hg-log-view-mode vc-svn-log-view-mode vm-mode
+                vm-summary-mode w3m-mode wab-compilation-mode
+                xgit-annotate-mode xgit-changelog-mode xgit-diff-mode
+                xgit-revlog-mode xhg-annotate-mode xhg-log-mode
+                xhg-mode xhg-mq-mode xhg-mq-sub-mode
+                xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(package-selected-packages
-   '(ido-completing-read+ ido-vertical-mode flx-ido flyspell-correct-popup avy elpy use-package tramp-theme cape transient dash llama magit-section flycheck track-changes project rescript-mode scala-mode pyvenv evil-leader flymake-codespell magit-diff-flycheck magit-tbdiff magit-delta magit web-mode treesit-auto treesit-fallback rainbow-delimiters eglot yasnippet-classic-snippets markup markdown-mode company all-the-icons-gnus all-the-icons-nerd-fonts all-the-icons-dired all-the-icons-completion auto-rename-tag ac-html which-key yasnippet-snippets all-the-icons corfu jedi python-django vterm org-modern yasnippet centaur-tabs gnu-elpa-keyring-update evil reformatter))
+   '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
+             all-the-icons-gnus all-the-icons-nerd-fonts
+             auto-rename-tag avy cape centaur-tabs company corfu dash
+             eglot elpy evil evil-leader flx-ido flycheck
+             flymake-codespell flyspell-correct-popup
+             gnu-elpa-keyring-update ido-completing-read+
+             ido-vertical-mode jedi llama magit magit-delta
+             magit-diff-flycheck magit-section magit-tbdiff
+             markdown-mode markup org-modern project python-django
+             pyvenv rainbow-delimiters reformatter rescript-mode
+             sbt-mode scala-mode track-changes tramp-theme transient
+             treesit-auto treesit-fallback use-package vterm web-mode
+             which-key yasnippet yasnippet-classic-snippets
+             yasnippet-snippets))
  '(package-vc-selected-packages
-   '((php-ts-mode :vc-backend Git :url "https://github.com/emacs-php/php-ts-mode")
-     (treesit-fallback :vc-backend Git :url "https://github.com/renzmann/treesit-fallback.git")))
+   '((php-ts-mode :vc-backend Git :url
+                  "https://github.com/emacs-php/php-ts-mode")
+     (treesit-fallback :vc-backend Git :url
+                       "https://github.com/renzmann/treesit-fallback.git")))
  '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
@@ -109,7 +183,9 @@
  ido-vertical-define-keys 'C-n-C-p-up-down-left-right
  magit-completing-read-function 'magit-ido-completing-read
  ;; org mode
- org-image-actual-width nil)
+ org-image-actual-width nil
+ ;; use-package
+ use-package-always-ensure t)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; find-file-in-project.el -- elpy wants it
@@ -170,7 +246,6 @@
   :ensure t)
 
 (use-package ido
-  :ensure t
   :config
   (setq ido-everywhere t
         ido-virtual-buffers t
@@ -180,12 +255,10 @@
   (ido-mode 1))
 
 (use-package flx-ido
-  :ensure t
   :requires ido
   :config (flx-ido-mode 1))
 
 (use-package ido-vertical-mode
-  :ensure t
   :requires ido
   :after ido
   :config
@@ -201,7 +274,6 @@
     (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
-  :ensure t
   :requires ido
   :config
   (setq ido-ubiquitous-max-items 50000
@@ -210,14 +282,12 @@
 
 (use-package flyspell-correct-popup
   :bind ("C-M-;" . flyspell-correct-wrapper)
-  :ensure t
   :init
   (setq flyspell-correct-interface #'flyspell-correct-popup))
 
 ;; --- emacs lsp ---
 (use-package eglot
   ;; language server config and mode hooks in language-servers-nrv.
-  :ensure t
   :defer t
   :config
   (add-to-list 'eglot-server-programs
@@ -234,19 +304,31 @@
   ((python-ts-mode . eglot-ensure)
    (html-mode . eglot-ensure)
    (js-mode . eglot-ensure)
+   (scala-mode . eglot-ensure)
    (css-mode . eglot-ensure))
   :bind
   ("C-c f" . eglot-format))
 
 (use-package scala-mode
-  :ensure t
   :interpreter
   ("scala" . scala-mode))
+
+;; Enable sbt mode for executing sbt commands
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
   :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
-  :ensure t
   :defer t
   :after
   (eglot)
@@ -256,7 +338,6 @@
    ("\\.resi\\'" . rescript-mode)))
 
 (use-package centaur-tabs
-  :ensure t
   ;; without this demand, tabs don't show of the bat
   :demand
   :config
@@ -311,20 +392,17 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("<f2>" . centaur-tabs-forward-group)))
 
 (use-package yasnippet
-  :ensure t
   :init
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
 
 ;; display possible keyboard shortcuts
 (use-package which-key
-  :ensure t
   :config
   (which-key-mode))
 
 ;; corfu autocomplete ui
 (use-package corfu
-  :ensure t
   :after eglot
   :custom
   (corfu-auto t)
@@ -340,7 +418,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; corfu cape extensions
 (use-package cape
-  :ensure t
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
   ;; Press C-c p ? to for help.
   :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
@@ -369,12 +446,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
 (use-package all-the-icons
-  :if (display-graphic-p)
-  :ensure t)
+  :if (display-graphic-p))
 
 ;; magit
 (use-package magit
-  :ensure t
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
@@ -391,7 +466,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq magit-status-show-untracked-files t))
 
 (use-package web-mode
-  :ensure t
   :defer t
   :mode
   (("\\.phtml\\'" . web-mode)
@@ -407,7 +481,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; auto use treesitter mode
 (use-package treesit-auto
   :demand t
-  :ensure t
   :config
   (global-treesit-auto-mode))
 
