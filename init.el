@@ -92,7 +92,7 @@
  global-auto-revert-non-file-buffers t
  ;; but do it quietly
  auto-revert-verbose nil
- ;; centar tabs
+ ;; centaur tabs
  centaur-tabs-style "wave"
  centaur-tabs-height 38
  centaur-tabs-set-icons t
@@ -142,7 +142,7 @@
 (require 'org)
 ;; my own custom vterm
 (require 'vterm-nrv)
-;; yapsnippit completion at point
+;; yasnippit completion at point
 (require 'yasnippet-capf)
 ;; python ide stuff
 (require 'python-nrv)
