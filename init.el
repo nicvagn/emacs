@@ -161,9 +161,6 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
-;; ido, but vertigo
-(ido-mode 1)
-(ido-vertical-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
@@ -190,15 +187,15 @@
   :after ido
   :config
   (setq ido-use-faces t)
-    (set-face-attribute 'ido-vertical-first-match-face nil
-                    :background nil
-                    :foreground "orange")
-    (set-face-attribute 'ido-vertical-only-match-face nil
-                    :background nil
-                    :foreground nil)
-    (set-face-attribute 'ido-vertical-match-face nil
-                    :foreground nil)
-    (ido-vertical-mode 1))
+  (set-face-attribute 'ido-vertical-first-match-face nil
+                  :background 'unspecified
+                  :foreground "orange")
+  (set-face-attribute 'ido-vertical-only-match-face nil
+                  :background 'unspecified
+                  :foreground "orange")
+  (set-face-attribute 'ido-vertical-match-face nil
+                  :foreground 'unspecified)
+  (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
   :ensure t
@@ -241,7 +238,12 @@
 (use-package scala-mode
   :ensure t
   :interpreter
-  ("scala" . scala-mode))
+  ("scala" . scala-mode)
+  :config
+  ;;set tab width two 2 (I could not get nrv/set-tab to work)
+  (setq c-basic-offset 2
+    evil-shift-width 2
+    cperl-indent-level 2))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
