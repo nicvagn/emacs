@@ -185,7 +185,9 @@
  ;; org mode
  org-image-actual-width nil
  ;; use-package
- use-package-always-ensure t)
+ use-package-always-ensure t
+ use-package-verbose t
+ use-package-compute-statistics t)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; find-file-in-project.el -- elpy wants it
@@ -240,8 +242,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-  :ensure t)
-
+)
 (use-package ido
   :config
   (setq ido-everywhere t
@@ -314,7 +315,6 @@
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
   :commands sbt-start sbt-command
-  :ensure t
   :interpreter
   ("scala" . scala-mode)
   :config
@@ -478,6 +478,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("\\.djhtml\\'" . web-mode)))
 
 ;; auto use treesitter mode
+;; vc: https://github.com/renzmann/treesit-auto
 (use-package treesit-auto
   :demand t
   :config
