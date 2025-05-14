@@ -263,15 +263,15 @@
   :after ido
   :config
   (setq ido-use-faces t)
-    (set-face-attribute 'ido-vertical-first-match-face nil
-                    :background nil
-                    :foreground "orange")
-    (set-face-attribute 'ido-vertical-only-match-face nil
-                    :background nil
-                    :foreground nil)
-    (set-face-attribute 'ido-vertical-match-face nil
-                    :foreground nil)
-    (ido-vertical-mode 1))
+  (set-face-attribute 'ido-vertical-first-match-face nil
+                      :background nil
+                      :foreground "orange")
+  (set-face-attribute 'ido-vertical-only-match-face nil
+                      :background nil
+                      :foreground nil)
+  (set-face-attribute 'ido-vertical-match-face nil
+                      :foreground nil)
+  (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
   :requires ido
@@ -310,12 +310,14 @@
   ("C-c f" . eglot-format))
 
 (use-package scala-mode
-  :interpreter
-  ("scala" . scala-mode))
+  :interpreter ("scala" . scala-mode)
+  :hook (scala-mode . tree-sitter-hl-mode)
+  )
 
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
   :commands sbt-start sbt-command
+  :ensure t
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
   ;; allows using SPACE when in the minibuffer
@@ -323,8 +325,8 @@
    'minibuffer-complete-word
    'self-insert-command
    minibuffer-local-completion-map)
-   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-   (setq sbt:program-options '("-Dsbt.supershell=false")))
+  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+  (setq sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode

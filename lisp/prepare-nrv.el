@@ -69,17 +69,15 @@
         tab-width css-tab-width
         c-basic-offset css-tab-width)
   (prepare-text)
- )
+  )
 ;; ---- python mode ----
 (defun prepare-python ()
   "Prepare to edit python code."
-  (require 'python-isort)
+  (require 'python-nrv)
   (setq-local electric-indent-inhibit nil
               tab-width python-tab-width
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
-  ('python-isort-on-save-mode 1)
-  ('eglot-ensure 1)
   (prepare-text)
 )
 
