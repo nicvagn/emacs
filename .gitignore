@@ -10,4 +10,4 @@ ac-comphist.dat
 projects
 backups/*
 eshell
-ido.last
+ido.last*

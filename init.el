@@ -166,7 +166,7 @@
  global-auto-revert-non-file-buffers t
  ;; but do it quietly
  auto-revert-verbose nil
- ;; centar tabs
+ ;; centaur tabs
  centaur-tabs-style "wave"
  centaur-tabs-height 38
  centaur-tabs-set-icons t
@@ -218,7 +218,7 @@
 (require 'org)
 ;; my own custom vterm
 (require 'vterm-nrv)
-;; yapsnippit completion at point
+;; yasnippit completion at point
 (require 'yasnippet-capf)
 ;; python ide stuff
 (require 'python-nrv)
@@ -237,9 +237,6 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
-;; ido, but vertigo
-(ido-mode 1)
-(ido-vertical-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
@@ -264,13 +261,13 @@
   :config
   (setq ido-use-faces t)
   (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background nil
-                      :foreground "orange")
+                  :background 'unspecified
+                  :foreground "orange")
   (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background nil
-                      :foreground nil)
+                  :background 'unspecified
+                  :foreground "yellow")
   (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground nil)
+                  :foreground 'unspecified)
   (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
@@ -318,15 +315,15 @@
 (use-package sbt-mode
   :commands sbt-start sbt-command
   :ensure t
+  :interpreter
+  ("scala" . scala-mode)
   :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map)
-  ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-  (setq sbt:program-options '("-Dsbt.supershell=false")))
+  ;;set tab width two 2 (I could not get nrv/set-tab to work)
+  (setq c-basic-offset 2
+    evil-shift-width 2
+    cperl-indent-level 2
+    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+    sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
