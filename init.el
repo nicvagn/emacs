@@ -90,6 +90,7 @@
                 xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
+ '(neo-window-fixed-size nil)
  '(package-selected-packages
    '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
              all-the-icons-gnus all-the-icons-nerd-fonts
@@ -99,12 +100,12 @@
              gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
              magit-diff-flycheck magit-section magit-tbdiff
-             markdown-mode markup org-modern project python-django
-             pyvenv rainbow-delimiters reformatter rescript-mode
-             sbt-mode scala-mode track-changes tramp-theme transient
-             treesit-auto treesit-fallback use-package vterm web-mode
-             which-key yasnippet yasnippet-classic-snippets
-             yasnippet-snippets))
+             markdown-mode markup org-modern project
+             python-django pyvenv rainbow-delimiters reformatter
+             rescript-mode sbt-mode scala-mode track-changes
+             tramp-theme transient treesit-auto treesit-fallback
+             use-package vterm web-mode which-key yasnippet
+             yasnippet-classic-snippets yasnippet-snippets))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url
                   "https://github.com/emacs-php/php-ts-mode")
@@ -184,12 +185,15 @@
  magit-completing-read-function 'magit-ido-completing-read
  ;; org mode
  org-image-actual-width nil
+ ;; tree sit
+ treesit-auto-install t
  ;; use-package
  use-package-always-ensure t
  use-package-verbose t
  use-package-compute-statistics t)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(require 'project)
 ;; find-file-in-project.el -- elpy wants it
 (require 'find-file-in-project)
 ;; toggle eshell popup
@@ -266,7 +270,7 @@
                   :foreground "orange")
   (set-face-attribute 'ido-vertical-only-match-face nil
                   :background 'unspecified
-                  :foreground "yellow")
+                  :foreground "blue")
   (set-face-attribute 'ido-vertical-match-face nil
                   :foreground 'unspecified)
   (ido-vertical-mode 1))
