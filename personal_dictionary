@@ -91,3 +91,6 @@ api
 doctype
 chessground
 largerCoordinates
+getElementById
+classList
+dest
