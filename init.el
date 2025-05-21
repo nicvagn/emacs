@@ -100,7 +100,7 @@
              gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
              magit-diff-flycheck magit-section magit-tbdiff
-             markdown-mode markup org-modern project
+             markdown-mode markup org-modern project projectile
              python-django pyvenv rainbow-delimiters reformatter
              rescript-mode sbt-mode scala-mode track-changes
              tramp-theme transient treesit-auto treesit-fallback
@@ -244,6 +244,14 @@
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(use-package emacs
+  :custom
+  ;; corfu recommend
+  (text-mode-ispell-word-completion nil)
+  ;; Hide commands in M-x which do not apply to the current mode.
+  (read-extended-command-predicate
+   #'command-completion-default-include-p))
+
 (use-package avy
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
 )
@@ -313,7 +321,6 @@
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode)
-  :hook (scala-mode . tree-sitter-hl-mode)
   )
 
 ;; Enable sbt mode for executing sbt commands
@@ -412,7 +419,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (corfu-cycle t)  ;; Enable cycling
   :init
   (global-corfu-mode)
-  (corfu-popupinfo-mode 1)
+  (corfu-popupinfo-mode)
+  (corfu-history-mode)
   :bind
   (("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
