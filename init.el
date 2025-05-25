@@ -96,7 +96,7 @@
              all-the-icons-gnus all-the-icons-nerd-fonts
              auto-rename-tag avy cape centaur-tabs company corfu dash
              eglot elpy evil evil-leader flx-ido flycheck
-             flymake-codespell flyspell-correct-popup
+             flymake-codespell flyspell-correct-popup format-all
              gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
              magit-diff-flycheck magit-section magit-tbdiff
@@ -218,8 +218,6 @@
 (require 'functions-nrv)
 ;; mode hooks
 (require 'prepare-nrv) ;; modular af
-;; my minor modes
-;; (require 'minor-modes-nrv) -- rmed because I could not figure
 ;; org
 (require 'org)
 ;; my own custom vterm
@@ -252,7 +250,16 @@
   (read-extended-command-predicate
    #'command-completion-default-include-p))
 
+(use-package format-all
+  :commands format-all-mode
+  :defer t
+  :ensure t
+  :hook (prog-mode . format-all-mode)
+  :bind
+  ("C-c f" . format-all-region-or-buffer))
+
 (use-package avy
+  :ensure t
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
 )
 (use-package ido
@@ -274,13 +281,13 @@
   :config
   (setq ido-use-faces t)
   (set-face-attribute 'ido-vertical-first-match-face nil
-                  :background 'unspecified
-                  :foreground "orange")
+                      :background 'unspecified
+                      :foreground "orange")
   (set-face-attribute 'ido-vertical-only-match-face nil
-                  :background 'unspecified
-                  :foreground "blue")
+                      :background 'unspecified
+                      :foreground "blue")
   (set-face-attribute 'ido-vertical-match-face nil
-                  :foreground 'unspecified)
+                      :foreground 'unspecified)
   (ido-vertical-mode 1))
 
 (use-package ido-completing-read+ :requires ido
@@ -306,8 +313,8 @@
   ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
                `(python-mode
-                 . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
-                                          "jedi-language-server"
+                 . ,(eglot-alternatives '("jedi-language-server"
+                                          ("pyright-langserver" "--stdio")
                                           "pylsp"))))
   ;; eglot HOOKS! add the correct mode hooks
   :hook
@@ -315,9 +322,7 @@
    (html-mode . eglot-ensure)
    (js-mode . eglot-ensure)
    (scala-mode . eglot-ensure)
-   (css-mode . eglot-ensure))
-  :bind
-  ("C-c f" . eglot-format))
+   (css-mode . eglot-ensure)))
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode)
@@ -331,10 +336,10 @@
   :config
   ;;set tab width two 2 (I could not get nrv/set-tab to work)
   (setq c-basic-offset 2
-    evil-shift-width 2
-    cperl-indent-level 2
-    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-    sbt:program-options '("-Dsbt.supershell=false")))
+        evil-shift-width 2
+        cperl-indent-level 2
+        ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+        sbt:program-options '("-Dsbt.supershell=false")))
 
 ;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
@@ -373,7 +378,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                               magit-blame-mode
                               )))
        "Emacs")
-      ((derived-mode-p 'prog-mode)
+      ((derived-mode-p '(prog-mode html-mode))
        "Editing")
       ((derived-mode-p 'dired-mode)
        "Dired")
@@ -478,6 +483,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (use-package web-mode
   :defer t
+  :config
+  (nrv/set-tab 2)
   :mode
   (("\\.phtml\\'" . web-mode)
    ("\\.php\\'" . web-mode)

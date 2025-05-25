@@ -89,10 +89,10 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 
 (defun nrv/set-tab (tab-width)
   "set all the tab width vars"
-    (setq
-      c-basic-offset tab-width
-      evil-shift-width tab-width
-      cperl-indent-level tab-width))
+  (interactive)
+  (setq c-basic-offset tab-width
+    evil-shift-width tab-width
+    cperl-indent-level tab-width))
 
 (provide 'functions-nrv)
 
