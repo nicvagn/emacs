@@ -95,9 +95,9 @@
    '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
              all-the-icons-gnus all-the-icons-nerd-fonts
              auto-rename-tag avy cape centaur-tabs company corfu dash
-             eglot elpy evil evil-leader flx-ido flycheck
-             flymake-codespell flyspell-correct-popup format-all
-             gnu-elpa-keyring-update ido-completing-read+
+             diminish eglot elpy evil evil-leader exec-path-from-shell
+             flx-ido flycheck flymake-codespell flyspell-correct-popup
+             format-all gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
              magit-diff-flycheck magit-section magit-tbdiff
              markdown-mode markup org-modern project projectile
@@ -250,18 +250,24 @@
   (read-extended-command-predicate
    #'command-completion-default-include-p))
 
+;; sets exec path from zsh shell
+(use-package exec-path-from-shell)
+
 (use-package format-all
   :commands format-all-mode
   :defer t
   :ensure t
   :hook (prog-mode . format-all-mode)
+  :diminish format-all-mode
   :bind
   ("C-c f" . format-all-region-or-buffer))
 
+(use-package diminish
+  :ensure t)
 (use-package avy
   :ensure t
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-)
+  )
 (use-package ido
   :config
   (setq ido-everywhere t
@@ -306,6 +312,8 @@
 (use-package eglot
   ;; language server config and mode hooks in language-servers-nrv.
   :defer t
+  :bind
+  ("C-c r" . eglot-rename)
   :config
   (add-to-list 'eglot-server-programs
                '(html-mode . ("vscode-html-language-server" "--stdio"))
@@ -561,6 +569,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'term-exec-hook   'with-editor-export-editor)
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
+;; make sure exec path is path when started as daemon
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
 ;; set *shell modes to use evil emacs state
 (dolist (p '((shell-mode . emacs)
              (vterm-mode . emacs)
