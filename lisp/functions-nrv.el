@@ -91,6 +91,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
   "set all the tab width vars"
   (interactive)
   (setq c-basic-offset tab-width
+    tab-width tab-width
     evil-shift-width tab-width
     cperl-indent-level tab-width))
 

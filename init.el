@@ -112,6 +112,7 @@
      (treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")))
  '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
+ '(resize-mini-windows t)
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -291,7 +292,7 @@
                       :foreground "orange")
   (set-face-attribute 'ido-vertical-only-match-face nil
                       :background 'unspecified
-                      :foreground "blue")
+                      :foreground "yellow")
   (set-face-attribute 'ido-vertical-match-face nil
                       :foreground 'unspecified)
   (ido-vertical-mode 1))
@@ -315,9 +316,9 @@
   :bind
   ("C-c r" . eglot-rename)
   :config
-  (add-to-list 'eglot-server-programs
-               '(html-mode . ("vscode-html-language-server" "--stdio"))
-               '(css-mode . ("vscode-css-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
   ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
                `(python-mode
@@ -334,6 +335,7 @@
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode)
+  :config (nrv/set-tab 2)
   )
 
 ;; Enable sbt mode for executing sbt commands
@@ -569,6 +571,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)
 (add-hook 'term-exec-hook   'with-editor-export-editor)
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
+
+
 ;; make sure exec path is path when started as daemon
 (when (daemonp)
   (exec-path-from-shell-initialize))

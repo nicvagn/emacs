@@ -24,22 +24,22 @@
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
- )
+  )
 
 (defun prepare-magit ()
   "Prepare to enter magit"
   (local-set-key (kbd "t") #'magit-next-line)
   (local-set-key (kbd "h") #'magit-previous-line)
- )
+  )
 
 (defun prepare-lisp ()
   "Prepare lisp to be eddited how I like."
   (setq-local evil-shift-width lisp-tab-width
-        tab-width lisp-tab-width
-        c-basic-offset lisp-tab-width)
+              tab-width lisp-tab-width
+              c-basic-offset lisp-tab-width)
   (local-set-key (kbd "M-l") 'eval-buffer)
   (prepare-text)
- )
+  )
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
@@ -50,6 +50,7 @@
   (define-key dired-mode-map (kbd "a") 'dired-create-directory)
   (define-key dired-mode-map (kbd "r") 'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") 'dired-find-file)
+
   ;; "leader"
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   ;; add leader via dired ring map
@@ -59,15 +60,15 @@
   (define-key 'dired-ring-map (kbd "s") 'evil-window-split)
   (define-key 'dired-ring-map (kbd "v") 'evil-window-vsplit)
   (define-key 'dired-ring-map (kbd "x") #'delete-window)
-  (define-key 'dired-ring-map (kbd "k") #'kill-this-buffer)
- )
+  (define-key 'dired-ring-map (kbd "k") #'kill-current-buffer)
+  )
 
 ;; ---- css mode ----
 (defun prepare-css ()
   "Setup Emacs for css editing."
   (setq-local evil-shift-width css-tab-width
-        tab-width css-tab-width
-        c-basic-offset css-tab-width)
+              tab-width css-tab-width
+              c-basic-offset css-tab-width)
   (prepare-text)
   )
 ;; ---- python mode ----
@@ -79,39 +80,42 @@
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
   (prepare-text)
-)
+  )
 
 ;; ---- web stuff ----
 (defun prepare-web ()
   "set up for web mode. (html, js, mustache etc.)"
   (setq-local tab-width web-tab-width
-        evil-shift-width web-tab-width
-        c-basic-offset web-tab-width)
+              evil-shift-width web-tab-width
+              c-basic-offset web-tab-width)
   (prepare-text)
- )
+  )
 
 ;; ---- html stuff ----
 (defun prepare-html ()
   "set up for web mode. (html, js, mustache etc.)"
   (setq-local tab-width html-tab-width
-        evil-shift-width html-tab-width
-        c-basic-offset html-tab-width)
+              evil-shift-width html-tab-width
+              c-basic-offset html-tab-width)
   (prepare-text)
- )
+  )
 
 ;; ---- programming mode ----
 (defun prepare-prog ()
   "Prepare to enter \='prog-mode'."
   (setq-local tab-width prog-tab-width
-        evil-shift-width prog-tab-width
-        c-basic-offset prog-tab-width)
+              evil-shift-width prog-tab-width
+              c-basic-offset prog-tab-width)
   ;; keybinds
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)
- )
+  )
+
+;; --- IDO ----
 (defun disable-ido-everywhere ()
   (ido-everywhere -1))
+
 (defun prepare-ido ()
   "Prepare ido keymaps"
   (define-key ido-completion-map (kbd "<tab>") #'ido-complete)
@@ -121,9 +125,7 @@
   (define-key ido-completion-map (kbd "<f6>") #'ido-next-match)
   (define-key ido-completion-map (kbd "<f7>") #'ido-prev-match)
   (define-key ido-completion-map (kbd "<f8>") #'abort-minibuffers)
-
- )
-
+  )
 
 (provide 'prepare-nrv)
 ;; Local Variables:
