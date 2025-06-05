@@ -100,12 +100,12 @@
              format-all gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
              magit-diff-flycheck magit-section magit-tbdiff
-             markdown-mode markup org-modern project projectile
-             python-django pyvenv rainbow-delimiters reformatter
-             rescript-mode sbt-mode scala-mode track-changes
-             tramp-theme transient treesit-auto treesit-fallback
-             use-package vterm web-mode which-key yasnippet
-             yasnippet-classic-snippets yasnippet-snippets))
+             markdown-mode markup org-modern powerline project
+             projectile python-django pyvenv rainbow-delimiters
+             reformatter rescript-mode sbt-mode scala-mode
+             track-changes tramp-theme transient treesit-auto
+             treesit-fallback use-package vterm web-mode which-key
+             yasnippet yasnippet-classic-snippets yasnippet-snippets))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url
                   "https://github.com/emacs-php/php-ts-mode")
@@ -329,6 +329,7 @@
   :hook
   ((python-ts-mode . eglot-ensure)
    (html-mode . eglot-ensure)
+   (web-mode . eglot-ensure)
    (js-mode . eglot-ensure)
    (scala-mode . eglot-ensure)
    (css-mode . eglot-ensure)))
