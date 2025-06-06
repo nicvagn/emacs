@@ -94,18 +94,19 @@
  '(package-selected-packages
    '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
              all-the-icons-gnus all-the-icons-nerd-fonts
-             auto-rename-tag avy cape centaur-tabs company corfu dash
-             diminish eglot elpy evil evil-leader exec-path-from-shell
-             flx-ido flycheck flymake-codespell flyspell-correct-popup
-             format-all gnu-elpa-keyring-update ido-completing-read+
-             ido-vertical-mode jedi llama magit magit-delta
-             magit-diff-flycheck magit-section magit-tbdiff
-             markdown-mode markup org-modern powerline project
-             projectile python-django pyvenv rainbow-delimiters
-             reformatter rescript-mode sbt-mode scala-mode
-             track-changes tramp-theme transient treesit-auto
-             treesit-fallback use-package vterm web-mode which-key
-             yasnippet yasnippet-classic-snippets yasnippet-snippets))
+             auto-rename-tag avy cape centaur-tabs company corfu
+             counsel dash diminish eglot elpy evil evil-leader
+             exec-path-from-shell flx-ido flycheck flymake-codespell
+             flyspell-correct-popup format-all gnu-elpa-keyring-update
+             ido-completing-read+ ido-vertical-mode jedi llama magit
+             magit-delta magit-diff-flycheck magit-section
+             magit-tbdiff markdown-mode markup org-modern powerline
+             project projectile python-django pyvenv
+             rainbow-delimiters reformatter rescript-mode sbt-mode
+             scala-mode track-changes tramp-theme transient
+             treesit-auto treesit-fallback use-package vterm web-mode
+             which-key yasnippet yasnippet-classic-snippets
+             yasnippet-snippets))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url
                   "https://github.com/emacs-php/php-ts-mode")
@@ -265,10 +266,14 @@
 
 (use-package diminish
   :ensure t)
+
 (use-package avy
   :ensure t
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
   )
+(use-package counsel
+  :ensure t)
+
 (use-package ido
   :config
   (setq ido-everywhere t
@@ -315,6 +320,7 @@
   :defer t
   :bind
   ("C-c r" . eglot-rename)
+  ("C-c <f1>" . eglot-format)
   :config
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
@@ -535,7 +541,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; ido find file
 (global-set-key (kbd "C-x C-f") #'ido-find-file)
-;; find the definition with eglot
+;; find the definition with xref
 (global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
