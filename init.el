@@ -232,6 +232,8 @@
 (require 'fzf)
 ;; evil dvorak custom evil and key-map
 (require 'evil-dvorak-nrv)
+;; repo-grep -- does what you expect
+(require 'repo-grep)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
@@ -243,7 +245,6 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
-;; repo-grep -- does what you expect
 (autoload 'repo-grep "repo-grep")
 (autoload 'repo-grep-multi "repo-grep")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
