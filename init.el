@@ -5,9 +5,9 @@
 ;;; code:
 (package-initialize) ;; this has to be done first, I think
 ;; add custom dir to load-path
-(add-to-list 'load-path "~/.config/emacs/lisp")
-(add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree")
-(add-to-list 'load-path "~/.config/emacs/lisp/swiper")
+(add-to-list 'load-path "~/.config/emacs/lisp/")
+(add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree/")
+(add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
@@ -243,6 +243,9 @@
 (which-function-mode 1)  ;; tell which func.
 (highlight-indentation-mode 1)
 (rainbow-delimiters-mode 1)
+;; repo-grep -- does what you expect
+(autoload 'repo-grep "repo-grep")
+(autoload 'repo-grep-multi "repo-grep")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :custom
@@ -543,6 +546,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "C-x C-f") #'ido-find-file)
 ;; find the definition with xref
 (global-set-key (kbd "C-c M-d") 'xref-find-definitions)
+
+(global-set-key (kbd "C-c M-g") 'repo-grep)
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
     (around ibuffer-point-to-most-recent) ()
