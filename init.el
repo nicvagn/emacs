@@ -35,7 +35,7 @@
      default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(term-mode
+   '(term-mode shell-mode vterm-mode
      dired-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode
      blackbox-mode bookmark-bmenu-mode
      bookmark-edit-annotation-mode browse-kill-ring-mode
@@ -265,7 +265,7 @@
   ;;(eshell-toggle-find-project-root-package 'projectile) ;; for projectile
   ;; (eshell-toggle-use-projectile-root 'project) ;; for in-built project.el
   (eshell-toggle-run-command nil)
-  (eshell-toggle-init-function #'eshell-toggle-init-ansi-term)
+  (eshell-toggle-init-shell t)
   )
 (use-package format-all
   :commands format-all-mode
