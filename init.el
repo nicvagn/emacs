@@ -35,8 +35,9 @@
      default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(term-mode dired-mode 5x5-mode archive-mode bbdb-mode
-               biblio-selection-mode blackbox-mode bookmark-bmenu-mode
+   '(term-mode eshell-mode
+               dired-mode 5x5-mode archive-mode bbdb-mode biblio-selection-mode
+               blackbox-mode bookmark-bmenu-mode
                bookmark-edit-annotation-mode browse-kill-ring-mode
                bs-mode bubbles-mode bzr-annotate-mode calc-mode
                cfw:calendar-mode completion-list-mode Custom-mode
@@ -47,24 +48,25 @@
                dvc-log-buffer-mode dvc-revlist-mode dvc-revlog-mode
                dvc-status-mode dvc-tips-mode ediff-mode
                ediff-meta-mode efs-mode Electric-buffer-menu-mode
-               emms-browser-mode emms-mark-mode emms-metaplaylist-mode
-               emms-playlist-mode ess-help-mode etags-select-mode
-               fj-mode gc-issues-mode gdb-breakpoints-mode
-               gdb-disassembly-mode gdb-frames-mode gdb-locals-mode
-               gdb-memory-mode gdb-registers-mode gdb-threads-mode
-               gist-list-mode git-rebase-mode gnus-article-mode
-               gnus-browse-mode gnus-group-mode gnus-server-mode
-               gnus-summary-mode gomoku-mode google-maps-static-mode
-               ibuffer-mode jde-javadoc-checker-report-mode
-               magit-cherry-mode magit-diff-mode magit-log-mode
-               magit-log-select-mode magit-popup-mode
-               magit-popup-sequence-mode magit-process-mode
-               magit-reflog-mode magit-refs-mode magit-revision-mode
-               magit-stash-mode magit-stashes-mode magit-status-mode
-               mh-folder-mode monky-mode mpuz-mode mu4e-main-mode
-               mu4e-headers-mode mu4e-view-mode notmuch-hello-mode
-               notmuch-search-mode notmuch-show-mode notmuch-tree-mode
-               occur-mode org-agenda-mode package-menu-mode
+               emms-browser-mode emms-mark-mode
+               emms-metaplaylist-mode emms-playlist-mode
+               ess-help-mode etags-select-mode fj-mode gc-issues-mode
+               gdb-breakpoints-mode gdb-disassembly-mode
+               gdb-frames-mode gdb-locals-mode gdb-memory-mode
+               gdb-registers-mode gdb-threads-mode gist-list-mode
+               git-rebase-mode gnus-article-mode gnus-browse-mode
+               gnus-group-mode gnus-server-mode gnus-summary-mode
+               gomoku-mode google-maps-static-mode ibuffer-mode
+               jde-javadoc-checker-report-mode magit-cherry-mode
+               magit-diff-mode magit-log-mode magit-log-select-mode
+               magit-popup-mode magit-popup-sequence-mode
+               magit-process-mode magit-reflog-mode magit-refs-mode
+               magit-revision-mode magit-stash-mode
+               magit-stashes-mode magit-status-mode mh-folder-mode
+               monky-mode mpuz-mode mu4e-main-mode mu4e-headers-mode
+               mu4e-view-mode notmuch-hello-mode notmuch-search-mode
+               notmuch-show-mode notmuch-tree-mode occur-mode
+               org-agenda-mode package-menu-mode
                pdf-outline-buffer-mode pdf-view-mode proced-mode
                rcirc-mode rebase-mode recentf-dialog-mode
                reftex-select-bib-mode reftex-select-label-mode
@@ -73,19 +75,20 @@
                solitaire-mode sr-buttons-mode sr-mode sr-tree-mode
                sr-virtual-mode tar-mode tetris-mode tla-annotate-mode
                tla-archive-list-mode tla-bconfig-mode
-               tla-bookmarks-mode tla-branch-list-mode tla-browse-mode
-               tla-category-list-mode tla-changelog-mode
-               tla-follow-symlinks-mode tla-inventory-file-mode
-               tla-inventory-mode tla-lint-mode tla-logs-mode
-               tla-revision-list-mode tla-revlog-mode
-               tla-tree-lint-mode tla-version-list-mode
-               twittering-mode urlview-mode vc-annotate-mode
-               vc-dir-mode vc-git-log-view-mode vc-hg-log-view-mode
-               vc-svn-log-view-mode vm-mode vm-summary-mode w3m-mode
-               wab-compilation-mode xgit-annotate-mode
-               xgit-changelog-mode xgit-diff-mode xgit-revlog-mode
-               xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode
-               xhg-mq-sub-mode xhg-status-extra-mode))
+               tla-bookmarks-mode tla-branch-list-mode
+               tla-browse-mode tla-category-list-mode
+               tla-changelog-mode tla-follow-symlinks-mode
+               tla-inventory-file-mode tla-inventory-mode
+               tla-lint-mode tla-logs-mode tla-revision-list-mode
+               tla-revlog-mode tla-tree-lint-mode
+               tla-version-list-mode twittering-mode urlview-mode
+               vc-annotate-mode vc-dir-mode vc-git-log-view-mode
+               vc-hg-log-view-mode vc-svn-log-view-mode vm-mode
+               vm-summary-mode w3m-mode wab-compilation-mode
+               xgit-annotate-mode xgit-changelog-mode xgit-diff-mode
+               xgit-revlog-mode xhg-annotate-mode xhg-log-mode
+               xhg-mode xhg-mq-mode xhg-mq-sub-mode
+               xhg-status-extra-mode))
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
@@ -103,8 +106,8 @@
              rainbow-delimiters reformatter rescript-mode sbt-mode
              scala-mode track-changes tramp-theme transient
              treesit-auto treesit-fallback use-package vterm web-mode
-             which-key with-editor yasnippet
-             yasnippet-classic-snippets yasnippet-snippets))
+             which-key yasnippet yasnippet-classic-snippets
+             yasnippet-snippets))
  '(package-vc-selected-packages
    '((php-ts-mode :vc-backend Git :url
                   "https://github.com/emacs-php/php-ts-mode")
@@ -262,7 +265,7 @@
   ;;(eshell-toggle-find-project-root-package 'projectile) ;; for projectile
   ;; (eshell-toggle-use-projectile-root 'project) ;; for in-built project.el
   (eshell-toggle-run-command nil)
-  (eshell-toggle-init-shell t)
+  (eshell-toggle-init-function #'eshell-toggle-init-ansi-term)
   )
 (use-package format-all
   :commands format-all-mode
@@ -564,7 +567,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-
+(add-hook 'term-mode-hook (lambda ()
+                            "turn on Emacs state when entering term"
+                            (evil-emacs-state t)))
 ;; make sure exec path is path when started as daemon
 (when (daemonp)
   (exec-path-from-shell-initialize))
