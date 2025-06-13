@@ -563,11 +563,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; shell mode, vterm, eshell hooks
-(add-hook 'shell-mode-hook  'with-editor-export-editor)
-(add-hook 'eshell-mode-hook 'with-editor-export-editor)
-(add-hook 'term-exec-hook   'with-editor-export-editor)
-(add-hook 'vterm-mode-hook  'with-editor-export-editor)
 
 
 ;; make sure exec path is path when started as daemon

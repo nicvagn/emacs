@@ -32,5 +32,7 @@
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
 
 (global-set-key (kbd "C-c M-g") 'repo-grep)
-
+(require 'evil-leader)
+(require 'eglot)
+(evil-leader/set-key (kbd "f") 'eglot-format-buffer)
 (provide 'global-bindings)
