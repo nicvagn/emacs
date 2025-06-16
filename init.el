@@ -196,6 +196,8 @@
  use-package-compute-statistics t)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; popup shell
+(require 'shell-pop)
 (require 'project)
 ;; find-file-in-project.el -- elpy wants it
 (require 'find-file-in-project)
@@ -258,15 +260,6 @@
 ;; sets exec path from zsh shell
 (use-package exec-path-from-shell)
 
-(use-package eshell-toggle
-  :custom
-  (eshell-toggle-size-fraction 3)
-  (eshell-toggle-find-project-root-package t) ;; for projectile
-  ;;(eshell-toggle-find-project-root-package 'projectile) ;; for projectile
-  ;; (eshell-toggle-use-projectile-root 'project) ;; for in-built project.el
-  (eshell-toggle-run-command nil)
-  (eshell-toggle-init-function #'eshell-toggle-init-ansi-term)
-  )
 (use-package format-all
   :commands format-all-mode
   :defer t

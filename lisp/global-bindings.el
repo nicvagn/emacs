@@ -8,7 +8,7 @@
 ;; open neotree with f3 f4: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
 ;; eshell popup term
-(global-set-key (kbd "<f4>") 'eshell-toggle)
+(global-set-key (kbd "<f4>") 'shell-pop)
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; show the dir track of file we are edditing
@@ -26,7 +26,7 @@
 ;; ido find file
 (global-set-key (kbd "C-x C-f") #'ido-find-file)
 ;; find the definition with xref
-(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
+(global-set-key (kbd "C-c C-d") 'xref-find-definitions)
 (global-set-key (kbd "M-0") 'xref-find-definitions)
 (global-set-key (kbd "M-9") 'xref-find-references)
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
