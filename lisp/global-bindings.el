@@ -5,9 +5,10 @@
 ;;; code:
 ;; split
 (global-set-key (kbd "C-c _") 'split-window-below)
+(global-set-key (kbd "C-c |") 'split-window-right)
 ;; open neotree with f3 f4: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
-;; eshell popup term
+;; popup term
 (global-set-key (kbd "<f4>") 'shell-pop)
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
