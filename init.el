@@ -128,7 +128,8 @@
               cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
-
+;; mode setting
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 ;; mode remaping
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
@@ -255,7 +256,9 @@
   (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
-   #'command-completion-default-include-p))
+   #'command-completion-default-include-p)
+  :bind ("<enter>" . nil)
+  )
 
 ;; sets exec path from zsh shell
 (use-package exec-path-from-shell)
@@ -329,6 +332,7 @@
   :config
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(typescript-ts-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
   ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
@@ -342,6 +346,7 @@
    (html-mode . eglot-ensure)
    (web-mode . eglot-ensure)
    (js-mode . eglot-ensure)
+   (typescript-ts-mode . eglot-ensure)
    (scala-mode . eglot-ensure)
    (css-mode . eglot-ensure)))
 
@@ -449,7 +454,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (corfu-popupinfo-mode)
   (corfu-history-mode)
   :bind
-  (("<f5>" . corfu-complete)
+  (("<enter>" . nil)
+   ("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
    ("<f8>" . corfu-quit)))
@@ -515,7 +521,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
-   ("\\.ts\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
 ;; auto use treesitter mode
@@ -551,8 +556,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'python-mode-hook #'prepare-python)
 (add-hook 'python-mode-hook 'display-line-numbers-mode)
 (add-hook 'dired-mode-hook #'prepare-dired)
-(add-hook 'css-mode-hook #'prepare-css)
-(add-hook 'css-mode-hook 'display-line-numbers-mode)
+(add-hook 'css-ts-mode-hook #'prepare-css)
+(add-hook 'css-ts-mode-hook 'display-line-numbers-mode)
 (add-hook 'html-mode-hook #'prepare-html)
 (add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)

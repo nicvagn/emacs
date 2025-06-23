@@ -27,13 +27,13 @@
 ;; ido find file
 (global-set-key (kbd "C-x C-f") #'ido-find-file)
 ;; find the definition with xref
-(global-set-key (kbd "C-c C-d") 'xref-find-definitions)
+(global-set-key (kbd "s-d") 'xref-find-definitions)
+(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 (global-set-key (kbd "M-0") 'xref-find-definitions)
 (global-set-key (kbd "M-9") 'xref-find-references)
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
 
+(require 'repo-grep)
 (global-set-key (kbd "C-c M-g") 'repo-grep)
-(require 'evil-leader)
-(require 'eglot)
-(evil-leader/set-key (kbd "f") 'eglot-format-buffer)
+
 (provide 'global-bindings)
