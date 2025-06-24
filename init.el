@@ -256,9 +256,7 @@
   (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
-   #'command-completion-default-include-p)
-  :bind ("<enter>" . nil)
-  )
+   #'command-completion-default-include-p))
 
 ;; sets exec path from zsh shell
 (use-package exec-path-from-shell)
@@ -454,8 +452,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (corfu-popupinfo-mode)
   (corfu-history-mode)
   :bind
-  (("<enter>" . nil)
-   ("<f5>" . corfu-complete)
+  (("<f5>" . corfu-complete)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
    ("<f8>" . corfu-quit)))
@@ -497,7 +494,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
-   ("C-c C-g d" . #'magit-diff)
+   ("C-c C-g d" . #'magit-diff-unstaged)
    ("C-c C-g g" . #'magit-status)
    ("C-c C-g p" . #'magit-push-current-to-upstream)
    ("C-c C-g u" . #'magit-pull-from-upstream)
@@ -565,9 +562,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
-(add-hook 'term-mode-hook (lambda ()
-                            "turn on Emacs state when entering term"
-                            (evil-emacs-state t)))
+
 ;; make sure exec path is path when started as daemon
 (when (daemonp)
   (exec-path-from-shell-initialize))
@@ -577,6 +572,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
              (vterm-mode . emacs)
              (eshell-mode . emacs)))
   (evil-set-initial-state (car p) (cdr p)))
+
 
 ;; prepaire ido
 ;; ido everywhere messes with dired in vertical ido-mode
