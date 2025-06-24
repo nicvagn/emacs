@@ -130,6 +130,7 @@
     "v" 'evil-window-vsplit
     "h" 'evil-open-below
     "t" 'evil-open-above
+    "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
   (global-evil-leader-mode 1)
   ;; after evil leader has been loaded, turn on evil.
@@ -139,8 +140,6 @@
 
 ;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)
-;; after modes have been loaded, turn on evil
-(global-evil-dvorak-mode 1)
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak-nrv.el ends here

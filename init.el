@@ -153,8 +153,8 @@
  '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
  '(resize-mini-windows t)
  '(shell-pop-shell-type
-   '("ansi-term" "*ansi-term*"
-     (lambda nil (ansi-term shell-pop-term-shell))))
+   '("vterm" "*vterm*"
+     (lambda nil (vterm shell-pop-term-shell))))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
