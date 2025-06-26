@@ -37,3 +37,5 @@
 (global-set-key (kbd "C-c M-g") 'repo-grep)
 
 (provide 'global-bindings)
+
+;;; global-bindings.el ends here

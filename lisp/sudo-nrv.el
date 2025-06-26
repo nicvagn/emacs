@@ -3,16 +3,16 @@
 ;;; Change Log: made tramp not ask for backup permission, because I rmed it
 ;;; Code:
 
+(require 'sudo-edit)
 (defun sudo-find-file (file-name)
   "Like find file, but opens the file as root."
-  (interactive "FSudo Find File: ")
-  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
-    (find-file tramp-file-name)))
+  (interactive "FSudo Find File")
+  (sudo-edit-find-file (filename)))
 
 (defun sudo ()
   "edit the file in the buffer as root."
-  (interactive "sudo! editing as root")
-  (sudo-find-file (buffer-file-name)))
+  (interactive "Fsudo! editing as root")
+  (sudo-edit))
 
 
 ;; Turn of backup feature for "remote" files

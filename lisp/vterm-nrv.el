@@ -27,5 +27,8 @@
               )
   )
 
+;; popup shell
+(require 'shell-pop)
+
 (provide 'vterm-nrv)
 ;;; vterm-nrv.el ends here

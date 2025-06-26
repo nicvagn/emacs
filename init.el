@@ -9,9 +9,8 @@
 (add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; popup shell
-(require 'shell-pop)
 (require 'project)
+(require 'flymake)
 ;; find-file-in-project.el -- elpy wants it
 (require 'find-file-in-project)
 ;; ace-flyspell
@@ -277,6 +276,7 @@
   :ensure t
   ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
   )
+
 (use-package counsel
   :ensure t)
 
@@ -366,7 +366,6 @@
         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
         sbt:program-options '("-Dsbt.supershell=false")))
 
-;; The language server is handled in language-servers-nrv.el
 (use-package rescript-mode
   :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
   :defer t
@@ -529,7 +528,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (require 'global-bindings) ;; fancy pants
-
+(require 'mode-maps-nrv)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Advice -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defadvice ibuffer
@@ -563,17 +562,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 
-;; make sure exec path is path when started as daemon
-(when (daemonp)
-  (exec-path-from-shell-initialize))
-
-;; set *shell modes to use evil emacs state
-(dolist (p '((shell-mode . emacs)
-             (vterm-mode . emacs)
-             (ansi-term-mode . emacs)
-             (eshell-mode . emacs)))
-  (evil-set-initial-state (car p) (cdr p)))
-
 
 ;; prepaire ido
 ;; ido everywhere messes with dired in vertical ido-mode
@@ -595,6 +583,18 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
             (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
             (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
             (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
+
+;; make sure exec path is path when started as daemon
+(when (daemonp)
+  (exec-path-from-shell-initialize))
+
+;; set *shell modes to use evil emacs state
+(dolist (p '((shell-mode . emacs)
+             (vterm-mode . emacs)
+             (ansi-term-mode . emacs)
+             (eshell-mode . emacs)))
+  (evil-set-initial-state (car p) (cdr p)))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 (defalias 'del 'delete-this-file)
