@@ -4,16 +4,8 @@
 ;;; Code:
 
 (require 'sudo-edit)
-(defun sudo-find-file (file-name)
-  "Like find file, but opens the file as root."
-  (interactive "FSudo Find File")
-  (sudo-edit-find-file (filename)))
-
-(defun sudo ()
-  "edit the file in the buffer as root."
-  (interactive "Fsudo! editing as root")
-  (sudo-edit))
-
+(defalias 'sudo-find-file 'sudo-edit-find-file)
+(defalias 'sudo 'sudo-edit)
 
 ;; Turn of backup feature for "remote" files
 (add-to-list 'backup-directory-alist
