@@ -49,7 +49,8 @@
 (require 'repo-grep)
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/"))
+(add-to-list 'package-archives '("nongnu" . "Https://elpa.nongnu.org/nongnu/"))
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -525,6 +526,13 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :demand t
   :config
   (global-treesit-auto-mode))
+
+(use-package markdown-mode
+  :ensure t
+  :mode ("README\\.md\\'" . gfm-mode)
+  :init (setq markdown-command "multimarkdown")
+  :bind (:map markdown-mode-map
+              ("C-c C-e" . markdown-do)))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (require 'global-bindings) ;; fancy pants
