@@ -568,9 +568,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-
-
 ;; prepaire ido
 ;; ido everywhere messes with dired in vertical ido-mode
 (add-hook 'dired-mode-hook #'disable-ido-everywhere)

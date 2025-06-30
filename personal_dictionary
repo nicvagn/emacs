@@ -101,3 +101,6 @@ django
 skhorizonchess
 SHC
 sudo
+py
+gui
+utils
