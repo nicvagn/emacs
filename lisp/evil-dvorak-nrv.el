@@ -36,7 +36,13 @@
 ;; (global-evil-dvorak-mode 1)
 
 ;;; Code:
-(require 'evil)
+
+(use-package evil
+  :ensure t
+  :config
+  ;; set evil undo to one built into emacs
+  (evil-set-undo-system 'undo-redo))
+
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
   :keymap (make-sparse-keymap))
@@ -53,11 +59,6 @@
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
-(use-package evil
-  :ensure t
-  :config
-  ;; set evil undo to one built into emacs
-  (evil-set-undo-system 'undo-redo))
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map

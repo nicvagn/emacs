@@ -19,45 +19,8 @@
 (add-to-list 'load-path "~/.config/emacs/lisp/")
 (add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
-;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(require 'project)
-(require 'flymake)
-;; find-file-in-project.el -- elpy wants it
-(require 'find-file-in-project)
-;; ace-flyspell
-(require 'ace-flyspell)
-;; visable indentation marks
-(require 'highlight-indentation)
-;; nerdtree for files
-(require 'neotree)
-;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
-(require 'sudo-nrv)
-;; pretty colours
-(require 'rainbow-delimiters)
-;;; functions-nrv -- useful functions?
-;; nrv-error-handler -- I don't honestly know handles errors?
-;; delete-this-file -- delete the file in a buffer
-;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
-;;                                         kill newline.
-;; djoyner/evil-shift-****-visual -- do not loose selection when you shift
-;;                                                                  (L or R)
-(require 'functions-nrv)
-;; mode hooks
-(require 'prepare-nrv) ;; modular af
-;; org
-(require 'org)
-;; my own custom vterm
-(require 'vterm-nrv)
-;; yasnippit completion at point
-(require 'yasnippet-capf)
-;; python ide stuff
-(require 'python-nrv)
-;; fzf.el -- includes fzf-git and fzf-find-file
-(require 'fzf)
-;; evil dvorak custom evil and key-map
-(require 'evil-dvorak-nrv)
-;; repo-grep -- does what you expect
-(require 'repo-grep)
+(add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -155,8 +118,7 @@
  '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
  '(resize-mini-windows t)
  '(shell-pop-shell-type
-   '("vterm" "*vterm*"
-     (lambda nil (vterm shell-pop-term-shell))))
+   '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
  '(text-mode-hook
    '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
@@ -239,19 +201,27 @@
  use-package-compute-statistics t)
 
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(ace-flyspell-setup)
-;; Revert buffers when the underlying file has changed
-(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
-(global-hl-line-mode 1)
-(auto-fill-mode 1) ;; complete if only
-(savehist-mode 1) ;; save history
-(transient-mark-mode 1)  ;; selection highlighting
-(which-function-mode 1)  ;; tell which func.
-(highlight-indentation-mode 1)
-(rainbow-delimiters-mode 1)
-(autoload 'repo-grep "repo-grep")
-(autoload 'repo-grep-multi "repo-grep")
+;; telephone line
+(setq telephone-line-lhs
+        '((evil   . (telephone-line-evil-tag-segment))
+          (accent . (telephone-line-vc-segment
+                     telephone-line-erc-modified-channels-segment
+                     telephone-line-process-segment))
+          (nil    . (telephone-line-minor-mode-segment
+                     telephone-line-buffer-segment))))
+(setq telephone-line-rhs
+        '((nil    . (telephone-line-misc-info-segment))
+          (accent . (telephone-line-major-mode-segment))
+          (evil   . (telephone-line-airline-position-segment))))
+
+(setq telephone-line-primary-left-separator 'telephone-line-cubed-left
+      telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+      telephone-line-primary-right-separator 'telephone-line-cubed-right
+      telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
+(setq telephone-line-height 24
+      telephone-line-evil-use-short-tag t)
+
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :custom
@@ -268,6 +238,7 @@
   :commands format-all-mode
   :defer t
   :ensure t
+  :diminish format-all-mode
   :hook (prog-mode . format-all-mode)
   :bind
   ("C-c f" . format-all-region-or-buffer))
@@ -440,6 +411,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; display possible keyboard shortcuts
 (use-package which-key
+  :diminish which-key-mode
   :config
   (which-key-mode))
 
@@ -535,6 +507,65 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
               ("C-c C-e" . markdown-do)))
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; emacs built-in's
+(require 'project)
+(require 'flymake)
+;; find-file-in-project.el -- elpy wants it
+(require 'find-file-in-project)
+;; ace-flyspell
+(require 'ace-flyspell)
+;; visable indentation marks
+(require 'highlight-indentation)
+(diminish 'highlight-indentation-mode)
+;; nerdtree for files
+(require 'neotree)
+;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
+(require 'sudo-nrv)
+;; pretty colours
+(require 'rainbow-delimiters)
+;;; functions-nrv -- useful functions?
+;; nrv-error-handler -- I don't honestly know handles errors?
+;; delete-this-file -- delete the file in a buffer
+;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
+;;                                         kill newline.
+;; djoyner/evil-shift-****-visual -- do not loose selection when you shift
+;;                                                                  (L or R)
+(require 'functions-nrv)
+;; mode hooks
+(require 'prepare-nrv) ;; modular af
+;; org
+(require 'org)
+;; my own custom vterm
+(require 'vterm-nrv)
+;; yasnippit completion at point
+(require 'yasnippet-capf)
+;; python ide stuff
+(require 'python-nrv)
+;; fzf.el -- includes fzf-git and fzf-find-file
+(require 'fzf)
+;; evil dvorak custom evil and key-map
+(require 'evil-dvorak-nrv)
+;; repo-grep -- does what you expect
+(require 'repo-grep)
+;; Telephone Line is a new implementation of Powerline for emacs
+(require 'telephone-line)
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(ace-flyspell-setup)
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
+(global-hl-line-mode 1)
+(auto-fill-mode 1) ;; complete if only
+(savehist-mode 1) ;; save history
+(transient-mark-mode 1)  ;; selection highlighting
+(which-function-mode 1)  ;; tell which func.
+(highlight-indentation-mode 1)
+(rainbow-delimiters-mode 1)
+(telephone-line-mode 1)
+(autoload 'repo-grep "repo-grep")
+(autoload 'repo-grep-multi "repo-grep")
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (require 'global-bindings) ;; fancy pants
