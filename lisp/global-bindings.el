@@ -34,7 +34,10 @@
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
 
 (require 'repo-grep)
-(global-set-key (kbd "C-c M-g") 'repo-grep)
+(global-set-key (kbd "C-c g") 'repo-grep)
+
+(require 'functions-nrv)
+(global-set-key (kbd "C-c m") 'zck/move-file)
 
 (provide 'global-bindings)
 

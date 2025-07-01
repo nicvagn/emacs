@@ -14,7 +14,7 @@
   :hook
   (vterm-mode . (lambda ()
 		              (buffer-face-mode t)
-		              (text-scale-adjust 1.05)
+		              (text-scale-decrease 1)
 		              (use-monospace)
                   (define-key vterm-mode-map (kbd "M-[")  #'centaur-tabs-backward)
                   (define-key vterm-mode-map (kbd "M-]") #'centaur-tabs-forward)
