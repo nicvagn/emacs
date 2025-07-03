@@ -114,7 +114,8 @@
 
 ;; --- IDO ----
 (defun disable-ido-everywhere ()
-  (ido-everywhere -1))
+  (ido-everywhere -1)
+  )
 
 (defun prepare-ido ()
   "Prepare ido keymaps"

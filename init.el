@@ -91,6 +91,11 @@
                xgit-changelog-mode xgit-diff-mode xgit-revlog-mode
                xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode
                xhg-mq-sub-mode xhg-status-extra-mode))
+ '(ido-completion-buffer-all-completions t)
+ '(ido-max-window-height 35)
+ '(ido-rotate-file-list-default t)
+ '(ido-vertical-indicator "-]")
+ '(ido-vertical-show-count t)
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
@@ -127,6 +132,8 @@
 ;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
+              ;; don't confirm creation of new files
+              confirm-nonexistent-file-or-buffer nil
               ;; Use spaces not tabs
               indent-tabs-mode nil
               cperl-indent-level tab-width)
@@ -138,6 +145,7 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+
  ;; python for elpy
  python-shell-interpreter "python"
  python-shell-interpreter-args "-i"
@@ -146,7 +154,7 @@
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error nil ;; backtraces
+ debug-on-error t ;; backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
@@ -189,7 +197,15 @@
  ;; flymake
  next-error-function 'flymake-goto-next-error
  ;; ido
+ ido-enable-flex-matching t
+ ido-everywhere t
+ ido-virtual-buffers t
+ ido-use-faces t
+ ido-default-buffer-method 'selected-window
+ ido-auto-merge-work-directories-length -1
  ido-vertical-define-keys 'C-n-C-p-up-down-left-right
+ ido-create-new-buffer 'always
+ ;; magit
  magit-completing-read-function 'magit-ido-completing-read
  ;; org mode
  org-image-actual-width nil
@@ -203,16 +219,16 @@
 
 ;; telephone line
 (setq telephone-line-lhs
-        '((evil   . (telephone-line-evil-tag-segment))
-          (accent . (telephone-line-vc-segment
-                     telephone-line-erc-modified-channels-segment
-                     telephone-line-process-segment))
-          (nil    . (telephone-line-minor-mode-segment
-                     telephone-line-buffer-segment))))
+      '((evil   . (telephone-line-evil-tag-segment))
+        (accent . (telephone-line-vc-segment
+                   telephone-line-erc-modified-channels-segment
+                   telephone-line-process-segment))
+        (nil    . (telephone-line-minor-mode-segment
+                   telephone-line-buffer-segment))))
 (setq telephone-line-rhs
-        '((nil    . (telephone-line-misc-info-segment))
-          (accent . (telephone-line-major-mode-segment))
-          (evil   . (telephone-line-airline-position-segment))))
+      '((nil    . (telephone-line-misc-info-segment))
+        (accent . (telephone-line-major-mode-segment))
+        (evil   . (telephone-line-airline-position-segment))))
 
 (setq telephone-line-primary-left-separator 'telephone-line-cubed-left
       telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
@@ -659,6 +675,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
  '(font-lock-variable-name-face ((t (:foreground "pale green" :weight extra-bold))))
  '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
  '(hl-line ((t (:extend t :background "grey18"))))
+ '(ido-first-match ((t (:background "dark gray" :foreground "black" :weight bold))))
+ '(ido-vertical-first-match-face ((t (:inherit ido-first-match))))
  '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "LightGoldenrod4"))))
  '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
