@@ -21,7 +21,6 @@
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -657,7 +656,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :extend nil :stipple nil :background "gray8" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 117 :width normal :foundry "ADBO" :family "Source Code Pro"))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "gray4" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 114 :width normal :foundry "ADBO" :family "Source Code Pro"))))
  '(ansi-color-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
  '(ansi-color-bright-blue ((t (:background "cornflower blue" :foreground "sky blue"))))
  '(ansi-color-bright-red ((t (:background "IndianRed1" :foreground "firebrick1"))))
