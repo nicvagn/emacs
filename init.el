@@ -108,18 +108,18 @@
              flyspell-correct-popup format-all gnu-elpa-keyring-update
              ido-completing-read+ ido-vertical-mode jedi llama magit
              magit-delta magit-diff-flycheck magit-section
-             magit-tbdiff markdown-mode markup org-modern powerline
-             project projectile python-django pyvenv
+             magit-tbdiff markdown-mode markup org-modern php-ts-mode
+             powerline project projectile python-django pyvenv
              rainbow-delimiters reformatter rescript-mode sbt-mode
              scala-mode track-changes tramp-theme transient
              treesit-auto treesit-fallback use-package vterm web-mode
              which-key yasnippet yasnippet-classic-snippets
              yasnippet-snippets))
  '(package-vc-selected-packages
-   '((php-ts-mode :vc-backend Git :url
-                  "https://github.com/emacs-php/php-ts-mode")
-     (treesit-fallback :vc-backend Git :url
-                       "https://github.com/renzmann/treesit-fallback.git")))
+   '((treesit-fallback :vc-backend Git :url
+                       "https://github.com/renzmann/treesit-fallback.git")
+     (php-ts-mode :vc-backend Git :url
+                  "https://github.com/emacs-php/php-ts-mode")))
  '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
  '(resize-mini-windows t)
  '(shell-pop-shell-type
@@ -145,7 +145,6 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
-
  ;; python for elpy
  python-shell-interpreter "python"
  python-shell-interpreter-args "-i"
@@ -214,28 +213,28 @@
  ;; use-package
  use-package-always-ensure t
  use-package-verbose t
- use-package-compute-statistics t)
+ use-package-compute-statistics t
 
 
-;; telephone line
-(setq telephone-line-lhs
-      '((evil   . (telephone-line-evil-tag-segment))
-        (accent . (telephone-line-vc-segment
-                   telephone-line-erc-modified-channels-segment
-                   telephone-line-process-segment))
-        (nil    . (telephone-line-minor-mode-segment
-                   telephone-line-buffer-segment))))
-(setq telephone-line-rhs
-      '((nil    . (telephone-line-misc-info-segment))
-        (accent . (telephone-line-major-mode-segment))
-        (evil   . (telephone-line-airline-position-segment))))
+ ;; telephone line -- mode line stuff
+ telephone-line-lhs
+ '((evil   . (telephone-line-evil-tag-segment))
+   (accent . (telephone-line-vc-segment
+              telephone-line-erc-modified-channels-segment
+              telephone-line-process-segment))
+   (nil    . (telephone-line-minor-mode-segment
+              telephone-line-buffer-segment)))
+ telephone-line-rhs
+ '((nil    . (telephone-line-misc-info-segment))
+   (accent . (telephone-line-major-mode-segment))
+   (evil   . (telephone-line-airline-position-segment)))
 
-(setq telephone-line-primary-left-separator 'telephone-line-cubed-left
-      telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
-      telephone-line-primary-right-separator 'telephone-line-cubed-right
-      telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right)
-(setq telephone-line-height 24
-      telephone-line-evil-use-short-tag t)
+ telephone-line-primary-left-separator 'telephone-line-cubed-left
+ telephone-line-secondary-left-separator 'telephone-line-cubed-hollow-left
+ telephone-line-primary-right-separator 'telephone-line-cubed-right
+ telephone-line-secondary-right-separator 'telephone-line-cubed-hollow-right
+ telephone-line-height 24
+ telephone-line-evil-use-short-tag t)
 
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -491,7 +490,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
-   ("C-c C-g a" . #'magit-stage-buffer-file)
+   ("C-c C-g a" . #'magit-file-stage)
    ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
@@ -659,7 +658,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :extend nil :stipple nil :background "gray8" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight bold :height 117 :width normal :foundry "ADBO" :family "Source Code Pro"))))
- '(ansi-color-bright-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(ansi-color-blue ((t (:background "dodger blue" :foreground "dodger blue"))))
+ '(ansi-color-bright-blue ((t (:background "cornflower blue" :foreground "sky blue"))))
+ '(ansi-color-bright-red ((t (:background "IndianRed1" :foreground "firebrick1"))))
+ '(ansi-color-red ((t (:background "firebrick3" :foreground "firebrick1"))))
  '(centaur-tabs-default ((t (:background "dark gray" :foreground "dim gray"))))
  '(centaur-tabs-selected ((t (:background "orange" :foreground "black"))))
  '(centaur-tabs-unselected ((t (:background "#3D3C3D" :foreground "gray82"))))
