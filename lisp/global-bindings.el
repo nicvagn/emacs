@@ -14,6 +14,8 @@
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; show the dir track of file we are edditing
 (global-set-key (kbd "C-c d") #'dir-track)
+;; kill this buffer
+(global-set-key (kbd "C-c k") #'kill-current-buffer)
 ;; close all other buffers
 (global-set-key (kbd "C-c C-K") #'kill-other-buffers)
 ;; magit status
@@ -32,6 +34,10 @@
 (global-set-key (kbd "M-0") 'xref-find-definitions)
 (global-set-key (kbd "M-9") 'xref-find-references)
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
+
+;; swich window - we will see what I use
+(global-set-key (kbd "<pause>") 'other-window)
+(global-set-key (kbd "C-c o") 'other-window)
 
 (require 'repo-grep)
 (global-set-key (kbd "C-c g") 'repo-grep)

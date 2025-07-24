@@ -39,7 +39,7 @@
      default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(term-mode dired-mode 5x5-mode archive-mode bbdb-mode
+   '(term-mode inferior-python-mode dired-mode 5x5-mode archive-mode bbdb-mode
                biblio-selection-mode blackbox-mode bookmark-bmenu-mode
                bookmark-edit-annotation-mode browse-kill-ring-mode
                bs-mode bubbles-mode bzr-annotate-mode calc-mode
