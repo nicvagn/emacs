@@ -71,8 +71,5 @@
   :program python-isort-command
   :args python-isort-arguments)
 
-;; sort python import's on save
-(add-hook 'python-mode-hook 'python-isort-on-save-mode)
-
 (provide 'python-nrv)
 ;;; python-nrv.el ends here

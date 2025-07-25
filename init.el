@@ -614,9 +614,13 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; python hooks
 (add-hook 'python-mode-hook #'prepare-python)
+;; sort python import's on save
+(add-hook 'python-mode-hook 'python-isort-on-save-mode)
 (add-hook 'python-mode-hook 'display-line-numbers-mode)
 (add-hook 'dired-mode-hook #'prepare-dired)
+;; web hooks
 (add-hook 'css-ts-mode-hook #'prepare-css)
 (add-hook 'css-ts-mode-hook 'display-line-numbers-mode)
 (add-hook 'html-mode-hook #'prepare-html)
@@ -650,8 +654,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (when (daemonp)
   (exec-path-from-shell-initialize))
 
-;; set *shell modes to use evil emacs state
-(dolist (p '((shell-mode . emacs)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-emacs modes_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(dolist (p '((inferior-python-mode . emacs)
+             ;; set *shell modes to use evil emacs state
+             (shell-mode . emacs)
              (vterm-mode . emacs)
              (ansi-term-mode . emacs)
              (eshell-mode . emacs)))
