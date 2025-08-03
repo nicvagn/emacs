@@ -39,7 +39,7 @@
      default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(term-mode inferior-python-mode dired-mode 5x5-mode archive-mode bbdb-mode
+   '(term-mode dired-mode 5x5-mode archive-mode bbdb-mode
                biblio-selection-mode blackbox-mode bookmark-bmenu-mode
                bookmark-edit-annotation-mode browse-kill-ring-mode
                bs-mode bubbles-mode bzr-annotate-mode calc-mode
@@ -119,11 +119,10 @@
              magit-delta magit-diff-flycheck magit-section
              magit-tbdiff markdown-mode markup org-modern php-ts-mode
              powerline project projectile python-django pyvenv
-             rainbow-delimiters reformatter rescript-mode sbt-mode
-             scala-mode track-changes tramp-theme transient
-             treesit-auto treesit-fallback use-package vterm web-mode
-             which-key yasnippet yasnippet-classic-snippets
-             yasnippet-snippets))
+             rainbow-delimiters reformatter sbt-mode scala-mode
+             track-changes tramp-theme transient treesit-auto
+             treesit-fallback use-package vterm web-mode which-key
+             yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -363,16 +362,6 @@
         cperl-indent-level 2
         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
         sbt:program-options '("-Dsbt.supershell=false")))
-
-(use-package rescript-mode
-  :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
-  :defer t
-  :after
-  (eglot)
-  :mode
-  (("\\.bs.js\\'" . rescript-mode)
-   ("\\.res\\'" . rescript-mode)
-   ("\\.resi\\'" . rescript-mode)))
 
 (use-package centaur-tabs
   ;; without this demand, tabs don't show of the bat
