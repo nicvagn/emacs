@@ -105,7 +105,7 @@ gui
 utils
 lichess
 readme
-md
+.md
 Nic
 urllib
 rtf
@@ -115,7 +115,6 @@ networkx
 idna
 urls
 Chickaboo
-chickaboo
 github
 setuptools
 PyQt
@@ -142,3 +141,13 @@ eglot
 ido
 args
 defun
+httpx
+PyQt
+qss
+dev
+pyproject
+toml
+pyinstaller
+GPL
+treesit
+dired

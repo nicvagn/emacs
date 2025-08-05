@@ -109,12 +109,20 @@
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
  '(package-selected-packages
-   '(all-the-icons avy cape centaur-tabs corfu counsel diminish elpy
-                   evil-leader exec-path-from-shell flx-ido format-all
-                   ido-completing-read+ ido-vertical-mode magit
-                   markdown-mode php-ts-mode reformatter rescript-mode
-                   sbt-mode scala-mode tramp-theme treesit-auto
-                   treesit-fallback vterm web-mode))
+   '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
+             all-the-icons-gnus all-the-icons-nerd-fonts
+             auto-rename-tag avy cape centaur-tabs company corfu
+             counsel dash diminish eglot elpy evil evil-leader
+             exec-path-from-shell flx-ido flycheck flymake-codespell
+             flyspell-correct-popup format-all gnu-elpa-keyring-update
+             ido-completing-read+ ido-vertical-mode jedi llama magit
+             magit-delta magit-diff-flycheck magit-section
+             magit-tbdiff markdown-mode markup org-modern php-ts-mode
+             powerline project projectile python-django pyvenv
+             rainbow-delimiters reformatter sbt-mode scala-mode
+             track-changes tramp-theme transient treesit-auto
+             treesit-fallback use-package vterm web-mode which-key
+             yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -125,8 +133,10 @@
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
  '(tool-bar-mode nil))
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(setenv "WORKON_HOME" "/home/nrv/.venvs/")
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
@@ -339,7 +349,6 @@
         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
         sbt:program-options '("-Dsbt.supershell=false")))
 
-
 (use-package centaur-tabs
   ;; without this demand, tabs don't show of the bat
   :demand
@@ -465,7 +474,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
-   ("C-c C-g a" . #'magit-file-stage)
+   ("C-c C-g a" . #'magit-stage-file)
    ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
@@ -692,4 +701,5 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (provide 'init)
 ;;; init.el ends here
 
-                                        ; LocalWords:  setq
+                                        ; LocalWords:  setq yasnippet
+; LocalWords:  codespell melpa nongnu
