@@ -153,6 +153,8 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ispell-program-name "hunspell"
+ ispell-local-dictionary "en_CA"
  ;; python for elpy
  python-shell-interpreter "python"
  python-shell-interpreter-args "-i"
@@ -276,25 +278,25 @@
 (use-package flx-ido
   :requires ido)
 
-  (use-package ido-completing-read+
-    :requires ido
-    :requires ido
-    :config
-    (setq ido-ubiquitous-max-items 50000
-          ido-cr+-max-items 50000))
+(use-package ido-completing-read+
+  :requires ido
+  :requires ido
+  :config
+  (setq ido-ubiquitous-max-items 50000
+        ido-cr+-max-items 50000))
 
-  (use-package ido-vertical-mode
-    :requires ido
-    :after ido
-    :config
-    (set-face-attribute 'ido-vertical-first-match-face nil
-                        :background 'unspecified
-                        :foreground "orange")
-    (set-face-attribute 'ido-vertical-only-match-face nil
-                        :background 'unspecified
-                        :foreground "yellow")
-    (set-face-attribute 'ido-vertical-match-face nil
-                        :foreground 'unspecified))
+(use-package ido-vertical-mode
+  :requires ido
+  :after ido
+  :config
+  (set-face-attribute 'ido-vertical-first-match-face nil
+                      :background 'unspecified
+                      :foreground "orange")
+  (set-face-attribute 'ido-vertical-only-match-face nil
+                      :background 'unspecified
+                      :foreground "yellow")
+  (set-face-attribute 'ido-vertical-match-face nil
+                      :foreground 'unspecified))
 
 (defun ido/nrv ()
   "setup ido how I like"
@@ -702,4 +704,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;;; init.el ends here
 
                                         ; LocalWords:  setq yasnippet
-; LocalWords:  codespell melpa nongnu
+                                        ; LocalWords:  codespell melpa nongnu
