@@ -39,7 +39,7 @@
      default))
  '(eglot-send-changes-idle-time 0.2)
  '(evil-emacs-state-modes
-   '(term-mode inferior-python-mode dired-mode 5x5-mode archive-mode bbdb-mode
+   '(term-mode dired-mode 5x5-mode archive-mode bbdb-mode
                biblio-selection-mode blackbox-mode bookmark-bmenu-mode
                bookmark-edit-annotation-mode browse-kill-ring-mode
                bs-mode bubbles-mode bzr-annotate-mode calc-mode
@@ -109,21 +109,12 @@
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
  '(package-selected-packages
-   '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
-             all-the-icons-gnus all-the-icons-nerd-fonts
-             auto-rename-tag avy cape centaur-tabs company corfu
-             counsel dash diminish eglot elpy evil evil-leader
-             exec-path-from-shell flx-ido flycheck flymake-codespell
-             flyspell-correct-popup format-all gnu-elpa-keyring-update
-             ido-completing-read+ ido-vertical-mode jedi llama magit
-             magit-delta magit-diff-flycheck magit-section
-             magit-tbdiff markdown-mode markup org-modern php-ts-mode
-             powerline project projectile python-django pyvenv
-             rainbow-delimiters reformatter rescript-mode sbt-mode
-             scala-mode track-changes tramp-theme transient
-             treesit-auto treesit-fallback use-package vterm web-mode
-             which-key yasnippet yasnippet-classic-snippets
-             yasnippet-snippets))
+   '(all-the-icons avy cape centaur-tabs corfu counsel diminish elpy
+                   evil-leader exec-path-from-shell flx-ido format-all
+                   ido-completing-read+ ido-vertical-mode magit
+                   markdown-mode php-ts-mode reformatter rescript-mode
+                   sbt-mode scala-mode tramp-theme treesit-auto
+                   treesit-fallback vterm web-mode))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -133,8 +124,6 @@
  '(resize-mini-windows t)
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
- '(text-mode-hook
-   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
@@ -162,17 +151,17 @@
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error t ;; backtraces
+ debug-on-error nil ;; backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
  ;; if the value is nil, then TAB indents the current line only if
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
- tab-always-indent nil
+ tab-always-indent t
  ;; EVIL
  evil-want-C-u-scroll t
- evil-scroll-count 15
+ evil-scroll-count 10
  evil-want-fine-undo t
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
@@ -222,8 +211,7 @@
  ;; use-package
  use-package-always-ensure t
  use-package-verbose t
- use-package-compute-statistics t
-
+ use-package-compute-statistics nil
 
  ;; telephone line -- mode line stuff
  telephone-line-lhs
@@ -261,62 +249,49 @@
 (use-package format-all
   :commands format-all-mode
   :defer t
-  :ensure t
   :diminish format-all-mode
   :hook (prog-mode . format-all-mode)
   :bind
   ("C-c f" . format-all-region-or-buffer))
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 
-(use-package avy
-  :ensure t
-  ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-  )
+;; GNU Emacs package for jumping to visible text using a char-based decision tree.
+(use-package avy)
 
-(use-package counsel
-  :ensure t)
+(use-package counsel)
 
-(use-package ido
-  :config
-  (setq ido-everywhere t
-        ido-virtual-buffers t
-        ido-use-faces t
-        ido-default-buffer-method 'selected-window
-        ido-auto-merge-work-directories-length -1)
-  (ido-mode 1))
+(use-package ido)
 
 (use-package flx-ido
-  :requires ido
-  :config (flx-ido-mode 1))
+  :requires ido)
 
-(use-package ido-vertical-mode
-  :requires ido
-  :after ido
-  :config
-  (setq ido-use-faces t)
-  (set-face-attribute 'ido-vertical-first-match-face nil
-                      :background 'unspecified
-                      :foreground "orange")
-  (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background 'unspecified
-                      :foreground "yellow")
-  (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground 'unspecified)
-  (ido-vertical-mode 1))
+  (use-package ido-completing-read+
+    :requires ido
+    :requires ido
+    :config
+    (setq ido-ubiquitous-max-items 50000
+          ido-cr+-max-items 50000))
 
-(use-package ido-completing-read+ :requires ido
-  :requires ido
-  :config
-  (setq ido-ubiquitous-max-items 50000
-        ido-cr+-max-items 50000)
-  (ido-ubiquitous-mode +1))
+  (use-package ido-vertical-mode
+    :requires ido
+    :after ido
+    :config
+    (set-face-attribute 'ido-vertical-first-match-face nil
+                        :background 'unspecified
+                        :foreground "orange")
+    (set-face-attribute 'ido-vertical-only-match-face nil
+                        :background 'unspecified
+                        :foreground "yellow")
+    (set-face-attribute 'ido-vertical-match-face nil
+                        :foreground 'unspecified))
 
-(use-package flyspell-correct-popup
-  :bind ("C-M-;" . flyspell-correct-wrapper)
-  :init
-  (setq flyspell-correct-interface #'flyspell-correct-popup))
+(defun ido/nrv ()
+  "setup ido how I like"
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (ido-ubiquitous-mode +1)
+  (flx-ido-mode 1))
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -364,15 +339,6 @@
         ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
         sbt:program-options '("-Dsbt.supershell=false")))
 
-(use-package rescript-mode
-  :hook ((rescript-mode . (lambda () (electric-indent-local-mode -1))))
-  :defer t
-  :after
-  (eglot)
-  :mode
-  (("\\.bs.js\\'" . rescript-mode)
-   ("\\.res\\'" . rescript-mode)
-   ("\\.resi\\'" . rescript-mode)))
 
 (use-package centaur-tabs
   ;; without this demand, tabs don't show of the bat
@@ -725,3 +691,5 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 (provide 'init)
 ;;; init.el ends here
+
+                                        ; LocalWords:  setq

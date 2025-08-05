@@ -21,6 +21,9 @@
 
 (defun prepare-text ()
   "Prepare all text buffers"
+  (turn-on-flyspell)
+  (yas-minor-mode-on)
+  (text-mode-hook-identify)
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
@@ -50,6 +53,7 @@
   (define-key dired-mode-map (kbd "a") 'dired-create-directory)
   (define-key dired-mode-map (kbd "r") 'dired-do-rename)
   (define-key dired-mode-map (kbd "<return>") 'dired-find-file)
+  (define-key dired-mode-map (kbd "<tab>") 'dired-find-file)
 
   ;; "leader"
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
