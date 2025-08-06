@@ -117,12 +117,12 @@
              flyspell-correct-popup format-all gnu-elpa-keyring-update
              ido-completing-read+ ido-vertical-mode jedi llama magit
              magit-delta magit-diff-flycheck magit-section
-             magit-tbdiff markdown-mode markup org-modern php-ts-mode
-             powerline project projectile python-django pyvenv
-             rainbow-delimiters reformatter sbt-mode scala-mode
-             track-changes tramp-theme transient treesit-auto
-             treesit-fallback use-package vterm web-mode which-key
-             yasnippet))
+             magit-tbdiff markdown-mode markup nerd-icons-corfu
+             org-modern php-ts-mode powerline project projectile
+             python-django pyvenv rainbow-delimiters reformatter
+             sbt-mode scala-mode track-changes tramp-theme transient
+             treesit-auto treesit-fallback use-package vterm web-mode
+             which-key yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -199,8 +199,8 @@
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
  ;; corfu
- corfu-auto-delay  0.2 ;; may cause issues due to being fast
- corfu-auto-prefix 0.2
+ corfu-auto-delay  0.01 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.01
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; flymake
@@ -249,7 +249,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :custom
-  ;; corfu recommend
+  ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
@@ -279,7 +279,6 @@
   :requires ido)
 
 (use-package ido-completing-read+
-  :requires ido
   :requires ido
   :config
   (setq ido-ubiquitous-max-items 50000
@@ -416,12 +415,14 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :config
   (which-key-mode))
 
-;; corfu autocomplete ui
+;; Corfu autocomplete ui
 (use-package corfu
   :after eglot
   :custom
+  (corfu-cycle t)                ;; Enable cycling
   (corfu-auto t)
-  (corfu-cycle t)  ;; Enable cycling
+  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  (corfu-quit-at-boundary t)     ;; Configure quit at completion boundary
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode)
@@ -705,3 +706,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
                                         ; LocalWords:  setq yasnippet
                                         ; LocalWords:  codespell melpa nongnu
+                                        ; LocalWords:  emacs scala
