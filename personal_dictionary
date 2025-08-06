@@ -152,3 +152,6 @@ GPL
 treesit
 dired
 vterm
+hashlib
+pathlib
+md
