@@ -38,7 +38,6 @@
 ;; swich window - we will see what I use
 (global-set-key (kbd "<pause>") 'other-window)
 (global-set-key (kbd "C-c o") 'other-window)
-
 (require 'repo-grep)
 (global-set-key (kbd "C-c g") 'repo-grep)
 
@@ -48,3 +47,5 @@
 (provide 'global-bindings)
 
 ;;; global-bindings.el ends here
+
+; LocalWords:  vterm

@@ -133,11 +133,14 @@
     "t" 'evil-open-above
     "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
-  (global-evil-leader-mode 1)
-  ;; after evil leader has been loaded, turn on evil.
-  ;; So leader is availible in all buffers
-  (global-evil-dvorak-mode 1)
-  (evil-mode 1))
+)
+
+;; invoke stuff
+(global-evil-leader-mode 1)
+;; after evil leader has been loaded, turn on evil.
+;; So leader is availible in all buffers
+(global-evil-dvorak-mode 1)
+(evil-mode 1)
 
 ;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)

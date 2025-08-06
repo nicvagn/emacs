@@ -132,8 +132,6 @@
  '(resize-mini-windows t)
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
- '(text-mode-hook
-   '(turn-on-flyspell yas-minor-mode-on text-mode-hook-identify))
  '(tool-bar-mode nil))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -155,6 +153,8 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ispell-program-name "hunspell"
+ ispell-local-dictionary "en_CA"
  ;; python for elpy
  python-shell-interpreter "python"
  python-shell-interpreter-args "-i"
@@ -163,17 +163,17 @@
  ;; pop up file maneger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error t ;; backtraces
+ debug-on-error nil ;; backtraces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
  ;; if the value is nil, then TAB indents the current line only if
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
- tab-always-indent nil
+ tab-always-indent t
  ;; EVIL
  evil-want-C-u-scroll t
- evil-scroll-count 15
+ evil-scroll-count 10
  evil-want-fine-undo t
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
@@ -223,8 +223,7 @@
  ;; use-package
  use-package-always-ensure t
  use-package-verbose t
- use-package-compute-statistics t
-
+ use-package-compute-statistics nil
 
  ;; telephone line -- mode line stuff
  telephone-line-lhs
@@ -262,41 +261,34 @@
 (use-package format-all
   :commands format-all-mode
   :defer t
-  :ensure t
   :diminish format-all-mode
   :hook (prog-mode . format-all-mode)
   :bind
   ("C-c f" . format-all-region-or-buffer))
 
-(use-package diminish
-  :ensure t)
+(use-package diminish)
 
-(use-package avy
-  :ensure t
-  ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-  )
+;; GNU Emacs package for jumping to visible text using a char-based decision tree.
+(use-package avy)
 
-(use-package counsel
-  :ensure t)
+(use-package counsel)
 
-(use-package ido
-  :config
-  (setq ido-everywhere t
-        ido-virtual-buffers t
-        ido-use-faces t
-        ido-default-buffer-method 'selected-window
-        ido-auto-merge-work-directories-length -1)
-  (ido-mode 1))
+(use-package ido)
 
 (use-package flx-ido
+  :requires ido)
+
+(use-package ido-completing-read+
   :requires ido
-  :config (flx-ido-mode 1))
+  :requires ido
+  :config
+  (setq ido-ubiquitous-max-items 50000
+        ido-cr+-max-items 50000))
 
 (use-package ido-vertical-mode
   :requires ido
   :after ido
   :config
-  (setq ido-use-faces t)
   (set-face-attribute 'ido-vertical-first-match-face nil
                       :background 'unspecified
                       :foreground "orange")
@@ -304,20 +296,14 @@
                       :background 'unspecified
                       :foreground "yellow")
   (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground 'unspecified)
-  (ido-vertical-mode 1))
+                      :foreground 'unspecified))
 
-(use-package ido-completing-read+ :requires ido
-  :requires ido
-  :config
-  (setq ido-ubiquitous-max-items 50000
-        ido-cr+-max-items 50000)
-  (ido-ubiquitous-mode +1))
-
-(use-package flyspell-correct-popup
-  :bind ("C-M-;" . flyspell-correct-wrapper)
-  :init
-  (setq flyspell-correct-interface #'flyspell-correct-popup))
+(defun ido/nrv ()
+  "setup ido how I like"
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (ido-ubiquitous-mode +1)
+  (flx-ido-mode 1))
 
 ;; --- emacs lsp ---
 (use-package eglot
@@ -716,3 +702,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 (provide 'init)
 ;;; init.el ends here
+
+                                        ; LocalWords:  setq yasnippet
+                                        ; LocalWords:  codespell melpa nongnu
