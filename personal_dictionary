@@ -149,6 +149,9 @@ pyproject
 toml
 pyinstaller
 GPL
+SHC
+FIDE
+Prix
 treesit
 dired
 vterm
