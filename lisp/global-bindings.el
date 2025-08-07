@@ -36,8 +36,7 @@
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
 
 ;; spelling
-(global-set-key (kbd "C-;") #'ispell-word)
-
+(global-set-key (kbd "C-c s") 'flyspell-toggle )
 ;; swich window - we will see what I use
 (global-set-key (kbd "<pause>") 'other-window)
 (global-set-key (kbd "C-c o") 'other-window)
@@ -51,4 +50,4 @@
 
 ;;; global-bindings.el ends here
 
-; LocalWords:  vterm
+                                        ; LocalWords:  vterm

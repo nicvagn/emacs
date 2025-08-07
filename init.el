@@ -114,15 +114,16 @@
              auto-rename-tag avy cape centaur-tabs company corfu
              counsel dash diminish eglot elpy evil evil-leader
              exec-path-from-shell flx-ido flycheck flymake-codespell
-             flyspell-correct-popup format-all gnu-elpa-keyring-update
-             ido-completing-read+ ido-vertical-mode jedi llama magit
-             magit-delta magit-diff-flycheck magit-section
-             magit-tbdiff markdown-mode markup nerd-icons-corfu
-             org-modern php-ts-mode powerline project projectile
-             python-django pyvenv rainbow-delimiters reformatter
-             sbt-mode scala-mode track-changes tramp-theme transient
-             treesit-auto treesit-fallback use-package vterm web-mode
-             which-key yasnippet))
+             flyspell-correct-ido flyspell-correct-popup format-all
+             gnu-elpa-keyring-update ido-completing-read+
+             ido-vertical-mode jedi llama magit magit-delta
+             magit-diff-flycheck magit-section magit-tbdiff
+             markdown-mode markup nerd-icons-corfu org-modern
+             php-ts-mode powerline project projectile python-django
+             pyvenv rainbow-delimiters reformatter sbt-mode scala-mode
+             track-changes tramp-theme transient treesit-auto
+             treesit-fallback use-package vterm web-mode which-key
+             yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -153,6 +154,7 @@
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
+ ;; Emacs spell checking
  ispell-program-name "hunspell"
  ispell-local-dictionary "en_CA"
  ;; python for elpy
@@ -510,15 +512,18 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :bind (:map markdown-mode-map
               ("C-c C-e" . markdown-do)))
 
+;;_-_-_-_-_-_-_-_-_-_-_-_-_- Spelling -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)
+              ("C-M-;" . flyspell-buffer)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; emacs built-in's
 (require 'project)
 (require 'flymake)
 ;; find-file-in-project.el -- elpy wants it
 (require 'find-file-in-project)
-;; ace-flyspell
-(require 'ace-flyspell)
-;; visable indentation marks
+;; visible indentation marks
 (require 'highlight-indentation)
 (diminish 'highlight-indentation-mode)
 ;; nerdtree for files
@@ -543,7 +548,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'vterm-nrv)
 ;; yasnippit completion at point
 (require 'yasnippet-capf)
-;; python ide stuff
+;; python IDE stuff
 (require 'python-nrv)
 ;; fzf.el -- includes fzf-git and fzf-find-file
 (require 'fzf)
@@ -555,7 +560,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'telephone-line)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-(ace-flyspell-setup)
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
@@ -607,7 +611,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing whitespace always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; prepaire ido
+;; prepare ido
 ;; ido everywhere messes with dired in vertical ido-mode
 (add-hook 'dired-mode-hook #'disable-ido-everywhere)
 (add-hook 'ido-setup-hook #'prepare-ido)
@@ -707,3 +711,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  setq yasnippet
                                         ; LocalWords:  codespell melpa nongnu
                                         ; LocalWords:  emacs scala
+                                        ; LocalWords:  unselected LightGoldenrod DarkOrange MistyRose
+                                        ; LocalWords:  DeepSkyBlue
+                                        ; LocalWords:  daemonp flx
+                                        ; LocalWords:  yasnippit

@@ -21,7 +21,7 @@
 
 (defun prepare-text ()
   "Prepare all text buffers"
-  (turn-on-flyspell)
+  (flyspell-on-for-buffer-type) ;; def in functions-nrv set correct flyspell for buffer type
   (yas-minor-mode-on)
   (text-mode-hook-identify)
   (rainbow-delimiters-mode 1)

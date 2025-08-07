@@ -174,3 +174,7 @@ executables
 breakpoint
 ParingException
 lsp
+flymake
+elpy
+treesitter
+magit
