@@ -35,6 +35,9 @@
 (global-set-key (kbd "M-9") 'xref-find-references)
 (global-set-key (kbd "M-<menu>") 'xref-find-apropos)
 
+;; spelling
+(global-set-key (kbd "C-;") #'ispell-word)
+
 ;; swich window - we will see what I use
 (global-set-key (kbd "<pause>") 'other-window)
 (global-set-key (kbd "C-c o") 'other-window)
