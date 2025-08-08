@@ -117,7 +117,7 @@
              flyspell-correct-ido flyspell-correct-popup format-all
              gnu-elpa-keyring-update ido-completing-read+
              ido-vertical-mode jedi llama magit magit-delta
-             magit-diff-flycheck magit-section magit-tbdiff
+             magit-diff-flycheck magit-ido magit-section magit-tbdiff
              markdown-mode markup nerd-icons-corfu org-modern
              php-ts-mode powerline project projectile python-django
              pyvenv rainbow-delimiters reformatter sbt-mode scala-mode
