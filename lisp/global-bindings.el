@@ -18,8 +18,6 @@
 (global-set-key (kbd "C-c k") #'kill-current-buffer)
 ;; close all other buffers
 (global-set-key (kbd "C-c C-K") #'kill-other-buffers)
-;; magit status
-(global-set-key (kbd "C-x g") #'magit-status)
 ;; f9 Vterm
 (global-set-key (kbd "<f9>") 'vterm)
 ;; f12 to spellcheck

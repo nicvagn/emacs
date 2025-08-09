@@ -479,7 +479,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
-   ("C-c C-g a" . #'magit-stage-file)
+   ("C-c C-g a" . #'magit-file-stage)
    ("C-c C-g s" . #'magit-status-quick))
   :config
   (setq magit-status-show-untracked-files t))
