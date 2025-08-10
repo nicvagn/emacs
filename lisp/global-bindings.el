@@ -38,6 +38,8 @@
 ;; swich window - we will see what I use
 (global-set-key (kbd "<pause>") 'other-window)
 (global-set-key (kbd "C-c o") 'other-window)
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
 (require 'repo-grep)
 (global-set-key (kbd "C-c g") 'repo-grep)
 
