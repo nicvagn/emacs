@@ -3,6 +3,10 @@
 ;;  muh Emacs global binds
 
 ;;; code:
+;; Jumping about
+(require 'evil)
+(global-set-key (kbd "C-'") 'evil-jump-backward)
+(global-set-key (kbd "C-\"") 'evil-jump-forward)
 ;; split
 (global-set-key (kbd "C-c _") 'split-window-below)
 (global-set-key (kbd "C-c |") 'split-window-right)

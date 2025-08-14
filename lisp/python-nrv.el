@@ -23,14 +23,29 @@
 ;; Open emacs M-x pyvenv-activate RET dir_to_the_environment/env
 ;;; Code:
 
+;; Enhanced Python mode configuration
+(use-package python
+  :config
+  ;; Python indentation
+  (setq python-indent-offset 4
+        python-indent-guess-indent-offset nil
+        python-indent-guess-indent-offset-verbose nil)
+
+  ;; Python shell configuration
+  (setq python-shell-interpreter "python"
+        python-shell-interpreter-args "-i"
+        python-shell-prompt-detect-failure-warning nil)
+
+  ;; Enhanced syntax highlighting
+  (setq python-font-lock-keywords python-font-lock-keywords))
+
+
 (use-package reformatter
   :ensure t)
 
 ;; elpy python "IDE"
 (use-package elpy
-  :ensure t
-  :init
-  (advice-add 'python-mode :before 'elpy-enable))
+  :ensure t)
 
 (use-package pyvenv
   :ensure t
@@ -46,8 +61,11 @@
         (list (lambda ()
                 (setq python-shell-interpreter "python")))))
 
-;; I do not know if this is required
-(require 'reformatter)
+(use-package python-black
+  :ensure t
+  :demand t
+  :after python
+  :hook ((python-mode . python-black-on-save-mode)))
 
 (defgroup python-isort nil
   "Python isort."

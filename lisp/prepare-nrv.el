@@ -83,6 +83,7 @@
               tab-width python-tab-width
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
+  (elpy-enable)
   (prepare-text)
   )
 

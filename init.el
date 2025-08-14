@@ -92,7 +92,7 @@
                xhg-mq-sub-mode xhg-status-extra-mode))
  '(flx-ido-mode t)
  '(ido-completion-buffer-all-completions t)
- '(ido-cr+-max-items 50000)
+ '(ido-cr+-max-items 90000)
  '(ido-create-new-buffer 'always)
  '(ido-default-buffer-method 'selected-window)
  '(ido-enable-flex-matching t)
@@ -108,22 +108,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-selected-packages
-   '(ac-html all-the-icons all-the-icons-completion all-the-icons-dired
-             all-the-icons-gnus all-the-icons-nerd-fonts
-             auto-rename-tag avy cape centaur-tabs company corfu
-             counsel dash diminish eglot elpy evil evil-leader
-             exec-path-from-shell flx-ido flycheck flymake-codespell
-             flyspell-correct-ido flyspell-correct-popup format-all
-             gnu-elpa-keyring-update ido-completing-read+
-             ido-vertical-mode jedi llama magit magit-delta
-             magit-diff-flycheck magit-ido magit-section magit-tbdiff
-             markdown-mode markup nerd-icons-corfu org-modern
-             php-ts-mode powerline project projectile python-django
-             pyvenv rainbow-delimiters reformatter sbt-mode scala-mode
-             track-changes tramp-theme transient treesit-auto
-             treesit-fallback use-package vterm web-mode which-key
-             yasnippet))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -137,7 +122,7 @@
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq var's_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
@@ -148,24 +133,17 @@
               cperl-indent-level tab-width)
 ;; everything is highlighted
 (customize-set-variable 'treesit-font-lock-level 4)
-;; mode setting
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-;; mode remaping
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 
 (setq
  ;; Emacs spell checking
  ispell-program-name "hunspell"
  ispell-local-dictionary "en_CA"
- ;; python for elpy
- python-shell-interpreter "python"
- python-shell-interpreter-args "-i"
  ;; display full path in frame title
  frame-title-format '("%f")
- ;; pop up file maneger theme
+ ;; pop up file manger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error nil ;; backtraces
+ debug-on-error nil ;; back traces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
@@ -201,8 +179,8 @@
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
  ;; corfu
- corfu-auto-delay  0.01 ;; may cause issues due to being fast
- corfu-auto-prefix 0.01
+ corfu-auto-delay  0.15 ;; may cause issues due to being fast
+ corfu-auto-prefix 0.15
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; flymake
@@ -266,7 +244,19 @@
   :diminish format-all-mode
   :hook (prog-mode . format-all-mode)
   :bind
-  ("C-c f" . format-all-region-or-buffer))
+  ("C-c f" . format-all-region-or-buffer)
+  :config
+  ;; Define formatters for different modes
+  (setq format-all-default-formatters
+        '(("Python" black)
+          ("JavaScript" prettier)
+          ("TypeScript" prettier)
+          ("CSS" prettier)
+          ("HTML" prettier)
+          ("JSON" prettier)
+          ("Rust" rustfmt)
+          ("Go" gofmt)))
+  (add-hook 'prog-mode-hook #'format-all-mode))
 
 (use-package diminish)
 
@@ -274,6 +264,14 @@
 (use-package avy)
 
 (use-package counsel)
+
+;; ---- IDO start ----
+(defun nrv/ido ()
+  "set ido up for nrv"
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (ido-ubiquitous-mode +1)
+  (flx-ido-mode 1))
 
 (use-package ido)
 
@@ -299,40 +297,153 @@
   (set-face-attribute 'ido-vertical-match-face nil
                       :foreground 'unspecified))
 
-(defun ido/nrv ()
-  "setup ido how I like"
-  (ido-mode 1)
-  (ido-vertical-mode 1)
-  (ido-ubiquitous-mode +1)
-  (flx-ido-mode 1))
+;; this enables stuff
+(nrv/ido)
+;; ---- IDO end ----
 
-;; --- emacs lsp ---
+;; --- auto complete start ---
 (use-package eglot
-  ;; language server config and mode hooks in language-servers-nrv.
   :defer t
   :bind
-  ("C-c r" . eglot-rename)
-  ("C-c F" . eglot-format)
+  ;; C-c c for eglot functionality
+  (("C-c c r" . eglot-rename)
+   ("C-c c f" . eglot-format)
+   ("C-c c a" . eglot-code-actions)
+   ("C-c c d" . eldoc)
+   ("C-c c h" . eldoc-doc-buffer)
+   ("C-c c i" . eglot-find-implementation)
+   ("C-c c t" . eglot-find-typeDefinition)
+   ("C-c c x" . eglot-reconnect)
+   ("C-c c s" . eglot-signature-eldoc-function))
+
+  :hook ((python-mode  . eglot-ensure)
+         (python-ts-mode  . eglot-ensure)
+         (js-mode  . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
+         (css-mode  . eglot-ensure)
+         (html-mode  . eglot-ensure)
+         (web-mode  . eglot-ensure)
+         (yaml-mode . eglot-ensure)
+         (typescript-mode . eglot-ensure)
+         (prog-mode . eglot-ensure))
+
   :config
+  ;; Performance optimizations
+  (setq eglot-events-buffer-size 0)        ; Disable event logging for performance
+  (setq eglot-sync-connect nil)            ; Don't block on server connection
+  (setq eglot-autoshutdown t)              ; Shutdown server when last buffer is killed
+  (setq eglot-send-changes-idle-time 0.5)  ; Debounce changes
+
+  ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(typescript-ts-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
-  ;; Made into two statements because it was not working. IDK if the python srv is valid lisp
   (add-to-list 'eglot-server-programs
                `(python-mode
-                 . ,(eglot-alternatives '("jedi-language-server"
-                                          ("pyright-langserver" "--stdio")
+                 . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+                                          "jedi-language-server"
                                           "pylsp"))))
-  ;; eglot HOOKS! add the correct mode hooks
-  :hook
-  ((python-ts-mode . eglot-ensure)
-   (html-mode . eglot-ensure)
-   (web-mode . eglot-ensure)
-   (js-mode . eglot-ensure)
-   (typescript-ts-mode . eglot-ensure)
-   (scala-mode . eglot-ensure)
-   (css-mode . eglot-ensure)))
+  (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
+
+;; Corfu auto complete ui
+(use-package corfu
+  :after eglot
+  :config
+  (setq corfu-cycle t)                ; Enable cycling for `corfu-next/previous'
+  (setq corfu-auto t)                 ; Enable auto completion
+  (setq corfu-auto-delay 0.1)         ; Auto completion delay
+  (setq corfu-auto-prefix 0.3)          ; Minimum prefix for auto completion
+  (setq corfu-separator ?\s)          ; Orderless field separator
+  (setq corfu-quit-at-boundary nil)   ; Never quit at completion boundary
+  (setq corfu-quit-no-match t)        ; quit if there is no match
+  (setq corfu-preview-current 'insert) ; Preview current candidate
+  (setq corfu-preselect 'prompt)      ; Preselect the prompt
+  (setq corfu-on-exact-match nil)     ; Configure handling of exact matches
+  (setq corfu-scroll-margin 5)        ; Use scroll margin
+  (setq corfu-max-width 100)          ; Maximum popup width
+  (setq corfu-min-width 15)           ; Minimum popup width
+  (setq corfu-count 10)
+  ;; Enable Corfu more generally for every minibuffer, as long as no other
+  ;; completion UI is active. If you use Mct or Vertico as your main minibuffer
+  ;; completion UI. From the Corfu documentation.
+  (defun corfu-enable-always-in-minibuffer ()
+    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
+    (unless (or (bound-and-true-p mct--active) ; Useful if using mct
+                (bound-and-true-p vertico--input)) ; Useful if using vertico
+      (setq-local corfu-auto nil) ; Ensure auto completion is disabled
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
+  :init
+  (global-corfu-mode)
+  (corfu-popupinfo-mode)
+  (corfu-history-mode)
+  :bind
+  (("<f5>" . corfu-complete)
+   ("<f6>" . corfu-next)
+   ("<f7>" . corfu-previous)
+   ("<f8>" . corfu-quit)))
+
+;; Terminal support for Corfu
+(use-package corfu-terminal
+  :ensure t
+  :unless (display-graphic-p)  ; Only load in terminal
+  :hook (after-init . corfu-terminal-mode))
+
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-defaults nil)
+  (setq completion-category-overrides '((file (styles partial-completion))))
+
+  ;; Configure orderless matching
+  (setq orderless-matching-styles
+        '(orderless-literal
+          orderless-prefixes
+          orderless-initialism
+          orderless-regexp)))
+
+(use-package cape
+  :ensure t
+  :init
+  ;; Programming modes completion setup
+  (defun nrv/setup-programming-capf ()
+    "Setup completion-at-point-functions for programming."
+    (setq-local completion-at-point-functions
+                (list
+                 #'eglot-completion-at-point      ; LSP completion (when eglot is active)
+                 #'cape-dabbrev                   ; Dynamic abbreviations
+                 #'cape-keyword                   ; Language keywords
+                 #'cape-file                      ; File name completion
+                 #'cape-elisp-block              ; Complete elisp in org/markdown blocks
+                 #'cape-abbrev)))                 ; Static abbreviations
+
+  ;; Apply to programming modes
+  (dolist (mode-hook '(python-mode-hook
+                       python-ts-mode-hook
+                       js-mode-hook
+                       js-ts-mode-hook
+                       typescript-ts-mode-hook
+                       css-mode-hook
+                       css-ts-mode-hook
+                       html-mode-hook
+                       html-ts-mode-hook
+                       web-mode-hook
+                       c-mode-hook
+                       c++-mode-hook
+                       rust-mode-hook
+                       go-mode-hook))
+    (add-hook mode-hook #'nrv/setup-programming-capf))
+
+  :config
+  ;; Add yasnippet support globally
+  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+;; --- auto complete end ---
+
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode)
@@ -417,50 +528,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :config
   (which-key-mode))
 
-;; Corfu autocomplete ui
-(use-package corfu
-  :after eglot
-  :custom
-  (corfu-cycle t)                ;; Enable cycling
-  (corfu-auto t)
-  (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  (corfu-quit-at-boundary t)     ;; Configure quit at completion boundary
-  :init
-  (global-corfu-mode)
-  (corfu-popupinfo-mode)
-  (corfu-history-mode)
-  :bind
-  (("<f5>" . corfu-complete)
-   ("<f6>" . corfu-next)
-   ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit)))
-
-;; corfu cape extensions
-(use-package cape
-  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
-  ;; Press C-c p ? to for help.
-  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
-  ;; Alternatively bind Cape commands individually.
-  ;; :bind (("C-c p d" . cape-dabbrev)
-  ;;        ("C-c p h" . cape-history)
-  ;;        ("C-c p f" . cape-file)
-  ;;        ...)
-  :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.  The order of the functions matters, the
-  ;; first function returning a result wins.  Note that the list of buffer-local
-  ;; completion functions takes precedence over the global list.
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-keyword)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-dict)
-  (add-hook 'completion-at-point-functions #'cape-history)
-  ;; ...
-
-  :config
-  ;; add yasnippit snippits to completion at point
-  (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
 
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
@@ -498,12 +565,36 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("\\.mustache\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
-;; auto use treesitter mode
-;; vc: https://github.com/renzmann/treesit-auto
 (use-package treesit-auto
-  :demand t
+  :ensure t
+  :demand t  ; Load immediately
   :config
-  (global-treesit-auto-mode))
+  ;; Enable for all supported languages
+  (treesit-auto-add-to-auto-mode-alist 'all)
+
+  ;; Global activation
+  (global-treesit-auto-mode)
+
+  (setq treesit-auto-install-grammars t)  ; Auto-install missing grammars
+
+  ;; Custom grammar recipes (if needed)
+  (setq treesit-language-source-alist
+        '((python "https://github.com/tree-sitter/tree-sitter-python")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+          (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+          (bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (c "https://github.com/tree-sitter/tree-sitter-c")
+          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (go "https://github.com/tree-sitter/tree-sitter-go")))
+
+  (setq treesit-font-lock-level 4))  ; Maximum syntax highlighting
 
 (use-package markdown-mode
   :ensure t
@@ -541,7 +632,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;;                                                                  (L or R)
 (require 'functions-nrv)
 ;; mode hooks
-(require 'prepare-nrv) ;; modular af
+(require 'prepare-nrv)
 ;; org
 (require 'org)
 ;; my own custom vterm
@@ -589,7 +680,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; remove hooks
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
-;; prepaire functions  are defined in prepaire-nrv.el
+;; prepare functions  are defined in prepare-nrv.el
 (add-hook 'text-mode-hook #'prepare-text)
 (add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
@@ -609,7 +700,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
-;; Delete trailing whitespace always
+;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;; prepare ido
 ;; ido everywhere messes with dired in vertical ido-mode
@@ -715,3 +806,5 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  DeepSkyBlue
                                         ; LocalWords:  daemonp flx
                                         ; LocalWords:  yasnippit
+                                        ; LocalWords:  Neotree
+                                        ; LocalWords:  Debounce
