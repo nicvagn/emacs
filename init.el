@@ -352,20 +352,20 @@
 (use-package corfu
   :after eglot
   :config
-  (setq corfu-cycle t)                ; Enable cycling for `corfu-next/previous'
-  (setq corfu-auto t)                 ; Enable auto completion
-  (setq corfu-auto-delay 0.1)         ; Auto completion delay
-  (setq corfu-auto-prefix 0.3)          ; Minimum prefix for auto completion
-  (setq corfu-separator ?\s)          ; Orderless field separator
-  (setq corfu-quit-at-boundary nil)   ; Never quit at completion boundary
-  (setq corfu-quit-no-match t)        ; quit if there is no match
-  (setq corfu-preview-current 'insert) ; Preview current candidate
-  (setq corfu-preselect 'prompt)      ; Preselect the prompt
-  (setq corfu-on-exact-match nil)     ; Configure handling of exact matches
-  (setq corfu-scroll-margin 5)        ; Use scroll margin
-  (setq corfu-max-width 100)          ; Maximum popup width
-  (setq corfu-min-width 15)           ; Minimum popup width
-  (setq corfu-count 10)
+  (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
+        corfu-auto t                     ; Enable auto completion
+        corfu-auto-delay 0.1             ; Auto completion delay
+        corfu-auto-prefix 2              ; Minimum prefix for auto completion
+        corfu-separator ?\s              ; Orderless field separator
+        corfu-preselect 'first           ; Always preselect first option
+        corfu-quit-at-boundary nil       ; Never quit at completion boundary
+        corfu-quit-no-match t            ; quit if there is no match
+        corfu-preview-current 'insert    ; Preview current candidate
+        corfu-on-exact-match nil         ; Configure handling of exact matches
+        corfu-scroll-margin 5            ; Use scroll margin
+        corfu-max-width 100              ; Maximum popup width
+        corfu-min-width 15               ; Minimum popup width
+        corfu-count 10)                  ; Maximum number of candidates
   ;; Enable Corfu more generally for every minibuffer, as long as no other
   ;; completion UI is active. If you use Mct or Vertico as your main minibuffer
   ;; completion UI. From the Corfu documentation.

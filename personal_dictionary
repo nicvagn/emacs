@@ -226,3 +226,5 @@ pyright
 pycache
 pythonPlatform
 pythonVersion
+cd
+envrc
