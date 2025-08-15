@@ -228,3 +228,6 @@ pythonPlatform
 pythonVersion
 cd
 envrc
+fide
+ValueError
+dvorak

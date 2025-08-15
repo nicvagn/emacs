@@ -65,7 +65,7 @@
   :ensure t
   :demand t
   :after python
-  :hook ((python-mode . python-black-on-save-mode)))
+  :hook ((python-ts-mode . python-black-on-save-mode)))
 
 (defgroup python-isort nil
   "Python isort."

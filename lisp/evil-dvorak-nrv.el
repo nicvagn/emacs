@@ -30,7 +30,7 @@
 
 ;; How it install
 ;; ===
-;; Put this in your emacs initialation file (~.emacs.d/init.el)
+;; Put this in your emacs initialization file (~.emacs.d/init.el)
 ;; This turns on evil-dvorak for every file.
 ;; (require 'evil-dvorak)
 ;; (global-evil-dvorak-mode 1)
@@ -72,7 +72,7 @@
   (kbd "e") #'evil-forward-char)
 
 (evil-define-key 'normal evil-dvorak-mode-map
-  ;; c and d switch
+  ;; c is new d
   (kbd "c") #'evil-delete
   ;; Miscellancus
   (kbd "t") #'evil-next-line
@@ -83,10 +83,10 @@
   (kbd "K") #'(lambda () (interactive)
                 "kill from point to the beginning of the line"
                 (kill-line 0))
-  ;;move the cursor around
+  ;; move the cursor around
   (kbd "C-l") 'recenter-top-bottom
-  ;;line manipulation
-  (kbd "J") 'join-line
+  ;; line manipulation
+  (kbd "J") 'join-line ;; Join line up
   (kbd "j") #'(lambda () (interactive)
                 "join this line at the end of the line below"
                 (join-line 1))
@@ -96,22 +96,47 @@
   (kbd "<backtab>") #'evil-shift-left-line
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
-  (kbd "C-b") #'backward-char
-  (kbd "C-f") #'forward-char
+  (kbd "C-b") #'evil-backward-char
+  (kbd "C-f") #'evil-forward-char
+  (kbd "M-b") #'evil-backward-word
+  (kbd "M-f") #'evil-forward-word
   (kbd "'") #'evil-goto-mark)
 
-(evil-define-key 'insert evil-dvorak-mode-map
-  (kbd "ESC") #'evil-normal-state
-  (kbd "C-d") #'delete-char
+(evil-define-key 'normal evil-dvorak-mode-map
+  ;; c is new d
+  (kbd "c") #'evil-delete
+  ;; Movement
+  (kbd "t") #'evil-next-line
+  (kbd "h") #'evil-previous-line
+  (kbd "d") #'evil-backward-char
+  (kbd "e") #'evil-forward-char
+  ;; Line operations
+  (kbd "k") #'kill-line
+  (kbd "K") #'(lambda ()
+                "Kill from point to the beginning of the line"
+                (interactive)
+                (kill-line 0))
+  ;; Cursor movement
+  (kbd "C-l") #'recenter-top-bottom
+  ;; Line manipulation
+  (kbd "J") #'join-line ;; Join this line with the one above
+  (kbd "j") #'(lambda ()
+                "Join this line at the end of the line below"
+                (interactive)
+                (join-line 1))
+  (kbd "<return>") #'nrv/normal-newline
+  (kbd "C-<return>") #'newline-and-indent
+  (kbd "<tab>") #'evil-shift-right-line
   (kbd "<backtab>") #'evil-shift-left-line
-  (kbd "C-<tab>") #'evil-indent
-  (kbd "<backspace>") #'delete-backward-char
-  (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line
-  (kbd "<return>") #'newline-and-indent
+  ;; Emacs-style movement
   (kbd "C-n") #'evil-next-line
   (kbd "C-p") #'evil-previous-line
-  (kbd "C-b") #'backward-char
-  (kbd "C-f") #'forward-char)
+  (kbd "C-b") #'evil-backward-char
+  (kbd "C-f") #'evil-forward-char
+  (kbd "M-b") #'evil-backward-word
+  (kbd "M-f") #'evil-forward-word
+  (kbd "'") #'evil-goto-mark)
+
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
@@ -133,7 +158,7 @@
     "t" 'evil-open-above
     "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
-)
+  )
 
 ;; invoke stuff
 (global-evil-leader-mode 1)
