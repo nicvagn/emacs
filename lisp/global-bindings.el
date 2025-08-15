@@ -17,15 +17,11 @@
 ;; restart emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; show the dir track of file we are edditing
-(global-set-key (kbd "C-c d") #'dir-track)
+(global-set-key (kbd "C-c D") #'dir-track)
 ;; kill this buffer
 (global-set-key (kbd "C-c k") #'kill-current-buffer)
 ;; close all other buffers
 (global-set-key (kbd "C-c C-K") #'kill-other-buffers)
-;; f9 Vterm
-(global-set-key (kbd "<f9>") 'vterm)
-;; f12 to spellcheck
-(global-set-key (kbd "<f12>") `ace-flyspell-dwim)
 ;; better buffer summary
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 ;; ido find file
