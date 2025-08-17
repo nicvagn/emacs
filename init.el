@@ -21,6 +21,14 @@
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
 
+;; major mode remapping
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+
+;; For packages that check for python-mode specifically
+(with-eval-after-load 'python-ts-mode
+  ;; Add python-ts-mode to relevant hooks
+  (add-hook 'python-ts-mode-hook 'python-mode-hook))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -108,19 +116,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-selected-packages
-   '(ac-html all-the-icons-completion all-the-icons-dired
-             all-the-icons-gnus all-the-icons-nerd-fonts
-             auto-rename-tag avy cape centaur-tabs corfu-terminal
-             counsel diminish eglot elpy evil-leader
-             exec-path-from-shell flx-ido flymake-codespell
-             flyspell-correct-popup format-all gnu-elpa-keyring-update
-             ido-completing-read+ ido-vertical-mode jedi magit-delta
-             magit-diff-flycheck magit-tbdiff markdown-mode markup
-             orderless org-modern php-ts-mode projectile python-black
-             python-django rainbow-delimiters sbt-mode scala-mode
-             tramp-theme tree-sitter treesit-auto treesit-fallback
-             use-package vterm web-mode which-key))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -277,12 +273,6 @@
 (use-package counsel)
 
 ;; ---- IDO start ----
-(defun nrv/ido ()
-  "set ido up for nrv"
-  (ido-mode 1)
-  (ido-vertical-mode 1)
-  (ido-ubiquitous-mode +1)
-  (flx-ido-mode 1))
 
 (use-package ido)
 
@@ -307,9 +297,6 @@
                       :foreground "yellow")
   (set-face-attribute 'ido-vertical-match-face nil
                       :foreground 'unspecified))
-
-;; this enables stuff
-(nrv/ido)
 ;; ---- IDO end ----
 
 ;; --- auto complete start ---
@@ -328,7 +315,6 @@
    ("C-c c s" . eglot-signature-eldoc-function))
 
   :hook ((python-mode  . eglot-ensure)
-         (python-ts-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
          (css-mode  . eglot-ensure)
@@ -356,6 +342,7 @@
                                                              :black (:enabled t
                                                                               :line_length 88
                                                                               :cache_config t))))))
+
   ;; Performance optimizations
   (setq eglot-events-buffer-size 0)        ; Disable event logging for performance
   (setq eglot-sync-connect nil)            ; Don't block on server connection
@@ -384,7 +371,7 @@
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
         corfu-auto t                     ; Enable auto completion
         corfu-auto-delay 0.1             ; Auto completion delay
-        corfu-auto-prefix 2              ; Minimum prefix for auto completion
+        corfu-auto-prefix 1              ; Minimum prefix for auto completion
         corfu-separator ?\s              ; Orderless field separator
         corfu-preselect 'first           ; Always preselect first option
         corfu-quit-at-boundary nil       ; Never quit at completion boundary
@@ -834,6 +821,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  unselected LightGoldenrod DarkOrange MistyRose
                                         ; LocalWords:  DeepSkyBlue
                                         ; LocalWords:  daemonp flx
-                                        ; LocalWords:  yasnippit
-                                        ; LocalWords:  Neotree
+                                        ; LocalWords:  yasnippit tjwh
+                                        ; LocalWords:  Neotree muh
                                         ; LocalWords:  Debounce
+; LocalWords:  nerdtree djoyner

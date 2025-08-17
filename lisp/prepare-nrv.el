@@ -83,9 +83,11 @@
               tab-width python-tab-width
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
-  (elpy-enable)
+  (eglot-ensure)
   (prepare-text)
   )
+
+
 
 ;; ---- web stuff ----
 (defun prepare-web ()
@@ -122,8 +124,15 @@
   (ido-everywhere -1)
   )
 
+(defun nrv/ido ()
+  "set ido up for nrv"
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (ido-ubiquitous-mode +1)
+  (flx-ido-mode 1))
+
 (defun prepare-ido ()
-  "Prepare ido keymaps"
+  "Prepare ido. keymaps an etc"
   (define-key ido-completion-map (kbd "<tab>") #'ido-complete)
   (define-key ido-completion-map (kbd "C-<tab>") #'ido-next-match)
   (define-key ido-completion-map (kbd "<backtab>") #'ido-prev-match)
@@ -131,6 +140,7 @@
   (define-key ido-completion-map (kbd "<f6>") #'ido-next-match)
   (define-key ido-completion-map (kbd "<f7>") #'ido-prev-match)
   (define-key ido-completion-map (kbd "<f8>") #'abort-minibuffers)
+  (nrv/ido)
   )
 
 (provide 'prepare-nrv)
