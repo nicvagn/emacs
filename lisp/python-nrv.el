@@ -37,8 +37,10 @@
         python-shell-prompt-detect-failure-warning nil)
 
   ;; Enhanced syntax highlighting
-  (setq python-font-lock-keywords python-font-lock-keywords))
-
+  (setq python-font-lock-keywords python-font-lock-keywords)
+  :hook
+  (python-mode . (lambda () (set-fill-column 88)))
+  )
 
 (use-package reformatter
   :ensure t)
@@ -64,8 +66,10 @@
 (use-package python-black
   :ensure t
   :demand t
+  :bind
+  ("C-c f" . python-black-buffer)
   :after python
-  :hook ((python-ts-mode . python-black-on-save-mode)))
+  :hook ((python-mode . python-black-on-save-mode)))
 
 (defgroup python-isort nil
   "Python isort."

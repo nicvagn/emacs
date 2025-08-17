@@ -339,6 +339,23 @@
          (prog-mode . eglot-ensure))
 
   :config
+  (setq-default eglot-workspace-configuration
+                '((:pylsp . (:configurationSources ["flake8"]
+                                                   :plugins (
+                                                             :pycodestyle (:enabled :json-false)
+                                                             :mccabe (:enabled :json-false)
+                                                             :pyflakes (:enabled :json-false)
+                                                             :flake8 (:enabled :json-false
+                                                                               :maxLineLength 88)
+                                                             :ruff (:enabled t
+                                                                             :lineLength 88)
+                                                             :pydocstyle (:enabled t
+                                                                                   :convention "numpy")
+                                                             :yapf (:enabled :json-false)
+                                                             :autopep8 (:enabled :json-false)
+                                                             :black (:enabled t
+                                                                              :line_length 88
+                                                                              :cache_config t))))))
   ;; Performance optimizations
   (setq eglot-events-buffer-size 0)        ; Disable event logging for performance
   (setq eglot-sync-connect nil)            ; Don't block on server connection
@@ -352,9 +369,10 @@
   (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs
                `(python-mode
-                 . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+                 . ,(eglot-alternatives '("pylsp"
+                                          ("pyright-langserver" "--stdio")
                                           "jedi-language-server"
-                                          "pylsp"))))
+                                          ))))
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
