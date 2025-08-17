@@ -260,15 +260,14 @@
   :config
   ;; Define formatters for different modes
   (setq format-all-default-formatters
-        '(("Python" black)
-          ("JavaScript" prettier)
-          ("TypeScript" prettier)
-          ("CSS" prettier)
-          ("HTML" prettier)
-          ("JSON" prettier)
-          ("Rust" rustfmt)
-          ("Go" gofmt)))
-  (add-hook 'prog-mode-hook #'format-all-mode))
+        '(("Python" . black)
+          ("JavaScript" . prettier)
+          ("TypeScript" . prettier)
+          ("CSS" . prettier)
+          ("HTML" . prettier)
+          ("JSON" . prettier)
+          ("Rust" . rustfmt)
+          ("Go" . gofmt))))
 
 (use-package diminish)
 
