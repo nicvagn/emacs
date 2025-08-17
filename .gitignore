@@ -11,3 +11,4 @@ projects
 backups/*
 eshell
 ido.last*
+*/*.so

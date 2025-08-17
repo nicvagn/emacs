@@ -108,7 +108,19 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(ac-html all-the-icons-completion all-the-icons-dired
+             all-the-icons-gnus all-the-icons-nerd-fonts
+             auto-rename-tag avy cape centaur-tabs corfu-terminal
+             counsel diminish eglot elpy evil-leader
+             exec-path-from-shell flx-ido flymake-codespell
+             flyspell-correct-popup format-all gnu-elpa-keyring-update
+             ido-completing-read+ ido-vertical-mode jedi magit-delta
+             magit-diff-flycheck magit-tbdiff markdown-mode markup
+             orderless org-modern php-ts-mode projectile python-black
+             python-django rainbow-delimiters sbt-mode scala-mode
+             tramp-theme tree-sitter treesit-auto treesit-fallback
+             use-package vterm web-mode which-key))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
