@@ -236,3 +236,4 @@ zsh
 dnf
 firefox
 sbt
+systemctl
