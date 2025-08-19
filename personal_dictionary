@@ -237,3 +237,6 @@ dnf
 firefox
 sbt
 systemctl
+QAction
+QToolBar
+elisp

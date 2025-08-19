@@ -116,13 +116,20 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(all-the-icons avy cape centaur-tabs corfu-terminal counsel diminish
+                   eglot elpy evil-leader exec-path-from-shell flx-ido
+                   flyspell-correct format-all ido-vertical-mode
+                   magit-ido markdown-mode nerd-icons-corfu orderless
+                   php-ts-mode python-black sbt-mode scala-mode
+                   tramp-theme treesit-auto treesit-fallback undo-tree
+                   vterm web-mode))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
      (php-ts-mode :vc-backend Git :url
                   "https://github.com/emacs-php/php-ts-mode")))
- '(python-shell-virtualenv-root "/home/nrv/emacs/.python-environments/default/")
+ '(python-shell-virtualenv-root "/home/nrv/.venvs/emacs-venv-root/")
  '(resize-mini-windows t)
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
@@ -182,11 +189,11 @@
  auto-revert-verbose nil
  ;; centaur tabs
  centaur-tabs-style "wave"
- centaur-tabs-height 38
+ centaur-tabs-height 36
  centaur-tabs-set-icons t
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
- ;; corfu
+ ;; Corfu
  corfu-auto-delay  0.15 ;; may cause issues due to being fast
  corfu-auto-prefix 0.15
  ;; tramp
@@ -316,12 +323,12 @@
 
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
-         (typescript-ts-mode . eglot-ensure)
          (css-mode  . eglot-ensure)
          (html-mode  . eglot-ensure)
          (web-mode  . eglot-ensure)
          (yaml-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
+         (typescript-ts-mode . eglot-ensure)
          (prog-mode . eglot-ensure))
 
   :config
@@ -344,10 +351,10 @@
                                                                               :cache_config t))))))
 
   ;; Performance optimizations
-  (setq eglot-events-buffer-size 0)        ; Disable event logging for performance
-  (setq eglot-sync-connect nil)            ; Don't block on server connection
-  (setq eglot-autoshutdown t)              ; Shutdown server when last buffer is killed
-  (setq eglot-send-changes-idle-time 0.5)  ; Debounce changes
+  (setq eglot-events-buffer-size 0        ; Disable event logging for performance
+        eglot-sync-connect nil            ; Don't block on server connection
+        eglot-autoshutdown t              ; Shutdown server when last buffer is killed
+        eglot-send-changes-idle-time 0.5) ; Debounce changes
 
   ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
@@ -434,7 +441,7 @@
                  #'cape-dabbrev                   ; Dynamic abbreviations
                  #'cape-keyword                   ; Language keywords
                  #'cape-file                      ; File name completion
-                 #'cape-elisp-block              ; Complete elisp in org/markdown blocks
+                 #'cape-elisp-block               ; Complete elisp in org/markdown blocks
                  #'cape-abbrev)))                 ; Static abbreviations
 
   ;; Apply to programming modes
@@ -628,6 +635,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; emacs built-in's
 (require 'project)
 (require 'flymake)
+;; evil dvorak custom evil and key-map
+(require 'evil-dvorak-nrv)
 ;; find-file-in-project.el -- elpy wants it
 (require 'find-file-in-project)
 ;; visible indentation marks
@@ -659,8 +668,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'python-nrv)
 ;; fzf.el -- includes fzf-git and fzf-find-file
 (require 'fzf)
-;; evil dvorak custom evil and key-map
-(require 'evil-dvorak-nrv)
 ;; repo-grep -- does what you expect
 (require 'repo-grep)
 ;; Telephone Line is a new implementation of Powerline for emacs
@@ -824,4 +831,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  yasnippit tjwh
                                         ; LocalWords:  Neotree muh
                                         ; LocalWords:  Debounce
-; LocalWords:  nerdtree djoyner
+                                        ; LocalWords:  nerdtree djoyner

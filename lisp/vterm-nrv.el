@@ -1,4 +1,4 @@
-;;; vterm-nrv.el --- vterm for inferior term in emacs
+;;; vterm-nrv.el --- vterm for inferior term in Emacs
 ;;; commentary:
 ;; better than nothing, as everything must be Emacs
 
