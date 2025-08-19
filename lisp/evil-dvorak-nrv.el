@@ -5,7 +5,7 @@
 ;; Package-Requires: ((evil  "1.0.8"))
 ;; Created: January 30 2015
 ;; Keywords:  dvorak evil vim
-;; Version: 0.3
+;; Version: 0.2
 
 ;; This file is not part of GNU Emacs.
 
@@ -37,9 +37,6 @@
 
 ;;; Code:
 
-(use-package evil
-  :ensure t)
-
 (use-package undo-tree
   :ensure t
   :diminish undo-tree-mode
@@ -50,25 +47,30 @@
   (setq undo-tree-history-directory-alist '(("." . "/tmp/undo-tree/")))
   (global-undo-tree-mode 1))
 
+(use-package evil
+  :ensure t
+  :config
+  ;; set evil undo to one built into Emacs
+  (evil-set-undo-system 'undo-tree))
 
 (define-minor-mode evil-dvorak-mode
-  "evil dvorak mode allows you to use evil using the dvorak keyboard layout.  contributions are welcome."
+  "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
   :keymap (make-sparse-keymap))
 
 (defun turn-on-evil-dvorak-mode ()
-  "enable evil-dvorak-mode in the current buffer."
+  "Enable evil-dvorak-mode in the current buffer."
   (evil-dvorak-mode 1))
 
 (defun turn-off-evil-dvorak-mode ()
-  "disable evil-dvorak-mode in this buffer."
+  "Disable evil-dvorak-mode in this buffer."
   (evil-dvorak-mode -1))
 
 (define-globalized-minor-mode global-evil-dvorak-mode
   evil-dvorak-mode turn-on-evil-dvorak-mode
-  "global mode to let you use evil with dvorak friendly keybindings.")
+  "Global mode to let you use evil with dvorak friendly keybindings.")
 
 
-;; the djoyner/** keep visual selection when indenting
+;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd "<tab>") #'djoyner/evil-shift-right-visual
   (kbd "<backtab>") #'djoyner/evil-shift-left-visual
@@ -79,44 +81,46 @@
   (kbd "d") #'evil-backward-char
   (kbd "e") #'evil-forward-char)
 
+
 (evil-define-key 'normal evil-dvorak-mode-map
   ;; c is new d
   (kbd "c") #'evil-delete
-  ;; miscellancus
+  ;; Movement
   (kbd "t") #'evil-next-line
-  (kbd "h") #'previous-line
-  (kbd "d") #'backward-char
-  (kbd "e") #'forward-char
+  (kbd "h") #'evil-previous-line
+  (kbd "d") #'evil-backward-char
+  (kbd "e") #'evil-forward-char
+  ;; Line operations
   (kbd "k") #'kill-line
-  (kbd "K") #'(lambda () (interactive)
-                "kill from point to the beginning of the line"
+  (kbd "K") #'(lambda ()
+                "Kill from point to the beginning of the line"
+                (interactive)
                 (kill-line 0))
-  ;; move the cursor around
-  (kbd "c-l") 'recenter-top-bottom
-  ;; line manipulation
-  (kbd "j") 'join-line
-  (kbd "J") #'(lambda () (interactive)
-                "join this line at the end of the line below"
+  ;; Cursor movement
+  (kbd "C-l") #'recenter-top-bottom
+  ;; Line manipulation
+  (kbd "J") #'join-line ;; Join this line with the one above
+  (kbd "j") #'(lambda ()
+                "Join this line at the end of the line below"
+                (interactive)
                 (join-line 1))
   (kbd "<return>") #'nrv/normal-newline
-  (kbd "c-<return>") #'newline-and-indent
+  (kbd "C-<return>") #'newline-and-indent
   (kbd "<tab>") #'evil-shift-right-line
   (kbd "<backtab>") #'evil-shift-left-line
-  (kbd "c-n") #'evil-next-line
-  (kbd "c-p") #'evil-previous-line
-  (kbd "c-b") #'evil-backward-char
-  (kbd "c-f") #'evil-forward-char
-  (kbd "m-b") #'evil-backward-word
-  (kbd "m-f") #'evil-forward-word
+  ;; Emacs-style movement
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line
+  (kbd "C-b") #'evil-backward-char
+  (kbd "C-f") #'evil-forward-char
+  (kbd "M-b") #'evil-backward-word
+  (kbd "M-f") #'evil-forward-word
   (kbd "'") #'evil-goto-mark)
 
-(evil-define-key 'emacs evil-dvorak-mode-map
-  (kbd "C-c w") #'evil-window-next)
 
-;; evil leader, provides leader key shortcuts
+;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
   :ensure t
-  :demand t
   :config
   ;; <leader>
   (evil-leader/set-leader "<SPC>") ;; set to space
@@ -136,15 +140,15 @@
     "<SPC>" 'evil-window-next)
   )
 
-;; Configure
-;; so leader is availible in all buffers
+;; invoke stuff
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.
+;; So leader is availible in all buffers
 (global-evil-dvorak-mode 1)
 (evil-mode 1)
 
+;; set evil undo to one built into emacs
+(evil-set-undo-system 'undo-redo)
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak-nrv.el ends here
-
-                                        ; LocalWords:  SPC
