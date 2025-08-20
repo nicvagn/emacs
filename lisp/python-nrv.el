@@ -78,17 +78,17 @@
   (setq python-indent-offset 4
         python-indent-guess-indent-offset nil
         python-indent-guess-indent-offset-verbose nil
-        
+
         ;; Shell configuration
         python-shell-interpreter "python3"
         python-shell-interpreter-args "-i"
         python-shell-prompt-detect-failure-warning nil
         python-shell-completion-native-enable nil  ; Avoid completion issues
-        
+
         ;; PEP compliance
         python-fill-docstring-style 'pep-257
         python-check-command "flake8")
-  
+
   :hook
   ((python-mode python-ts-mode) . python-nrv-setup-buffer))
 
@@ -98,7 +98,7 @@
   (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.pyi\\'" . python-ts-mode))
   (add-to-list 'auto-mode-alist '("\\.pyw\\'" . python-ts-mode))
-  
+
   ;; Ensure tree-sitter grammar is available
   (when (and (fboundp 'treesit-language-available-p)
              (not (treesit-language-available-p 'python)))
@@ -110,8 +110,6 @@
   "Set up Python buffer with NRV configuration."
   (set-fill-column python-nrv-line-length)
   (display-line-numbers-mode 1)
-  (hs-minor-mode 1)  ; Code folding
-  (electric-pair-local-mode 1)  ; Auto-close brackets
   (when python-nrv-auto-activate-venv
     (python-nrv-maybe-activate-venv)))
 
@@ -121,10 +119,10 @@
   :ensure t
   :init
   (setq pyvenv-mode-line-indicator '(pyvenv-virtual-env-name ("[venv:" pyvenv-virtual-env-name "] ")))
-  
+
   :config
   (pyvenv-mode 1)
-  
+
   ;; Hooks for interpreter management
   (add-hook 'pyvenv-post-activate-hooks #'python-nrv-update-interpreter)
   (add-hook 'pyvenv-post-deactivate-hooks #'python-nrv-reset-interpreter))
@@ -165,11 +163,11 @@
   "Find project root directory."
   (when (buffer-file-name)
     (locate-dominating-file (buffer-file-name)
-                           (lambda (dir)
-                             (or (file-exists-p (expand-file-name "pyproject.toml" dir))
-                                 (file-exists-p (expand-file-name "setup.py" dir))
-                                 (file-exists-p (expand-file-name "requirements.txt" dir))
-                                 (file-exists-p (expand-file-name ".git" dir)))))))
+                            (lambda (dir)
+                              (or (file-exists-p (expand-file-name "pyproject.toml" dir))
+                                  (file-exists-p (expand-file-name "setup.py" dir))
+                                  (file-exists-p (expand-file-name "requirements.txt" dir))
+                                  (file-exists-p (expand-file-name ".git" dir)))))))
 
 ;;; Code Formatting with Black
 
@@ -177,8 +175,8 @@
   :ensure t
   :diminish python-black-on-save-mode
   :bind (:map python-mode-map
-              ("C-c f" . python-black-buffer))
-  :bind (:map python-ts-mode-map
+              ("C-c f" . python-black-buffer)
+              :map python-ts-mode-map
               ("C-c f" . python-black-buffer))
   :hook ((python-mode python-ts-mode) . python-black-on-save-mode)
   :config
@@ -196,8 +194,8 @@
   :type 'string
   :group 'python-nrv-isort)
 
-(defcustom python-nrv-isort-arguments 
-  (list "--stdout" "--atomic" "--profile=black" 
+(defcustom python-nrv-isort-arguments
+  (list "--stdout" "--atomic" "--profile=black"
         (concat "--line-length=" (number-to-string python-nrv-line-length)) "-")
   "Arguments to pass to isort command."
   :type '(repeat string)
@@ -250,20 +248,20 @@
 
 (defvar python-nrv-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c C-f") #'python-nrv-format-buffer)
-    (define-key map (kbd "C-c C-v") #'python-nrv-toggle-venv)
-    (define-key map (kbd "C-c C-i") #'python-nrv-info)
+    (define-key map (kbd "C-f") #'python-nrv-format-buffer)
+    (define-key map (kbd "C-v") #'python-nrv-toggle-venv)
+    (define-key map (kbd "C-i") #'python-nrv-info)
     map)
   "Keymap for python-nrv commands.")
 
 ;; Add to both python-mode and python-ts-mode
 (with-eval-after-load 'python
-  (define-key python-mode-map (kbd "C-c C-n") python-nrv-mode-map))
+  (define-key python-mode-map (kbd "C-c p") python-nrv-mode-map))
 
 (when (boundp 'python-ts-mode-map)
-  (define-key python-ts-mode-map (kbd "C-c C-n") python-nrv-mode-map))
+  (define-key python-ts-mode-map (kbd "C-c p") python-nrv-mode-map))
 
-;;; Minor Mode (Optional)
+;;; Minor Mode
 
 ;;;###autoload
 (define-minor-mode python-nrv-mode
@@ -274,4 +272,6 @@
       (message "Python NRV mode enabled")
     (message "Python NRV mode disabled")))
 
+;; set hooks
+(add-hook 'python-mode 'python-nrv-mode)
 (provide 'python-nrv)

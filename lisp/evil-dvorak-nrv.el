@@ -37,21 +37,7 @@
 
 ;;; Code:
 
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :bind
-  ("C-c t" . #'undo-tree-visualize)
-  :config
-  ;; undo-tree is not persistent. this is good.
-  (setq undo-tree-history-directory-alist '(("." . "/tmp/undo-tree/")))
-  (global-undo-tree-mode 1))
-
-(use-package evil
-  :ensure t
-  :config
-  ;; set evil undo to one built into Emacs
-  (evil-set-undo-system 'undo-tree))
+(require 'evil)
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
@@ -69,6 +55,26 @@
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
+
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :bind
+  ("C-c t" . #'undo-tree-visualize)
+  :config
+  ;; Make Evil use undo-tree
+  (define-key evil-normal-state-map (kbd "u") 'undo-tree-undo)
+  (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
+  ;; undo-tree is not persistent. this is good.
+  (setq undo-tree-history-directory-alist '(("." . "/tmp/undo-tree/")))
+  (global-undo-tree-mode 1))
+
+(evil-define-key 'insert evil-dvorak-mode-map
+  ;; Emacs-style movement
+  (kbd "C-n") #'evil-next-line
+  (kbd "C-p") #'evil-previous-line
+  (kbd "C-b") #'evil-backward-char
+  (kbd "C-f") #'evil-forward-char)
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
@@ -108,13 +114,6 @@
   (kbd "C-<return>") #'newline-and-indent
   (kbd "<tab>") #'evil-shift-right-line
   (kbd "<backtab>") #'evil-shift-left-line
-  ;; Emacs-style movement
-  (kbd "C-n") #'evil-next-line
-  (kbd "C-p") #'evil-previous-line
-  (kbd "C-b") #'evil-backward-char
-  (kbd "C-f") #'evil-forward-char
-  (kbd "M-b") #'evil-backward-word
-  (kbd "M-f") #'evil-forward-word
   (kbd "'") #'evil-goto-mark)
 
 
@@ -146,7 +145,6 @@
 ;; So leader is availible in all buffers
 (global-evil-dvorak-mode 1)
 (evil-mode 1)
-
 ;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)
 (provide 'evil-dvorak-nrv)
