@@ -14,7 +14,8 @@
 (eval-when-compile
   (require 'use-package))
 
-(package-initialize) ;; this has to be done right away
+;; this has to be done right away
+(package-initialize)
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp/")
 (add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree/")
@@ -110,7 +111,7 @@
  '(ido-rotate-file-list-default t)
  '(ido-ubiquitous-mode t)
  '(ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
- '(ido-vertical-indicator "-}")
+ '(ido-vertical-indicator "=>")
  '(ido-vertical-mode t)
  '(ido-vertical-show-count t)
  '(inhibit-startup-screen t)
@@ -137,6 +138,7 @@
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
+(setenv "TERM" "xterm-256color")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; default to 4 space width tabs
 (setq-default tab-width 4
@@ -158,7 +160,7 @@
  ;; pop up file manger theme
  neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error nil ;; back traces
+ debug-on-error 1 ;; back traces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
@@ -189,7 +191,7 @@
  auto-revert-verbose nil
  ;; centaur tabs
  centaur-tabs-style "wave"
- centaur-tabs-height 36
+ centaur-tabs-height 34
  centaur-tabs-set-icons t
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
@@ -248,7 +250,8 @@
   (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
-   #'command-completion-default-include-p))
+   #'command-completion-default-include-p)
+  (use-short-answers t))
 
 ;; sets exec path from zsh shell
 (use-package exec-path-from-shell)
@@ -281,19 +284,23 @@
 
 ;; ---- IDO start ----
 
-(use-package ido)
+(use-package ido
+  :demand t)
 
 (use-package flx-ido
+  :demand t
   :requires ido)
 
 (use-package ido-completing-read+
   :requires ido
+  :demand t
   :config
   (setq ido-ubiquitous-max-items 50000
         ido-cr+-max-items 50000))
 
 (use-package ido-vertical-mode
   :requires ido
+  :demand t
   :after ido
   :config
   (set-face-attribute 'ido-vertical-first-match-face nil
@@ -470,12 +477,14 @@
 
 (use-package scala-mode
   :interpreter ("scala" . scala-mode)
+  :defer t
   :config (nrv/set-tab 2)
   )
 
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
   :commands sbt-start sbt-command
+  :defer t
   :interpreter
   ("scala" . scala-mode)
   :config
@@ -488,7 +497,7 @@
 
 (use-package centaur-tabs
   ;; without this demand, tabs don't show of the bat
-  :demand
+  :demand t
   :config
   (centaur-tabs-mode t)
   (centaur-tabs-headline-match)
@@ -559,6 +568,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; magit
 (use-package magit
+  :after (ido  ido-completing-read+)
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
@@ -621,6 +631,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (use-package markdown-mode
   :ensure t
+  :defer t
   :mode ("README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "multimarkdown")
   :bind (:map markdown-mode-map
@@ -629,6 +640,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Spelling -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (use-package flyspell-correct
   :after flyspell
+  :defer t
   :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)
               ("C-M-;" . flyspell-buffer)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-

@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name:python numpy class docstring
+# key:pyclass
+# --
+    """
+    $0
+
+    Attributes
+    ----------
+    $1
+
+    Methods
+    -------
+    $3
+    """

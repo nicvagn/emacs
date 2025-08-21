@@ -251,3 +251,7 @@ ensurepip
 cwd
 backtab
 SPC
+datetime
+cls
+XD
+devel
