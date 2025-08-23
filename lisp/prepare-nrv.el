@@ -1,4 +1,4 @@
-;;; prepare-nrv.el --- My prepare for mode functions
+;;; prepare-nrv.el --- My prepare for mode functions  -*- lexical-binding: t; -*-
 ;;; commentary:
 ;; mostly for keymaps and tab width that are mode specific
 

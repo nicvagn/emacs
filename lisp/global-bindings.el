@@ -1,4 +1,4 @@
-;;; global-bindings.el --- My emacs init.el
+;;; global-bindings.el --- My emacs init.el  -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;  muh Emacs global binds
 
@@ -52,6 +52,8 @@
 ;; GIT
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; repo-grep
 (require 'repo-grep)
 (global-set-key (kbd "C-c g") 'repo-grep)
 

@@ -1,4 +1,4 @@
-;;; sudo-nrv.el --- edit files with root
+;;; sudo-nrv.el --- edit files with root  -*- lexical-binding: t; -*-
 ;;; Commentary: find file function and open file edditing as root.
 ;;; Change Log: made tramp not ask for backup permission, because I rmed it
 ;;; Code:

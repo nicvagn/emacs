@@ -1,4 +1,4 @@
-;; This will install all the gramers listed
+;; This will install all the gramers listed  -*- lexical-binding: t; -*-
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")

@@ -1,4 +1,4 @@
-;;; functions-nrv.el --- lisp functions used in my init.el
+;;; functions-nrv.el --- lisp functions used in my init.el  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 3619  nrv
 

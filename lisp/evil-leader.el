@@ -1,4 +1,4 @@
-;;; evil-leader.el --- let there be <leader>
+;;; evil-leader.el --- let there be <leader>  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2011-2013 by Michael Markert
 ;; Author: Michael Markert <markert.michael@googlemail.com>

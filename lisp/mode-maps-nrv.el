@@ -1,4 +1,4 @@
-;;; mode-maps-nrv.el --- My mode maps
+;;; mode-maps-nrv.el --- My mode maps  -*- lexical-binding: t; -*-
 ;; commentary: Alt-n, Alt-p to next previous
 ;;  muh Emacs  binds
 

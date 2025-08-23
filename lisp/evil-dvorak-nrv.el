@@ -1,4 +1,4 @@
-;;; evil-dvorak.el -- evil with appropriate dvorak bindings and nrv custom
+;;; evil-dvorak.el -- evil with appropriate dvorak bindings and nrv custom  -*- lexical-binding: t; -*-
 ;; l-dvorak version by nrv
 ;; Copyright (C) 2015 Joshua Branson
 ;; Author: Joshua Branson

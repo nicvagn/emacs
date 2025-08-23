@@ -1,4 +1,4 @@
-;;; telephone-line-separators.el --- Separators for Telephone Line
+;;; telephone-line-separators.el --- Separators for Telephone Line  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015-2022 Daniel Bordak
 
@@ -112,7 +112,7 @@
                  :alt-separator telephone-line-utf-abs-hollow-left))
 
 (defvar telephone-line-halfsin-right
-  (make-instance 'telephone-line-separator 
+  (make-instance 'telephone-line-separator
                  :axis-func (lambda (x) (- (sin (/ x 2))))
                  :alt-separator telephone-line-utf-abs-right))
 (defvar telephone-line-halfsin-left
@@ -129,7 +129,7 @@
                  :alt-separator telephone-line-utf-abs-hollow-left))
 
 (defvar telephone-line-cos-right
-  (make-instance 'telephone-line-separator 
+  (make-instance 'telephone-line-separator
                  :axis-func (telephone-line-complement cos)
                  :alt-separator telephone-line-utf-abs-right))
 (defvar telephone-line-cos-left

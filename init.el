@@ -1,4 +1,4 @@
-;;; init.el --- My emacs init.el
+;;; init.el --- My emacs init.el  -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;  muh Emacs config
 
@@ -29,6 +29,18 @@
 (with-eval-after-load 'python-ts-mode
   ;; Add python-ts-mode to relevant hooks
   (add-hook 'python-ts-mode-hook 'python-mode-hook))
+
+(with-eval-after-load 'eglot
+  (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)
+    "Call `eglot-ensure` only if a server is defined for the current major mode."
+    (when (cl-find major-mode eglot-server-programs 
+                   :test (lambda (mode entry)
+                           (or (eq mode (car entry))
+                               (and (symbolp (car entry))
+                                    (provided-mode-derived-p mode (car entry))))))
+      (apply orig-fun args)))
+  (advice-add 'eglot-ensure :around #'nrv/eglot-ensure-if-server-advice))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -119,12 +131,13 @@
  '(neo-window-fixed-size nil)
  '(package-selected-packages
    '(all-the-icons avy cape centaur-tabs corfu-terminal counsel diminish
-                   eglot elpy evil-leader exec-path-from-shell flx-ido
-                   flyspell-correct format-all ido-vertical-mode
-                   magit-ido markdown-mode nerd-icons-corfu orderless
+                   editorconfig eglot eglot-java elpy evil-leader
+                   exec-path-from-shell flx-ido flyspell-correct
+                   format-all ido-vertical-mode magit-ido
+                   markdown-mode nerd-icons-corfu orderless
                    php-ts-mode python-black sbt-mode scala-mode
                    tramp-theme treesit-auto treesit-fallback undo-tree
-                   vterm web-mode))
+                   vterm web-mode yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -336,7 +349,9 @@
          (yaml-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
-         (prog-mode . eglot-ensure))
+         ; added advice to only call if server availible
+         (prog-mode . eglot-ensure)
+         (sh-base-mode . eglot-ensure))
 
   :config
   (setq-default eglot-workspace-configuration
@@ -355,28 +370,30 @@
                                                              :autopep8 (:enabled :json-false)
                                                              :black (:enabled t
                                                                               :line_length 88
-                                                                              :cache_config t))))))
+                                                                              :cache_config t)
+                                                             :mypy (:enabled t
+                                                                             :live_mode t))))))
 
-  ;; Performance optimizations
-  (setq eglot-events-buffer-size 0        ; Disable event logging for performance
-        eglot-sync-connect nil            ; Don't block on server connection
-        eglot-autoshutdown t              ; Shutdown server when last buffer is killed
-        eglot-send-changes-idle-time 0.5) ; Debounce changes
+;; Performance optimizations
+(setq eglot-events-buffer-size 0        ; Disable event logging for performance
+      eglot-sync-connect nil            ; Don't block on server connection
+      eglot-autoshutdown t              ; Shutdown server when last buffer is killed
+      eglot-send-changes-idle-time 0.5) ; Debounce changes
 
-  ;; Language server configurations
-  (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs
-               `(python-mode
-                 . ,(eglot-alternatives '("pylsp"
-                                          ("pyright-langserver" "--stdio")
-                                          "jedi-language-server"
-                                          ))))
-  (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
+;; Language server configurations
+(add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs
+             `(python-mode
+               . ,(eglot-alternatives '("pylsp"
+                                        ("pyright-langserver" "--stdio")
+                                        "jedi-language-server"
+                                        ))))
+(add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
+(add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
 
 ;; Corfu auto complete ui
 (use-package corfu

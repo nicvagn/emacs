@@ -1,4 +1,4 @@
-;;; vterm-nrv.el --- vterm for inferior term in Emacs
+;;; vterm-nrv.el --- vterm for inferior term in Emacs  -*- lexical-binding: t; -*-
 ;;; commentary:
 ;; better than nothing, as everything must be Emacs
 

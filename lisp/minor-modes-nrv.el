@@ -1,4 +1,4 @@
-;;; minor-modes-nrv.el --- My prepare my custom minor modes
+;;; minor-modes-nrv.el --- My prepare my custom minor modes  -*- lexical-binding: t; -*-
 ;;; commentary:
 ;; mostly to add path to dir line
 
