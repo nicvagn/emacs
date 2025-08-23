@@ -70,7 +70,7 @@
   "Delete the file associated with `current-buffer'.
 If FOREVER is non-nil, the file is deleted without being moved to trash."
   (interactive "P")
-  (when-let ((file (or (buffer-file-name)
+  (when-let* ((file (or (buffer-file-name)
                        (user-error "Current buffer is not visiting a file")))
              ((y-or-n-p "Delete this file? ")))
     (delete-file file (not forever))

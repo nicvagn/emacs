@@ -151,7 +151,7 @@
 
 (defun python-nrv-find-venv-directory ()
   "Find virtual environment directory for current project."
-  (when-let ((project-root (python-nrv-project-root)))
+  (when-let* ((project-root (python-nrv-project-root)))
     (cl-some (lambda (venv-name)
                (let ((venv-path (expand-file-name venv-name project-root)))
                  (when (and (file-directory-p venv-path)
@@ -231,7 +231,7 @@
   (interactive)
   (if pyvenv-virtual-env
       (pyvenv-deactivate)
-    (if-let ((venv-dir (python-nrv-find-venv-directory)))
+    (if-let* ((venv-dir (python-nrv-find-venv-directory)))
         (pyvenv-activate venv-dir)
       (call-interactively #'pyvenv-activate))))
 
