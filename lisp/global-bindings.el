@@ -11,7 +11,8 @@
 ;; find the definition with xref
 (global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 (global-set-key (kbd "C-c M-a") 'xref-find-apropos)
-(global-set-key (kbd "C-c M-r") 'xref-find-references-and-replace)
+(global-set-key (kbd "C-c M-r") 'xref-find-references)
+(global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
 
 ;; Window jumping
 ;; globalize so works for all windows
@@ -35,7 +36,7 @@
 (global-set-key (kbd "C-c m") 'zck/move-file)
 ;; restart Emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
-;; show the dir track of file we are edditing
+;; show the dir track of file we are editing
 (global-set-key (kbd "C-c D") #'dir-track)
 ;; kill this buffer
 (global-set-key (kbd "C-c k") #'kill-current-buffer)

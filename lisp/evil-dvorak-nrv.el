@@ -26,15 +26,6 @@
 
 ;;; Commentary:
 
-;; Evil dvorak mode allows the user to use the dvorak keyboard with evil-mode.
-
-;; How it install
-;; ===
-;; Put this in your emacs initialization file (~.emacs.d/init.el)
-;; This turns on evil-dvorak for every file.
-;; (require 'evil-dvorak)
-;; (global-evil-dvorak-mode 1)
-
 ;;; Code:
 
 (require 'evil)
@@ -71,10 +62,14 @@
 
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
-  (kbd "C-n") #'evil-next-line
-  (kbd "C-p") #'evil-previous-line
-  (kbd "C-b") #'evil-backward-char
-  (kbd "C-f") #'evil-forward-char)
+  (kbd "C-f") 'forward-char
+  (kbd "C-b") 'backward-char
+  (kbd "C-n") 'next-line
+  (kbd "C-p") 'previous-line
+  (kbd "C-a") 'beginning-of-line
+  (kbd "C-e") 'end-of-line)
+
+
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
