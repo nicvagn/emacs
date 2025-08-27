@@ -33,7 +33,7 @@
 (with-eval-after-load 'eglot
   (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)
     "Call `eglot-ensure` only if a server is defined for the current major mode."
-    (when (cl-find major-mode eglot-server-programs 
+    (when (cl-find major-mode eglot-server-programs
                    :test (lambda (mode entry)
                            (or (eq mode (car entry))
                                (and (symbolp (car entry))
@@ -758,6 +758,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; ido everywhere messes with dired in vertical ido-mode
 (add-hook 'dired-mode-hook #'disable-ido-everywhere)
 (add-hook 'ido-setup-hook #'prepare-ido)
+(add-hook 'debugger-mode-hook (lambda ()
+                                  (define-key dired-mode-map (kbd "SPC") #'other-window)))
 
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
