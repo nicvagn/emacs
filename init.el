@@ -134,7 +134,7 @@
                    editorconfig eglot eglot-java elpy evil-leader
                    exec-path-from-shell flx-ido flyspell-correct
                    format-all ido-vertical-mode magit-ido
-                   markdown-mode nerd-icons-corfu orderless
+                   markdown-mode neotree nerd-icons-corfu orderless
                    php-ts-mode python-black sbt-mode scala-mode
                    tramp-theme treesit-auto treesit-fallback undo-tree
                    vterm web-mode yasnippet-capf))
