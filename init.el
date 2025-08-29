@@ -135,9 +135,10 @@
                    exec-path-from-shell flx-ido flyspell-correct
                    format-all ido-vertical-mode magit-ido
                    markdown-mode neotree nerd-icons-corfu orderless
-                   php-ts-mode python-black sbt-mode scala-mode
-                   tramp-theme treesit-auto treesit-fallback undo-tree
-                   vterm web-mode yasnippet-capf))
+                   php-ts-mode python-black qml-mode sbt-mode
+                   scala-mode tramp-theme treesit-auto
+                   treesit-fallback undo-tree vterm web-mode
+                   yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
