@@ -18,7 +18,6 @@
 (package-initialize)
 ;; add custom dir to load-path
 (add-to-list 'load-path "~/.config/emacs/lisp/")
-(add-to-list 'load-path "~/.config/emacs/lisp/emacs-neotree/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
 
@@ -283,13 +282,15 @@
   (vertico-count 20)
   (vertico-resize t)
   :bind (:map vertico-map
-         ("C-<tab>" . vertico-next)
-         ("<backtab>" . vertico-previous)
-         ("<f5>" . vertico-exit)
-         ("<f6>" . vertico-next)
-         ("<f7>" . vertico-previous)
-         ("<f8>" . keyboard-quit)))
-
+              ;; vertico-directory-enter checks what kind of completion is active:
+              ;; - If it's file completion → does directory/file logic
+              ;; - If it's command completion → just executes the command
+              ;; - If it's other completion → uses default behaviour
+              ("<f5>" . vertico-directory-enter)
+              ("<f6>" . vertico-next)
+              ("<f7>" . vertico-previous)
+              ("<f8>" . keyboard-quit)
+              ("DEL" . vertico-directory-delete-char)))
 
 ;; Better matching (type parts of words in any order)
 (use-package orderless
