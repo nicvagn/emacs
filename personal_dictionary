@@ -277,3 +277,8 @@ QtCore
 QPushButton
 csv
 QTableWidget
+iostream
+endl
+ctime
+langserver
+ui

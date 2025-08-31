@@ -1,6 +1,6 @@
 ;;; prepare-nrv.el --- My prepare for mode functions  -*- lexical-binding: t; -*-
 ;;; commentary:
-;; mostly for keymaps and tab width that are mode specific
+;; mostly for key maps and tab width that are mode specific
 
 ;;; code:
 (defconst python-tab-width 4 "Tab width for python source files.")
@@ -16,8 +16,6 @@
 (require 'rainbow-delimiters)
 (require 'dired)
 (require 'functions-nrv)
-(require 'ido)
-(require 'ido-vertical-mode)
 
 (defun prepare-text ()
   "Prepare all text buffers"
@@ -44,28 +42,14 @@
   (prepare-text)
   )
 
-(defun prepare-dired ()
-  "Prepare Dired mode how I like it."
-  (define-prefix-command 'dired-ring-map)
-  (define-key dired-mode-map (kbd "h") 'dired-previous-line)
-  (define-key dired-mode-map (kbd "t") 'dired-next-line)
-  (define-key dired-mode-map (kbd "u") 'dired-up-directory)
-  (define-key dired-mode-map (kbd "a") 'dired-create-directory)
-  (define-key dired-mode-map (kbd "r") 'dired-do-rename)
-  (define-key dired-mode-map (kbd "<return>") 'dired-find-file)
-  (define-key dired-mode-map (kbd "<tab>") 'dired-find-file)
+(defun prepare-c ()
+  "Prepare for c devel"
+  (electric-pair-local-mode 1))
 
-  ;; "leader"
-  (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
-  ;; add leader via dired ring map
-  ;; switch pains with <SPC>
-  (define-key 'dired-ring-map (kbd "<SPC>") 'evil-window-next)
-  (define-key 'dired-ring-map (kbd "e") 'dired-find-file)
-  (define-key 'dired-ring-map (kbd "s") 'evil-window-split)
-  (define-key 'dired-ring-map (kbd "v") 'evil-window-vsplit)
-  (define-key 'dired-ring-map (kbd "x") #'delete-window)
-  (define-key 'dired-ring-map (kbd "k") #'kill-current-buffer)
-  )
+(defun prepare-cpp ()
+  "Prepare for cpp devel"
+  (prepare-c))
+
 
 ;; ---- css mode ----
 (defun prepare-css ()
@@ -73,8 +57,8 @@
   (setq-local evil-shift-width css-tab-width
               tab-width css-tab-width
               c-basic-offset css-tab-width)
-  (prepare-text)
-  )
+  (prepare-text))
+
 ;; ---- python mode ----
 (defun prepare-python ()
   "Prepare to edit python code."
@@ -84,10 +68,7 @@
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
   (eglot-ensure)
-  (prepare-text)
-  )
-
-
+  (prepare-text))
 
 ;; ---- web stuff ----
 (defun prepare-web ()
@@ -113,34 +94,38 @@
   (setq-local tab-width prog-tab-width
               evil-shift-width prog-tab-width
               c-basic-offset prog-tab-width)
-  ;; keybinds
+  ;; key-binds
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)
   )
 
-;; --- IDO ----
-(defun disable-ido-everywhere ()
-  (ido-everywhere -1)
-  )
 
-(defun nrv/ido ()
-  "set ido up for nrv"
-  (ido-mode 1)
-  (ido-vertical-mode 1)
-  (ido-ubiquitous-mode +1)
-  (flx-ido-mode 1))
+(defun prepare-dired ()
+  "Prepare Dired mode how I like it."
+  (define-prefix-command 'dired-ring-map)
+  (define-key dired-mode-map (kbd "h") 'dired-previous-line)
+  (define-key dired-mode-map (kbd "t") 'dired-next-line)
+  (define-key dired-mode-map (kbd "u") 'dired-up-directory)
+  (define-key dired-mode-map (kbd "a") 'dired-create-directory)
+  (define-key dired-mode-map (kbd "r") 'dired-do-rename)
+  (define-key dired-mode-map (kbd "<return>") 'dired-find-file)
+  (define-key dired-mode-map (kbd "<tab>") 'dired-find-file)
+  (define-key dired-mode-map (kbd "<f5>") 'dired-find-file)
+  (define-key dired-mode-map (kbd "<f6>") 'dired-next-line)
+  (define-key dired-mode-map (kbd "<f7>") 'dired-previous-line)
+  (define-key dired-mode-map (kbd "<f8>") 'keyboard-quit)
 
-(defun prepare-ido ()
-  "Prepare ido. keymaps an etc"
-  (define-key ido-completion-map (kbd "<tab>") #'ido-complete)
-  (define-key ido-completion-map (kbd "C-<tab>") #'ido-next-match)
-  (define-key ido-completion-map (kbd "<backtab>") #'ido-prev-match)
-  (define-key ido-completion-map (kbd "<f5>") #'ido-exit-minibuffer)
-  (define-key ido-completion-map (kbd "<f6>") #'ido-next-match)
-  (define-key ido-completion-map (kbd "<f7>") #'ido-prev-match)
-  (define-key ido-completion-map (kbd "<f8>") #'abort-minibuffers)
-  (nrv/ido)
+  ;; "leader"
+  (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
+  ;; add leader via dired ring map
+  ;; switch pains with <SPC>
+  (define-key 'dired-ring-map (kbd "<SPC>") 'evil-window-next)
+  (define-key 'dired-ring-map (kbd "e") 'dired-find-file)
+  (define-key 'dired-ring-map (kbd "s") 'evil-window-split)
+  (define-key 'dired-ring-map (kbd "v") 'evil-window-vsplit)
+  (define-key 'dired-ring-map (kbd "x") #'delete-window)
+  (define-key 'dired-ring-map (kbd "k") #'kill-current-buffer)
   )
 
 (provide 'prepare-nrv)

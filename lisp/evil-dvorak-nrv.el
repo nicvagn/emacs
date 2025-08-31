@@ -49,6 +49,7 @@
 
 (use-package undo-tree
   :ensure t
+  :demand t
   :diminish undo-tree-mode
   :bind
   ("C-c t" . #'undo-tree-visualize)
@@ -115,6 +116,7 @@
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
   :ensure t
+  :demand t
   :config
   ;; <leader>
   (evil-leader/set-leader "<SPC>") ;; set to space

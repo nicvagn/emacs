@@ -44,8 +44,6 @@
 (global-set-key (kbd "C-c C-K") #'kill-other-buffers)
 ;; better buffer summary
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-;; ido find file
-(global-set-key (kbd "C-x C-f") #'ido-find-file)
 
 ;; spelling
 (global-set-key (kbd "C-c s") 'flyspell-toggle )

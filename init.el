@@ -1,4 +1,4 @@
-;;; init.el --- My emacs init.el  -*- lexical-binding: t; -*-
+;;; init.el --- My Emacs init.el  -*- lexical-binding: t; -*-
 ;;; Commentary:
 ;;  muh Emacs config
 
@@ -111,34 +111,18 @@
                xgit-changelog-mode xgit-diff-mode xgit-revlog-mode
                xhg-annotate-mode xhg-log-mode xhg-mode xhg-mq-mode
                xhg-mq-sub-mode xhg-status-extra-mode))
- '(flx-ido-mode t)
- '(ido-completion-buffer-all-completions t)
- '(ido-cr+-max-items 90000)
- '(ido-create-new-buffer 'always)
- '(ido-default-buffer-method 'selected-window)
- '(ido-enable-flex-matching t)
- '(ido-everywhere t)
- '(ido-max-window-height 35)
- '(ido-mode 'both nil (ido))
- '(ido-rotate-file-list-default t)
- '(ido-ubiquitous-mode t)
- '(ido-vertical-define-keys 'C-n-C-p-up-down-left-right)
- '(ido-vertical-indicator "=>")
- '(ido-vertical-mode t)
- '(ido-vertical-show-count t)
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
  '(package-selected-packages
-   '(all-the-icons avy cape centaur-tabs corfu-terminal counsel diminish
-                   editorconfig eglot eglot-java elpy evil-leader
-                   exec-path-from-shell flx-ido flyspell-correct
-                   format-all ido-vertical-mode magit-ido
-                   markdown-mode neotree nerd-icons-corfu orderless
-                   php-ts-mode python-black qml-mode sbt-mode
-                   scala-mode tramp-theme treesit-auto
-                   treesit-fallback undo-tree vterm web-mode
-                   yasnippet-capf))
+   '(all-the-icons avy cape centaur-tabs consult corfu-terminal counsel
+                   diminish editorconfig eglot eglot-java elpy
+                   evil-leader exec-path-from-shell flyspell-correct
+                   format-all magit marginalia markdown-mode neotree
+                   nerd-icons-corfu orderless php-ts-mode python-black
+                   qml-mode sbt-mode scala-mode tramp-theme
+                   treesit-auto treesit-fallback undo-tree vertico
+                   vterm web-mode yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -216,17 +200,6 @@
  tramp-allow-unsafe-temporary-files t
  ;; flymake
  next-error-function 'flymake-goto-next-error
- ;; ido
- ido-enable-flex-matching t
- ido-everywhere t
- ido-virtual-buffers t
- ido-use-faces t
- ido-default-buffer-method 'selected-window
- ido-auto-merge-work-directories-length -1
- ido-vertical-define-keys 'C-n-C-p-up-down-left-right
- ido-create-new-buffer 'always
- ;; magit
- magit-completing-read-function 'magit-ido-completing-read
  ;; org mode
  org-image-actual-width nil
  ;; tree sit
@@ -296,36 +269,64 @@
 
 (use-package counsel)
 
-;; ---- IDO start ----
-
-(use-package ido
-  :demand t)
-
-(use-package flx-ido
-  :demand t
-  :requires ido)
-
-(use-package ido-completing-read+
-  :requires ido
-  :demand t
+;;;; ++++ MINI-BUFFER start ++++
+(use-package vertico
+  :init (vertico-mode)
   :config
-  (setq ido-ubiquitous-max-items 50000
-        ido-cr+-max-items 50000))
-
-(use-package ido-vertical-mode
-  :requires ido
-  :demand t
-  :after ido
-  :config
-  (set-face-attribute 'ido-vertical-first-match-face nil
+  (set-face-attribute 'vertico-current nil
                       :background 'unspecified
                       :foreground "orange")
-  (set-face-attribute 'ido-vertical-only-match-face nil
-                      :background 'unspecified
+  (set-face-attribute 'completions-first-difference nil
                       :foreground "yellow")
-  (set-face-attribute 'ido-vertical-match-face nil
-                      :foreground 'unspecified))
-;; ---- IDO end ----
+  :custom
+  (vertico-cycle t)
+  (vertico-count 20)
+  (vertico-resize t)
+  :bind (:map vertico-map
+         ("C-<tab>" . vertico-next)
+         ("<backtab>" . vertico-previous)
+         ("<f5>" . vertico-exit)
+         ("<f6>" . vertico-next)
+         ("<f7>" . vertico-previous)
+         ("<f8>" . keyboard-quit)))
+
+
+;; Better matching (type parts of words in any order)
+(use-package orderless
+  :ensure t
+  :config
+  (setq completion-styles '(orderless basic))
+  (setq completion-category-overrides '((file (styles partial-completion))))
+  ;; Configure orderless matching
+  (setq orderless-matching-styles
+        '(orderless-literal
+          orderless-prefixes
+          orderless-initialism
+          orderless-regexp))
+  :custom
+  (completion-styles '(orderless basic)))
+
+;; Save completion history
+(use-package savehist
+  :init (savehist-mode))
+
+;; Show helpful annotations next to completions
+(use-package marginalia
+  :init (marginalia-mode))
+
+;; Enhanced commands
+(use-package consult
+  :ensure t
+  :bind (("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("M-y" . consult-yank-pop)
+         ("C-s" . consult-line)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("C-x C-r" . consult-recent-file)))
+
+;; ++++ MINI-BUFFER END ++++
 
 ;; --- auto complete start ---
 (use-package eglot
@@ -350,7 +351,7 @@
          (yaml-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
-         ; added advice to only call if server availible
+                                        ; added advice to only call if server available
          (prog-mode . eglot-ensure)
          (sh-base-mode . eglot-ensure))
 
@@ -375,26 +376,34 @@
                                                              :mypy (:enabled t
                                                                              :live_mode t))))))
 
-;; Performance optimizations
-(setq eglot-events-buffer-size 0        ; Disable event logging for performance
-      eglot-sync-connect nil            ; Don't block on server connection
-      eglot-autoshutdown t              ; Shutdown server when last buffer is killed
-      eglot-send-changes-idle-time 0.5) ; Debounce changes
+  ;; Performance optimizations
+  (setq eglot-events-buffer-size 0        ; Disable event logging for performance
+        eglot-sync-connect nil            ; Don't block on server connection
+        eglot-autoshutdown t              ; Shutdown server when last buffer is killed
+        eglot-send-changes-idle-time 0.5) ; Debounce changes
 
-;; Language server configurations
-(add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs
-             `(python-mode
-               . ,(eglot-alternatives '("pylsp"
-                                        ("pyright-langserver" "--stdio")
-                                        "jedi-language-server"
-                                        ))))
-(add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
-(add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
+
+  (add-to-list 'eglot-server-programs
+               '((scala-mode scala-ts-mode) .
+                 ("metals"
+                  "-J-Dmetals.http=true"
+                  "-J-Dmetals.http-port=5031"
+                  "-J-Xmx4G")))
+
+  ;; Language server configurations
+  (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(typescript-mode . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(css-mode . ("vscode-css-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               `(python-mode
+                 . ,(eglot-alternatives '("pylsp"
+                                          ("pyright-langserver" "--stdio")
+                                          "jedi-language-server"
+                                          ))))
+  (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
 
 ;; Corfu auto complete ui
 (use-package corfu
@@ -414,16 +423,6 @@
         corfu-max-width 100              ; Maximum popup width
         corfu-min-width 15               ; Minimum popup width
         corfu-count 10)                  ; Maximum number of candidates
-  ;; Enable Corfu more generally for every minibuffer, as long as no other
-  ;; completion UI is active. If you use Mct or Vertico as your main minibuffer
-  ;; completion UI. From the Corfu documentation.
-  (defun corfu-enable-always-in-minibuffer ()
-    "Enable Corfu in the minibuffer if Vertico/Mct are not active."
-    (unless (or (bound-and-true-p mct--active) ; Useful if using mct
-                (bound-and-true-p vertico--input)) ; Useful if using vertico
-      (setq-local corfu-auto nil) ; Ensure auto completion is disabled
-      (corfu-mode 1)))
-  (add-hook 'minibuffer-setup-hook #'corfu-enable-always-in-minibuffer 1)
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode)
@@ -440,19 +439,7 @@
   :unless (display-graphic-p)  ; Only load in terminal
   :hook (after-init . corfu-terminal-mode))
 
-(use-package orderless
-  :ensure t
-  :config
-  (setq completion-styles '(orderless basic))
-  (setq completion-category-defaults nil)
-  (setq completion-category-overrides '((file (styles partial-completion))))
 
-  ;; Configure orderless matching
-  (setq orderless-matching-styles
-        '(orderless-literal
-          orderless-prefixes
-          orderless-initialism
-          orderless-regexp)))
 
 (use-package cape
   :ensure t
@@ -492,12 +479,17 @@
 
 ;; --- auto complete end ---
 
-
 (use-package scala-mode
-  :interpreter ("scala" . scala-mode)
+  :interpreter
+  ("scala" . scala-mode)
   :defer t
-  :config (nrv/set-tab 2)
-  )
+  :config
+  (setq prettify-symbols-alist scala-prettify-symbols-alist)
+  ;; For complex scala files
+  (setq max-lisp-eval-depth 50000)
+  (setq max-specpdl-size 5000)
+  (prettify-symbols-mode))
+
 
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
@@ -514,10 +506,9 @@
         sbt:program-options '("-Dsbt.supershell=false")))
 
 (use-package centaur-tabs
-  ;; without this demand, tabs don't show of the bat
-  :demand t
-  :config
+  :init
   (centaur-tabs-mode t)
+  :config
   (centaur-tabs-headline-match)
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
@@ -578,7 +569,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :config
   (which-key-mode))
 
-
 ;; all the icons - icons in text
 ;; make sure to M-x: all-the-icons-install-fonts
 (use-package all-the-icons
@@ -586,7 +576,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; magit
 (use-package magit
-  :after (ido  ido-completing-read+)
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
@@ -599,8 +588,28 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-file-stage)
    ("C-c C-g s" . #'magit-status-quick))
+
   :config
-  (setq magit-status-show-untracked-files t))
+  ;; Override Magit's completion function completely
+  (setq magit-completing-read-function 'completing-read)
+  ;; Make sure ido doesn't interfere
+  (setq magit-ido-mode nil)
+
+  ;; Ensure consistent completion everywhere
+  (advice-add 'magit-builtin-completing-read :override #'completing-read)
+  (advice-add 'magit-ido-completing-read :override #'completing-read)
+  ;; Make sure Magit uses the same completion as everything else
+  (advice-add 'magit-builtin-completing-read :override #'completing-read)
+  ;; Ensure these use completing-read:
+  (setq magit-branch-read-upstream-first 'fallback)
+  (setq magit-branch-prefer-remote-upstream '("master" "main"))
+
+  ;; Optional: Configure Git completion
+  (setq magit-git-executable "git")
+  (setq magit-status-show-untracked-files t)
+  :hook
+  ;; Ensure Vertico is active in Magit buffers
+  (magit-mode . (lambda () (setq-local completion-styles '(orderless basic)))))
 
 (use-package web-mode
   :defer t
@@ -620,14 +629,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :ensure t
   :demand t  ; Load immediately
   :config
-  ;; Enable for all supported languages
-  (treesit-auto-add-to-auto-mode-alist 'all)
-
   ;; Global activation
   (global-treesit-auto-mode)
-
+  ;; Enable for all supported languages
+  (treesit-auto-add-to-auto-mode-alist 'all)
   (setq treesit-auto-install-grammars t)  ; Auto-install missing grammars
-
   ;; Custom grammar recipes (if needed)
   (setq treesit-language-source-alist
         '((python "https://github.com/tree-sitter/tree-sitter-python")
@@ -644,7 +650,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
           (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
           (rust "https://github.com/tree-sitter/tree-sitter-rust")
           (go "https://github.com/tree-sitter/tree-sitter-go")))
-
   (setq treesit-font-lock-level 4))  ; Maximum syntax highlighting
 
 (use-package markdown-mode
@@ -672,8 +677,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; visible indentation marks
 (require 'highlight-indentation)
 (diminish 'highlight-indentation-mode)
-;; nerdtree for files
-(require 'neotree)
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
@@ -740,6 +743,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'emacs-lisp-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook #'prepare-prog)
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+;; c and c++ hooks
+(add-hook 'c-mode-hook #'prepare-c)
+(add-hook 'c++-mode-hook #'prepare-cpp)
 ;; python hooks
 (add-hook 'python-mode-hook #'prepare-python)
 ;; sort python import's on save
@@ -755,12 +761,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; prepare ido
-;; ido everywhere messes with dired in vertical ido-mode
-(add-hook 'dired-mode-hook #'disable-ido-everywhere)
-(add-hook 'ido-setup-hook #'prepare-ido)
-(add-hook 'debugger-mode-hook (lambda ()
-                                  (define-key dired-mode-map (kbd "SPC") #'other-window)))
 
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
@@ -820,8 +820,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
  '(font-lock-variable-name-face ((t (:foreground "pale green" :weight extra-bold))))
  '(font-lock-variable-use-face ((t (:inherit font-lock-variable-name-face))))
  '(hl-line ((t (:extend t :background "grey18"))))
- '(ido-first-match ((t (:background "gray8" :foreground "green1" :weight heavy))))
- '(ido-vertical-first-match-face ((t (:inherit ido-first-match))))
  '(rainbow-delimiters-depth-1-face ((t (:inherit rainbow-delimiters-base-face :foreground "LightGoldenrod4"))))
  '(rainbow-delimiters-depth-2-face ((t (:inherit rainbow-delimiters-base-face :foreground "DarkOrange4"))))
  '(rainbow-delimiters-depth-3-face ((t (:inherit rainbow-delimiters-base-face :foreground "orchid"))))
@@ -862,5 +860,5 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  daemonp flx
                                         ; LocalWords:  yasnippit tjwh
                                         ; LocalWords:  Neotree muh
-                                        ; LocalWords:  Debounce
+                                        ; LocalWords:  Debounce Xmx4G
                                         ; LocalWords:  nerdtree djoyner
