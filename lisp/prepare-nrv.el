@@ -95,6 +95,7 @@
               evil-shift-width prog-tab-width
               c-basic-offset prog-tab-width)
   ;; key-binds
+  (define-key prog-mode-map (kbd "<return>") #'newline-and-indent)
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)

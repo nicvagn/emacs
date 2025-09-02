@@ -4,6 +4,8 @@
 
 ;;; code:
 (require 'evil)
+
+
 ;; Jumping about
 (global-set-key (kbd "C-'") 'evil-jump-backward)
 (global-set-key (kbd "C-\"") 'evil-jump-forward)
@@ -42,8 +44,6 @@
 (global-set-key (kbd "C-c k") #'kill-current-buffer)
 ;; close all other buffers
 (global-set-key (kbd "C-c C-K") #'kill-other-buffers)
-;; better buffer summary
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; spelling
 (global-set-key (kbd "C-c s") 'flyspell-toggle )
