@@ -40,7 +40,6 @@
       (apply orig-fun args)))
   (advice-add 'eglot-ensure :around #'nrv/eglot-ensure-if-server-advice))
 
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -246,7 +245,15 @@
   :commands format-all-mode
   :defer t
   :diminish format-all-mode
-  :hook (prog-mode . format-all-mode)
+  :hook ((python-mode . format-all-mode)
+         (js-mode  . format-all-mode)
+         (css-mode  . format-all-mode)
+         (html-mode  . format-all-mode)
+         (shell-script-mode . format-all-mode)
+         (web-mode  . format-all-mode)
+         (yaml-mode . format-all-mode)
+         (typescript-mode . format-all-mode)
+         (typescript-ts-mode . format-all-mode))
   :bind
   ("C-c f" . format-all-region-or-buffer)
   :config
@@ -440,8 +447,6 @@
   :unless (display-graphic-p)  ; Only load in terminal
   :hook (after-init . corfu-terminal-mode))
 
-
-
 (use-package cape
   :ensure t
   :init
@@ -477,7 +482,6 @@
   :config
   ;; Add yasnippet support globally
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
-
 ;; --- auto complete end ---
 
 (use-package scala-mode
@@ -491,7 +495,6 @@
   (setq max-specpdl-size 5000)
   (prettify-symbols-mode))
 
-
 ;; Enable sbt mode for executing sbt commands
 (use-package sbt-mode
   :commands sbt-start sbt-command
@@ -499,12 +502,9 @@
   :interpreter
   ("scala" . scala-mode)
   :config
-  ;;set tab width two 2 (I could not get nrv/set-tab to work)
-  (setq c-basic-offset 2
-        evil-shift-width 2
-        cperl-indent-level 2
-        ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
-        sbt:program-options '("-Dsbt.supershell=false")))
+  (setq
+   ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
+   sbt:program-options '("-Dsbt.supershell=false")))
 
 (use-package centaur-tabs
   :init
@@ -760,6 +760,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
+;; scala mode
+(add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
+
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 
