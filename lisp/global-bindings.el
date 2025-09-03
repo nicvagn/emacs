@@ -5,7 +5,6 @@
 ;;; code:
 (require 'evil)
 
-
 ;; Jumping about
 (global-set-key (kbd "C-'") 'evil-jump-backward)
 (global-set-key (kbd "C-\"") 'evil-jump-forward)
@@ -19,8 +18,6 @@
 ;; Window jumping
 ;; globalize so works for all windows
 (global-set-key (kbd "C-c w") 'evil-window-next)
-;; swich window - we will see what I use
-(global-set-key (kbd "C-c o") 'other-window)
 
 ;; window spiting
 ;; split

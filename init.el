@@ -351,6 +351,7 @@
    ("C-c c x" . eglot-reconnect)
    ("C-c c s" . eglot-signature-eldoc-function))
 
+                                        ; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
          (css-mode  . eglot-ensure)
@@ -359,7 +360,6 @@
          (yaml-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
-                                        ; added advice to only call if server available
          (prog-mode . eglot-ensure)
          (sh-base-mode . eglot-ensure))
 
@@ -391,12 +391,6 @@
         eglot-send-changes-idle-time 0.5) ; Debounce changes
 
 
-  (add-to-list 'eglot-server-programs
-               '((scala-mode scala-ts-mode) .
-                 ("metals"
-                  "-J-Dmetals.http=true"
-                  "-J-Dmetals.http-port=5031"
-                  "-J-Xmx4G")))
 
   ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
@@ -411,7 +405,13 @@
                                           ))))
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio"))))
+  (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs
+               '((scala-mode scala-ts-mode) .
+                 ("metals"
+                  "-J-Dmetals.http=true"
+                  "-J-Dmetals.http-port=5031"
+                  "-J-Xmx2G"))))
 
 ;; Corfu auto complete ui
 (use-package corfu
@@ -866,3 +866,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  Neotree muh
                                         ; LocalWords:  Debounce Xmx4G
                                         ; LocalWords:  nerdtree djoyner
+                                        ; LocalWords:  Xmx2G

@@ -94,6 +94,8 @@
   (setq-local tab-width prog-tab-width
               evil-shift-width prog-tab-width
               c-basic-offset prog-tab-width)
+  ;; insert tab
+  (setq-local tab-always-indent nil)
   ;; key-binds
   (define-key prog-mode-map (kbd "<return>") #'newline-and-indent)
   (define-key prog-mode-map (kbd "C-c l") 'flymake-show-buffer-diagnostics)

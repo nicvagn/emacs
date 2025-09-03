@@ -23,6 +23,8 @@
 
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+
+(require 'evil)
 ;; editing
 (defun djoyner/evil-shift-left-visual ()
   "Evil shift left, but do not loose selection"
@@ -60,6 +62,13 @@
   (interactive)
   (end-of-line)
   (newline-and-indent))
+
+(defun nrv/shift-line-right ()
+  "shift a line right, then put cursor at eol."
+  (interactive)
+  (evil-shift-right-line 1)
+  (evil-end-of-line)
+  (forward-char))
 
 ;; non editing
 (defun nrv-error-handler (err)
@@ -128,6 +137,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 	          (flyspell-mode 1)))
 	      ;; I tried putting (flyspell-buffer) here but it didn't seem to work
 	      )))
+
 (defun flyspell-toggle ()
   "Turn Flyspell on if it is off, or off if it is on.  When turning on, it uses `flyspell-on-for-buffer-type' so code-vs-text is handled appropriately."
   (interactive)

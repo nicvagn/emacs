@@ -69,6 +69,7 @@
   (kbd "C-p") 'previous-line
   (kbd "C-a") 'beginning-of-line
   (kbd "C-e") 'end-of-line
+  (kbd "<tab>") #'nrv/shift-line-right
   (kbd "<backtab>") #'evil-shift-left-line)
 
 ;; The djoyner/** keep visual selection when indenting
