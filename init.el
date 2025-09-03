@@ -153,10 +153,8 @@
  ispell-local-dictionary "en_CA"
  ;; display full path in frame title
  frame-title-format '("%f")
- ;; pop up file manger theme
- neo-theme (if (display-graphic-p) 'icons 'arrow)
  ;; debugging + error handling
- debug-on-error 1 ;; back traces
+ debug-on-error nil ;; back traces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
@@ -769,6 +767,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook
           (lambda ()
+            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
             (evil-dvorak-mode -1) ;; buffer local when set
             (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
             (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
