@@ -184,8 +184,7 @@
  ;; but do it quietly
  auto-revert-verbose nil
  ;; centaur tabs
- centaur-tabs-style "wave"
- centaur-tabs-height 34
+ centaur-tabs-height 30
  centaur-tabs-set-icons t
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
