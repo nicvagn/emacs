@@ -349,7 +349,7 @@
    ("C-c c x" . eglot-reconnect)
    ("C-c c s" . eglot-signature-eldoc-function))
 
-                                        ; added advice to only call if server available
+  ;; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
          (css-mode  . eglot-ensure)
