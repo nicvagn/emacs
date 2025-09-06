@@ -28,6 +28,12 @@
 
 ;;; Code:
 
+
+(setq
+ evil-want-C-u-scroll t
+ evil-scroll-count 10
+ evil-want-fine-undo t)
+
 (require 'evil)
 
 (define-minor-mode evil-dvorak-mode
@@ -85,8 +91,7 @@
 
 
 (evil-define-key 'normal evil-dvorak-mode-map
-  ;; c is new d
-  (kbd "c") #'evil-delete
+  (kbd "c") #'evil-delete ;; c is new d
   ;; Movement
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
@@ -142,7 +147,6 @@
 ;; So leader is availible in all buffers
 (global-evil-dvorak-mode 1)
 (evil-mode 1)
-;; set evil undo to one built into emacs
 (evil-set-undo-system 'undo-redo)
 (provide 'evil-dvorak-nrv)
 

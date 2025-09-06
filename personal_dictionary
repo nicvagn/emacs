@@ -287,3 +287,8 @@ uncurry
 eol
 swiss
 http
+gray
+dockerfile
+IllegalArgumentException
+wd
+arg

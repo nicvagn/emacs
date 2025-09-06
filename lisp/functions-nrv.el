@@ -80,8 +80,8 @@
 If FOREVER is non-nil, the file is deleted without being moved to trash."
   (interactive "P")
   (when-let* ((file (or (buffer-file-name)
-                       (user-error "Current buffer is not visiting a file")))
-             ((y-or-n-p "Delete this file? ")))
+                        (user-error "Current buffer is not visiting a file")))
+              ((y-or-n-p "Delete this file? ")))
     (delete-file file (not forever))
     (kill-buffer (current-buffer))))
 
@@ -145,8 +145,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 	    (progn ; flyspell is on, turn it off
 	      (message "Flyspell off")
 	      (flyspell-mode -1))
-                                        ; else - flyspell is off, turn it on
-	  (flyspell-on-for-buffer-type)))
+	  (flyspell-on-for-buffer-type))) ; else - flyspell is off, turn it on
 
 (provide 'functions-nrv)
 
