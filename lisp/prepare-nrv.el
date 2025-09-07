@@ -34,7 +34,7 @@
   )
 
 (defun prepare-lisp ()
-  "Prepare lisp to be eddited how I like."
+  "Prepare lisp to be edited how I like."
   (setq-local evil-shift-width lisp-tab-width
               tab-width lisp-tab-width
               c-basic-offset lisp-tab-width)
@@ -44,7 +44,7 @@
 
 (defun prepare-c ()
   "Prepare for c devel"
-  (electric-pair-local-mode 1))
+  (electric-pair-local-mode t))
 
 (defun prepare-cpp ()
   "Prepare for cpp devel"
@@ -68,6 +68,7 @@
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
   (eglot-ensure)
+  (electric-pair-local-mode t)
   (prepare-text))
 
 ;; ---- web stuff ----
@@ -76,6 +77,7 @@
   (setq-local tab-width web-tab-width
               evil-shift-width web-tab-width
               c-basic-offset web-tab-width)
+  (electric-pair-local-mode t)
   (prepare-text)
   )
 
@@ -95,6 +97,7 @@
               evil-shift-width prog-tab-width
               c-basic-offset prog-tab-width)
   ;; insert tab
+  (electric-pair-local-mode t)
   (setq-local tab-always-indent nil)
   ;; key-binds
   (define-key prog-mode-map (kbd "<return>") #'newline-and-indent)
@@ -102,7 +105,6 @@
   (define-key prog-mode-map (kbd "C-c n") 'flymake-goto-next-error)
   (prepare-text)
   )
-
 
 (defun prepare-dired ()
   "Prepare Dired mode how I like it."
@@ -125,6 +127,7 @@
   ;; switch pains with <SPC>
   (define-key 'dired-ring-map (kbd "<SPC>") 'evil-window-next)
   (define-key 'dired-ring-map (kbd "e") 'dired-find-file)
+  (define-key 'dired-ring-map (kbd "d") 'dired-delete-file)
   (define-key 'dired-ring-map (kbd "s") 'evil-window-split)
   (define-key 'dired-ring-map (kbd "v") 'evil-window-vsplit)
   (define-key 'dired-ring-map (kbd "x") #'delete-window)

@@ -7,5 +7,8 @@
 (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
 (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
 
+(require 'dired)
+(define-key dired-mode-map (kbd "/") #'consult-line)
+
 (provide 'mode-maps-nrv)
 ;;; mode-maps-nrv.el ends here

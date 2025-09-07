@@ -109,10 +109,23 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
   (add-to-list 'mode-line-buffer-identification
                '(:propertize ("" default-directory) face mode-line)))
 
-(defun kill-other-buffers ()
-  "Kill all other buffers."
+(defun kill-other-text-buffers ()
+  "Kill all other buffers, excluding system buffers."
   (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+  (let ((killed 0))
+    (dolist (buffer (delq (current-buffer) (buffer-list)))
+      (with-current-buffer buffer
+        (let ((name (buffer-name buffer)))
+          (unless (or (string-prefix-p "*" name)           ; All buffers starting with *
+                      (string-prefix-p " " name)           ; Hidden buffers (start with space)
+                      (derived-mode-p 'comint-mode)        ; Shells/REPLs
+                      (derived-mode-p 'dired-mode)         ; Directory buffers
+                      (derived-mode-p 'special-mode)       ; Special modes
+                      (eq major-mode 'minibuffer-inactive-mode)) ; Minibuffers
+            (message "Killing: %s (mode: %s)" name major-mode)
+            (kill-buffer buffer)
+            (setq killed (1+ killed))))))
+    (message "Killed %d buffers" killed)))
 
 (defun nrv/set-tab (tab-width)
   "set all the tab width vars"

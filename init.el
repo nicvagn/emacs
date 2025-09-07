@@ -98,6 +98,8 @@
  org-image-actual-width nil
  ;; tree sit
  treesit-auto-install t
+ ;; dired
+ dired-kill-when-opening-new-dired-buffer t ;; Clean up old dired buffers
  ;; use-package
  use-package-always-ensure t
  use-package-verbose t
@@ -114,7 +116,11 @@
   (use-short-answers t))
 
 ;; sets exec path from zsh shell
-(use-package exec-path-from-shell)
+(use-package exec-path-from-shell
+  :init
+  ;; make sure exec path is path when started as daemon
+  (when (daemonp)
+    (exec-path-from-shell-initialize)))
 
 (use-package format-all
   :commands format-all-mode
@@ -288,8 +294,7 @@
                   "-J-Dmetals.http-port=5031"
                   "-J-Xmx2G"))))
 
-;; Corfu auto complete ui
-(use-package corfu
+(use-package corfu ;; auto complete ui
   :after eglot
   :config
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
@@ -667,9 +672,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
             (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
             (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
             (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
-;; make sure exec path is path when started as daemon
-(when (daemonp)
-  (exec-path-from-shell-initialize))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-emacs modes_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (dolist (p '((inferior-python-mode . emacs)
              ;; set *shell modes to use evil emacs state
