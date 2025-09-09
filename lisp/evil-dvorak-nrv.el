@@ -141,6 +141,25 @@
     "<SPC>" 'evil-window-next)
   )
 
+(use-package neotree )
+
+;; Neotree -- popup file manager
+(add-hook 'neotree-mode-hook
+          (lambda ()
+            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+            (evil-dvorak-mode -1) ;; buffer local when set
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "t") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
+
 ;; invoke stuff
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.

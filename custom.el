@@ -71,17 +71,18 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-last-refresh-date "2025-09-05T19:08")
+ '(package-last-refresh-date "2025-09-08T14:48")
  '(package-selected-packages
-   '(all-the-icons avy cape centaur-tabs consult corfu-terminal counsel
-                   cus-edit diminish editorconfig eglot eglot-java
-                   elpy evil-leader exec-path-from-shell
-                   flyspell-correct format-all magit marginalia
-                   markdown-mode neotree nerd-icons-corfu orderless
-                   php-ts-mode python-black qml-mode sbt-mode
-                   scala-mode tramp-theme treesit-auto
-                   treesit-fallback undo-tree vertico vterm web-mode
-                   yasnippet-capf))
+   '(all-the-icons all-the-icons-dired all-the-icons-gnus avy cape
+                   centaur-tabs consult corfu-candidate-overlay
+                   corfu-terminal counsel cus-edit diminish
+                   editorconfig eglot eglot-java elpy evil-leader
+                   exec-path-from-shell flyspell-correct format-all
+                   magit marginalia markdown-mode neotree
+                   nerd-icons-corfu orderless php-ts-mode python-black
+                   qml-mode sbt-mode scala-mode tramp-theme
+                   transient-dwim treesit-auto treesit-fallback
+                   undo-tree vertico vterm web-mode yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")

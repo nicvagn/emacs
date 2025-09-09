@@ -1,4 +1,19 @@
-;;; init.el -*- lexical-binding: t; -*-
+;;; init.el --- Personal Emacs configuration -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2025 Your Name
+
+;; Author: nrv
+;; Keywords: convenience
+;; Version: 1.0
+;; Package-Requires: ((emacs "29.1"))
+
+;; This file is not part of GNU Emacs.
+
+;;; Commentary:
+
+;; nrv Emacs configuration file.
+
+;;; Code:
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "Https://elpa.nongnu.org/nongnu/"))
@@ -10,7 +25,6 @@
 (eval-when-compile
   (require 'use-package))
 
-
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
@@ -18,22 +32,6 @@
 
 ;; major mode remapping
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-
-;; For packages that check for python-mode specifically
-(with-eval-after-load 'python-ts-mode
-  ;; Add python-ts-mode to relevant hooks
-  (add-hook 'python-ts-mode-hook 'python-mode-hook))
-
-(with-eval-after-load 'eglot
-  (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)
-    "Call `eglot-ensure` only if a server is defined for the current major mode."
-    (when (cl-find major-mode eglot-server-programs
-                   :test (lambda (mode entry)
-                           (or (eq mode (car entry))
-                               (and (symbolp (car entry))
-                                    (provided-mode-derived-p mode (car entry))))))
-      (apply orig-fun args)))
-  (advice-add 'eglot-ensure :around #'nrv/eglot-ensure-if-server-advice))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
@@ -78,7 +76,7 @@
  kept-old-versions 10  ;; Number of oldest versions to keep.
  delete-old-versions t ;; Don't ask to delete excess backup versions.
  backup-by-copying t   ;; Copy all files, don't rename them.
- ;; Revert/reload Dired and other buffers on filesystem change
+ ;; Revert/reload Dired and other buffers on file-system change
  global-auto-revert-non-file-buffers t
  ;; but do it quietly
  auto-revert-verbose nil
@@ -170,7 +168,7 @@
   (vertico-count 20)
   (vertico-resize t)
   :bind (:map vertico-map
-              ;; vertico-directory-enter checks what kind of completion is active:
+              ;; vertigo-directory-enter checks what kind of completion is active:
               ;; - If it's file completion → does directory/file logic
               ;; - If it's command completion → just executes the command
               ;; - If it's other completion → uses default behaviour
@@ -182,7 +180,6 @@
 
 ;; Better matching (type parts of words in any order)
 (use-package orderless
-  :ensure t
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-overrides '((file (styles partial-completion))))
@@ -205,7 +202,6 @@
 
 ;; Enhanced commands
 (use-package consult
-  :ensure t
   :bind (("C-x b" . consult-buffer)
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
@@ -298,11 +294,11 @@
   :after eglot
   :config
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
-        corfu-auto t                     ; Enable auto completion
+        corfu-auto nil                   ; Disable auto completion
         corfu-auto-delay 0.1             ; Auto completion delay
         corfu-auto-prefix 1              ; Minimum prefix for auto completion
-        corfu-separator ?\s              ; Orderless field separator
-        corfu-preselect 'first           ; Always preselect first option
+        corfu-separator ?\s              ; Order-less field separator
+        corfu-preselect 'first           ; Always pre-select first option
         corfu-quit-at-boundary nil       ; Never quit at completion boundary
         corfu-quit-no-match t            ; quit if there is no match
         corfu-preview-current 'insert    ; Preview current candidate
@@ -310,37 +306,35 @@
         corfu-scroll-margin 5            ; Use scroll margin
         corfu-max-width 100              ; Maximum popup width
         corfu-min-width 15               ; Minimum popup width
-        corfu-count 10)                  ; Maximum number of candidates
+        corfu-count 18)                  ; Maximum number of candidates
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode)
   (corfu-history-mode)
   :bind
-  (("<f5>" . corfu-complete)
+  (("<f5>" . completion-at-point)
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
-   ("<f8>" . corfu-quit)))
+   ("<f8>" . keyboard-quit)))
 
 ;; Terminal support for Corfu
 (use-package corfu-terminal
-  :ensure t
   :unless (display-graphic-p)  ; Only load in terminal
   :hook (after-init . corfu-terminal-mode))
 
 (use-package cape
-  :ensure t
   :init
   ;; Programming modes completion setup
   (defun nrv/setup-programming-capf ()
     "Setup completion-at-point-functions for programming."
-    (setq-local completion-at-point-functions
-                (list
-                 #'eglot-completion-at-point      ; LSP completion (when eglot is active)
-                 #'cape-dabbrev                   ; Dynamic abbreviations
-                 #'cape-keyword                   ; Language keywords
-                 #'cape-file                      ; File name completion
-                 #'cape-elisp-block               ; Complete elisp in org/markdown blocks
-                 #'cape-abbrev)))                 ; Static abbreviations
+    (setq completion-at-point-functions
+          (list
+           #'eglot-completion-at-point      ; LSP completion (when eglot is active)
+           #'cape-dabbrev                   ; Dynamic abbreviations
+           #'cape-keyword                   ; Language keywords
+           #'cape-file                      ; File name completion
+           #'cape-elisp-block               ; Complete elisp in org/markdown blocks
+           #'cape-abbrev)))                 ; Static abbreviations
 
   ;; Apply to programming modes
   (dolist (mode-hook '(python-mode-hook
@@ -362,6 +356,13 @@
   :config
   ;; Add yasnippet support globally
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
+
+(use-package corfu-candidate-overlay
+  :after corfu
+  :config
+  ;; enable corfu-candidate-overlay mode globally
+  ;; this relies on having corfu-auto set to nil
+  (corfu-candidate-overlay-mode +1))
 ;; --- auto complete end ---
 
 (use-package scala-mode
@@ -369,10 +370,11 @@
   ("scala" . scala-mode)
   :defer t
   :config
-  (setq prettify-symbols-alist scala-prettify-symbols-alist)
-  ;; For complex scala files
-  (setq max-lisp-eval-depth 50000)
-  (setq max-specpdl-size 5000)
+  (setq prettify-symbols-alist scala-prettify-symbols-alist
+        ;; For complex scala files
+        max-lisp-eval-depth 50000
+        max-specpdl-size 5000)
+
   (prettify-symbols-mode))
 
 ;; Enable sbt mode for executing sbt commands
@@ -387,6 +389,7 @@
    sbt:program-options '("-Dsbt.supershell=false")))
 
 (use-package centaur-tabs
+  :demand t
   :init
   (centaur-tabs-mode t)
   :config
@@ -479,17 +482,15 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; Ensure consistent completion everywhere
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
   (advice-add 'magit-ido-completing-read :override #'completing-read)
-  ;; Make sure Magit uses the same completion as everything else
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
-  ;; Ensure these use completing-read:
-  (setq magit-branch-read-upstream-first 'fallback)
-  (setq magit-branch-prefer-remote-upstream '("master" "main"))
 
-  ;; Optional: Configure Git completion
-  (setq magit-git-executable "git")
-  (setq magit-status-show-untracked-files t)
+
+  (setq magit-branch-read-upstream-first 'fallback
+        magit-branch-prefer-remote-upstream t
+        magit-git-executable "git"
+        magit-status-show-untracked-files t)
   :hook
-  ;; Ensure Vertico is active in Magit buffers
+  ;; Ensure Vertigo is active in Magit buffers
   (magit-mode . (lambda () (setq-local completion-styles '(orderless basic)))))
 
 (use-package web-mode
@@ -507,7 +508,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("\\.djhtml\\'" . web-mode)))
 
 (use-package treesit-auto
-  :ensure t
   :demand t  ; Load immediately
   :config
   ;; Global activation
@@ -532,14 +532,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
           (rust "https://github.com/tree-sitter/tree-sitter-rust")
           (go "https://github.com/tree-sitter/tree-sitter-go")))
   (setq treesit-font-lock-level 4))  ; Maximum syntax highlighting
-
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :mode ("README\\.md\\'" . gfm-mode)
-  :init (setq markdown-command "multimarkdown")
-  :bind (:map markdown-mode-map
-              ("C-c C-e" . markdown-do)))
 
 (use-package cus-edit
   :ensure nil
@@ -622,9 +614,58 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which function
 (highlight-indentation-mode 1)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(require 'global-bindings) ;; fancy pants
-(require 'mode-maps-nrv)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+
+(define-key dired-mode-map (kbd "/") #'consult-line)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; Jumping about
+(global-set-key (kbd "C-'") 'evil-jump-backward)
+(global-set-key (kbd "C-\"") 'evil-jump-forward)
+
+;; find the definition with xref
+(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
+(global-set-key (kbd "C-c M-a") 'xref-find-apropos)
+(global-set-key (kbd "C-c M-r") 'xref-find-references)
+(global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
+
+;; Window jumping
+;; globalize so works for all windows
+(global-set-key (kbd "C-c w") 'evil-window-next)
+
+;; window spiting
+;; split
+(global-set-key (kbd "C-c _") 'split-window-below)
+(global-set-key (kbd "C-c |") 'split-window-right)
+
+;; F-keys
+;; open neotree with f3: (overshadows keyboard macro)
+(global-set-key (kbd "<f3>") 'neotree-toggle)
+;; popup term
+(global-set-key (kbd "<f4>") 'shell-pop)
+(global-set-key (kbd "<f8>") 'keyboard-quit)
+
+;; Emacs management
+(require 'functions-nrv)
+(global-set-key (kbd "C-c m") 'zck/move-file)
+;; restart Emacs
+(global-set-key (kbd "C-M-r") 'restart-emacs)
+;; kill this buffer
+(global-set-key (kbd "C-c k") #'kill-current-buffer)
+;; close all other buffers
+(global-set-key (kbd "C-c K") #'kill-other-buffers)
+;; spelling
+(global-set-key (kbd "C-c s") 'flyspell-toggle )
+
+;; GIT
+(require 'magit)
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;; repo-grep
+(require 'repo-grep)
+(global-set-key (kbd "C-c g") 'repo-grep)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove hooks
 ;; remove the legacy hook from flymake
@@ -656,22 +697,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;; Neotree -- popup file manager
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-            (evil-dvorak-mode -1) ;; buffer local when set
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
-            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "t") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-emacs modes_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (dolist (p '((inferior-python-mode . emacs)
              ;; set *shell modes to use evil emacs state
@@ -706,7 +731,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
   This variable is then used to check whether
   `package-refresh-contents' call is needed before calling
-  `package-install'. The value of this variable is updated when
+  `package-install'.  The value of this variable is updated when
   `package-refresh-contents' is called.
 
   See `package-refresh-hour-threshold' for the amount of time needed to
@@ -714,19 +739,19 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :type 'string
   :group 'package)
 (defcustom package-automatic-refresh-threshold 24
-  "Amount of hours since last `package-refresh-contents' call
-  needed to trigger automatic refresh before calling `package-install'."
+  "Amount of hours since last `package-refresh-contents' call.
+Trigger automatic refresh before calling `package-install'."
   :type 'number
   :group 'package)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Advice -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Ensure ibuffer opens with point at the current buffer's entry.
-(defadvice ibuffer
-    (around ibuffer-point-to-most-recent) ()
-    "Open ibuffer with cursor pointed to most recent buffer name."
-    (let ((recent-buffer-name (buffer-name)))
-      ad-do-it
-      (ibuffer-jump-to-buffer recent-buffer-name)))
-(ad-activate 'ibuffer)
+(defun my-ibuffer-point-to-most-recent (&rest _args)
+  "Point cursor to most recent buffer name in ibuffer."
+  (when-let ((recent-buffer-name (buffer-name (other-buffer))))
+    (ibuffer-jump-to-buffer recent-buffer-name)))
+
+(advice-add 'ibuffer :after #'my-ibuffer-point-to-most-recent)
+
 ;; Ensure package data is refreshed before package install
 (define-advice package-install (:before (&rest _) package-refresh-contents-maybe)
   (when (or (null package-last-refresh-date)
@@ -736,22 +761,40 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                   3600)
                package-automatic-refresh-threshold))
     (package-refresh-contents)))
+
 (define-advice package-refresh-contents (:after (&rest _) update-package-refresh-date)
   (customize-save-variable 'package-last-refresh-date
                            (format-time-string "%Y-%m-%dT%H:%M")))
+
+;; For packages that check for python-mode specifically
+(with-eval-after-load 'python-ts-mode
+  ;; Add python-ts-mode to relevant hooks
+  (add-hook 'python-ts-mode-hook 'python-mode-hook))
+
+(with-eval-after-load 'eglot
+  (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)
+    "Call `eglot-ensure` only if a server is defined for the current major mode."
+    (when (cl-find major-mode eglot-server-programs
+                   :test (lambda (mode entry)
+                           (or (eq mode (car entry))
+                               (and (symbolp (car entry))
+                                    (provided-mode-derived-p mode (car entry))))))
+      (apply orig-fun args)))
+  (advice-add 'eglot-ensure :around #'nrv/eglot-ensure-if-server-advice))
 
 (provide 'init)
 ;;; init.el ends here
 
                                         ; LocalWords:  setq yasnippet
                                         ; LocalWords:  codespell melpa nongnu
-                                        ; LocalWords:  emacs scala
+                                        ; LocalWords:  emacs scala cp
                                         ; LocalWords:  unselected LightGoldenrod DarkOrange MistyRose
-                                        ; LocalWords:  DeepSkyBlue
-                                        ; LocalWords:  daemonp flx
+                                        ; LocalWords:  DeepSkyBlue sp
+                                        ; LocalWords:  daemonp flx eq
                                         ; LocalWords:  yasnippit tjwh
                                         ; LocalWords:  Neotree muh
                                         ; LocalWords:  Debounce Xmx4G
                                         ; LocalWords:  nerdtree djoyner
-                                        ; LocalWords:  Xmx2G
+                                        ; LocalWords:  Xmx2G ibuffer
                                         ; LocalWords:  multimarkdown f9cfcfd3f
+; LocalWords:  erb agj tpl Magit's supershell Dsbt

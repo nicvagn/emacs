@@ -25,25 +25,24 @@
 (global-set-key (kbd "C-c |") 'split-window-right)
 
 ;; F-keys
-;; open neotree with f3 f4: (overshadows keyboard macro)
+;; open neotree with f3: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
 ;; popup term
 (global-set-key (kbd "<f4>") 'shell-pop)
+(global-set-key (kbd "<f8>") 'keyboard-quit)
 
 ;; Emacs management
 (require 'functions-nrv)
 (global-set-key (kbd "C-c m") 'zck/move-file)
 ;; restart Emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
-;; show the dir track of file we are editing
-(global-set-key (kbd "C-c D") #'dir-track)
 ;; kill this buffer
 (global-set-key (kbd "C-c k") #'kill-current-buffer)
 ;; close all other buffers
 (global-set-key (kbd "C-c K") #'kill-other-buffers)
-
 ;; spelling
 (global-set-key (kbd "C-c s") 'flyspell-toggle )
+
 
 ;; GIT
 (require 'magit)

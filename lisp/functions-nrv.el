@@ -86,7 +86,8 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
     (kill-buffer (current-buffer))))
 
 (defun zck/move-file (new-location)
-  "Write this file to NEW-LOCATION, and delete the old one."
+  "Write this file to NEW-LOCATION, and delete the old one. If given a directory,
+keep the file name."
   (interactive (list (expand-file-name
                       (if buffer-file-name
                           (read-file-name "Move file to: ")
@@ -94,6 +95,12 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
                                         default-directory
                                         (expand-file-name (file-name-nondirectory (buffer-name))
                                                           default-directory))))))
+  ;; If new-location is a directory, append the original filename
+  (when (file-directory-p new-location)
+    (setq new-location (expand-file-name
+                        (file-name-nondirectory
+                         (or buffer-file-name (buffer-name)))
+                        new-location)))
   (when (file-exists-p new-location)
     (delete-file new-location))
   (let ((old-location (expand-file-name (buffer-file-name))))
@@ -103,11 +110,6 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
                (not (string-equal old-location new-location)))
       (delete-file old-location))))
 
-(defun dir-track ()
-  "Show the current directory in the mode-line."
-  (interactive)
-  (add-to-list 'mode-line-buffer-identification
-               '(:propertize ("" default-directory) face mode-line)))
 
 (defun kill-other-text-buffers ()
   "Kill all other buffers, excluding system buffers."
@@ -121,7 +123,7 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
                       (derived-mode-p 'comint-mode)        ; Shells/REPLs
                       (derived-mode-p 'dired-mode)         ; Directory buffers
                       (derived-mode-p 'special-mode)       ; Special modes
-                      (eq major-mode 'minibuffer-inactive-mode)) ; Minibuffers
+                      (eq major-mode 'minibuffer-inactive-mode)) ; Mini-buffers
             (message "Killing: %s (mode: %s)" name major-mode)
             (kill-buffer buffer)
             (setq killed (1+ killed))))))
@@ -134,9 +136,35 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
         tab-width tab-width
         evil-shift-width tab-width
         cperl-indent-level tab-width))
+;; Corfu
+;; Function to explicitly show Corfu popup if completions exist
+(defun nrv/corfu-show-popup ()
+  "Show Corfu completion popup if completions are available."
+  (interactive)
+  (when (and (bound-and-true-p corfu-mode)
+             (not corfu--frame))
+    (let ((completion-cycle-threshold nil))
+      (completion-at-point))))
+
+(defun nrv/comp-or-nil ()
+  "Select completion or show completion corfu menu."
+  (interactive)
+  (cond
+   ;; If Corfu popup is already visible, select comp
+   ((and (bound-and-true-p corfu-mode) corfu--frame)
+    (corfu-insert))
+   ;; If at word boundary with potential completions, show popup
+   ((and (bound-and-true-p corfu-mode)
+         (or (looking-back "\\w+" (line-beginning-position))
+             (looking-back "[.]\\w*" (line-beginning-position))))
+    (completion-at-point))))
+
 
 (defun flyspell-on-for-buffer-type ()
-  "Enable Flyspell appropriately for the major mode of the current buffer.  Uses `flyspell-prog-mode' for modes derived from `prog-mode', so only strings and comments get checked.  All other buffers get `flyspell-mode' to check all text.  If flyspell is already enabled, does nothing."
+  "Enable Flyspell appropriately for the major mode of the current buffer.  Uses
+`flyspell-prog-mode' for modes derived from `prog-mode', so only strings and
+comments get checked.  All other buffers get `flyspell-mode' to check all text.
+If flyspell is already enabled, does nothing."
   (interactive)
   (if (not (symbol-value flyspell-mode)) ; if not already on
 	    (progn
@@ -152,7 +180,8 @@ If FOREVER is non-nil, the file is deleted without being moved to trash."
 	      )))
 
 (defun flyspell-toggle ()
-  "Turn Flyspell on if it is off, or off if it is on.  When turning on, it uses `flyspell-on-for-buffer-type' so code-vs-text is handled appropriately."
+  "Turn Flyspell on if it is off, or off if it is on.  When turning on, it uses
+`flyspell-on-for-buffer-type' so code-vs-text is handled appropriately."
   (interactive)
   (if (symbol-value flyspell-mode)
 	    (progn ; flyspell is on, turn it off
