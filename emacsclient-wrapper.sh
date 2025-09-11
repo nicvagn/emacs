@@ -6,6 +6,7 @@
 start_emacs_daemon() {
     if ! pgrep -x emacs >/dev/null; then
         /usr/bin/emacs --daemon
+        echo "started daemon"
     else 
         echo "daemon is running"
     fi
@@ -24,7 +25,7 @@ use_emacsclient() {
 
         else
             emacsclient -n -c         # create a new empty frame
-            echo "creating new frame, but one exists"
+            echo "creating frame, but others exist"
         fi
     else
         # No frames yet → create a new one
