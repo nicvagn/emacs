@@ -17,7 +17,7 @@ is_daemon_running() {
 # Function to start emacs daemon
 start_daemon() {
     echo "Starting emacs daemon..." >&2
-    emacs --daemon="$EMACS_SOCKET_NAME" >/dev/null 2>&1
+    /usr/bin/emacs --daemon="$EMACS_SOCKET_NAME" >/dev/null 2>&1
     
     # Wait for daemon to start
     local count=0
