@@ -306,3 +306,11 @@ pylsp
 numpy
 orderless
 TypeScript
+fzf
+neotree
+Wextra
+CMakeLists
+bbpPairings
+subdirectory
+CMake
+emacsclient

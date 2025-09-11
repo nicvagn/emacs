@@ -24,7 +24,6 @@
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-(require 'evil)
 ;; editing
 (defun djoyner/evil-shift-left-visual ()
   "Evil shift left, but do not loose selection"
@@ -136,29 +135,6 @@ keep the file name."
         tab-width tab-width
         evil-shift-width tab-width
         cperl-indent-level tab-width))
-;; Corfu
-;; Function to explicitly show Corfu popup if completions exist
-(defun nrv/corfu-show-popup ()
-  "Show Corfu completion popup if completions are available."
-  (interactive)
-  (when (and (bound-and-true-p corfu-mode)
-             (not corfu--frame))
-    (let ((completion-cycle-threshold nil))
-      (completion-at-point))))
-
-(defun nrv/comp-or-nil ()
-  "Select completion or show completion corfu menu."
-  (interactive)
-  (cond
-   ;; If Corfu popup is already visible, select comp
-   ((and (bound-and-true-p corfu-mode) corfu--frame)
-    (corfu-insert))
-   ;; If at word boundary with potential completions, show popup
-   ((and (bound-and-true-p corfu-mode)
-         (or (looking-back "\\w+" (line-beginning-position))
-             (looking-back "[.]\\w*" (line-beginning-position))))
-    (completion-at-point))))
-
 
 (defun flyspell-on-for-buffer-type ()
   "Enable Flyspell appropriately for the major mode of the current buffer.  Uses

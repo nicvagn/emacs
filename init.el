@@ -24,6 +24,9 @@
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
+;; Refresh if none
+(unless package-archive-contents
+  (package-refresh-contents))
 
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
@@ -34,6 +37,10 @@
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(when (getenv "WAYLAND_DISPLAY")
+  ;; Use system clipboard
+  (setq select-enable-clipboard t
+        select-enable-primary t))
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
 (setenv "TERM" "xterm-256color")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -54,6 +61,8 @@
  ispell-local-dictionary "en_CA"
  ;; display full path in frame title
  frame-title-format '("%f")
+ ;; Reuse the same server frame
+ server-window 'pop-to-buffer
  ;; debugging + error handling
  debug-on-error nil ;; back traces
  user-error-exceptions nil ;; treat errs as real errs
@@ -458,6 +467,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (use-package all-the-icons
   :if (display-graphic-p))
 
+;; magit wants
+(use-package transient
+  :demand t)
+
 ;; magit
 (use-package magit
   :bind
@@ -473,18 +486,17 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g a" . #'magit-file-stage)
    ("C-c C-g s" . #'magit-status-quick))
 
+  :after transient  ;; ensures transient is loaded first
   :config
   ;; Override Magit's completion function completely
   (setq magit-completing-read-function 'completing-read)
   ;; Make sure ido doesn't interfere
   (setq magit-ido-mode nil)
-
   ;; Ensure consistent completion everywhere
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
   (advice-add 'magit-ido-completing-read :override #'completing-read)
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
-
-
+  
   (setq magit-branch-read-upstream-first 'fallback
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
@@ -659,11 +671,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "C-c s") 'flyspell-toggle )
 
 ;; GIT
-(require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; repo-grep
-(require 'repo-grep)
 (global-set-key (kbd "C-c g") 'repo-grep)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
