@@ -114,6 +114,15 @@
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
+  :ensure nil
+  :bind ("C-x C-c" . nrv/smart-quit)
+  :init
+  (defun nrv/smart-quit ()
+    "Kill current frame if daemon, otherwise exit Emacs."
+    (interactive)
+    (if (daemonp)
+        (delete-frame)
+      (save-buffers-kill-terminal)))
   :custom
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
@@ -121,6 +130,7 @@
   (read-extended-command-predicate
    #'command-completion-default-include-p)
   (use-short-answers t))
+
 
 ;; sets exec path from zsh shell
 (use-package exec-path-from-shell
@@ -496,7 +506,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
   (advice-add 'magit-ido-completing-read :override #'completing-read)
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
-  
+
   (setq magit-branch-read-upstream-first 'fallback
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
@@ -547,8 +557,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (use-package cus-edit
   :ensure nil
-  :custom (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  :init (load custom-file :noerror))
+  :custom
+  (custom-file (expand-file-name "custom.el" user-emacs-directory))
+  :init
+  (unless (file-exists-p custom-file)
+    (write-region "" nil custom-file))
+  (load custom-file))
 
 (use-package flyspell-correct
   :after flyspell
@@ -807,4 +821,4 @@ Trigger automatic refresh before calling `package-install'."
                                         ; LocalWords:  nerdtree djoyner
                                         ; LocalWords:  Xmx2G ibuffer
                                         ; LocalWords:  multimarkdown f9cfcfd3f
-; LocalWords:  erb agj tpl Magit's supershell Dsbt
+                                        ; LocalWords:  erb agj tpl Magit's supershell Dsbt

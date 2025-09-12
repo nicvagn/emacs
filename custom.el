@@ -71,7 +71,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-last-refresh-date "2025-09-10T19:08")
+ '(package-last-refresh-date "2025-09-11T17:00")
  '(package-selected-packages
    '(all-the-icons all-the-icons-dired all-the-icons-gnus avy cape
                    centaur-tabs consult corfu-candidate-overlay
@@ -80,7 +80,7 @@
                    exec-path-from-shell flyspell-correct format-all
                    magit marginalia markdown-mode neotree
                    nerd-icons-corfu orderless php-ts-mode python-black
-                   qml-mode sbt-mode scala-mode tramp-theme
+                   qml-mode sbt-mode scala-mode tramp tramp-theme
                    transient-dwim treesit-auto treesit-fallback
                    undo-tree vertico vterm web-mode yasnippet-capf))
  '(package-vc-selected-packages

@@ -97,6 +97,8 @@
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
   (kbd "e") #'evil-forward-char
+  ;; Reinstate C-e of Emacs
+  (kbd "C-e") 'end-of-line
   ;; Line operations
   (kbd "k") #'kill-line
   (kbd "K") #'(lambda ()
@@ -141,7 +143,7 @@
     "<SPC>" 'evil-window-next)
   )
 
-(use-package neotree )
+(use-package neotree)
 
 ;; Neotree -- popup file manager
 (add-hook 'neotree-mode-hook

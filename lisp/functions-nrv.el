@@ -110,7 +110,7 @@ keep the file name."
       (delete-file old-location))))
 
 
-(defun kill-other-text-buffers ()
+(defun nrv/kill-other-text-buffers ()
   "Kill all other buffers, excluding system buffers."
   (interactive)
   (let ((killed 0))

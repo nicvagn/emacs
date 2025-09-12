@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # emacsclient-wrapper.sh
 # Robust wrapper for emacsclient on Wayland/X11
 
@@ -7,7 +7,7 @@ start_emacs_daemon() {
     if ! pgrep -x emacs >/dev/null; then
         /usr/bin/emacs --daemon
         echo "started daemon"
-    else 
+    else
         echo "daemon is running"
     fi
 }
@@ -25,12 +25,12 @@ use_emacsclient() {
 
         else
             emacsclient -n -c         # create a new empty frame
-            echo "creating frame, but others exist"
+            echo "creating frame, existing daemon."
         fi
     else
         # No frames yet → create a new one
         emacsclient -n -c "$@"
-        echo "creating first frame" 
+        echo "creating first frame"
     fi
 }
 
