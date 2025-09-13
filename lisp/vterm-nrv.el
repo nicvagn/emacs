@@ -29,6 +29,19 @@
 
 ;; popup shell
 (require 'shell-pop)
+;; export $EDITOR to be this Emacs
+(add-hook 'vterm-mode-hook  'with-editor-export-editor)
+(add-hook 'vterm-mode-hook  'with-editor-export-git-editor)
+;; why not for all
+(add-hook 'shell-mode-hook  'with-editor-export-editor)
+(add-hook 'eshell-mode-hook 'with-editor-export-editor)
+(add-hook 'term-exec-hook   'with-editor-export-editor)
+
+;; make good and sure it is exported
+(keymap-global-set "<remap> <async-shell-command>"
+                   #'with-editor-async-shell-command)
+(keymap-global-set "<remap> <shell-command>"
+                   #'with-editor-shell-command)
 
 (provide 'vterm-nrv)
 ;;; vterm-nrv.el ends here
