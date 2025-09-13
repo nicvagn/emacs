@@ -71,7 +71,7 @@
  '(inhibit-startup-screen t)
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
- '(package-last-refresh-date "2025-09-11T17:00")
+ '(package-last-refresh-date "2025-09-13T12:23")
  '(package-selected-packages
    '(all-the-icons all-the-icons-dired all-the-icons-gnus avy cape
                    centaur-tabs consult corfu-candidate-overlay

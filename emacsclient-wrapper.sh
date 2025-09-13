@@ -4,11 +4,11 @@
 
 # Function to start daemon if not running
 start_emacs_daemon() {
-    if ! pgrep -x emacs >/dev/null; then
+    if emacsclient --eval t >/dev/null; then
+        echo "daemon is running"
+    else
         /usr/bin/emacs --daemon
         echo "started daemon"
-    else
-        echo "daemon is running"
     fi
 }
 
@@ -17,9 +17,9 @@ use_emacsclient() {
     # Count existing frames (works on X11 and Wayland)
     frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
 
-    if [[ "$frames" -gt 0 ]]; then
+    if [[ "$frames" -gt 1 ]]; then
         # Frames exist
-        if [[ $# -gt 0 ]]; then
+        if [[ $# -gt 1 ]]; then
             emacsclient -n "$@"       # open files in existing frame
             echo "opening file in frame"
 
