@@ -4,7 +4,7 @@
 
 # Function to start daemon if not running
 start_emacs_daemon() {
-	if emacsclient --eval t >/dev/null; then
+	if emacsclient --eval t >/dev/null 2>1; then
 		echo "daemon is running"
 	else
 		/usr/bin/emacs --daemon
