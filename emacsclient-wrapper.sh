@@ -28,4 +28,4 @@ use_emacsclient() {
 # Start daemon if needed
 start_emacs_daemon
 
-use_emacsclient "$@"
+use_emacsclient
