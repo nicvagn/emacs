@@ -12,39 +12,19 @@ start_emacs_daemon() {
 }
 
 use_emacsclient() {
-    local opts=()
-    local files=()
-    local seen_delim=0
+	# Count existing frames
+	frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
 
-    # --- Split args: options first, then files ---
-    for arg in "$@"; do
-        if [[ $seen_delim -eq 0 ]]; then
-            if [[ $arg == "--" ]]; then
-                seen_delim=1
-                continue
-            elif [[ $arg == -* ]]; then
-                opts+=("$arg")
-                continue
-            fi
-            seen_delim=1
-        fi
-        files+=("$arg")
-    done
-
-    local frames
-    frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
-
-    if [[ "$frames" -gt 1 ]]; then
-        for file in "${files[@]}"; do
-            # Escape single quotes for Elisp string
-            safe=$(printf "%s" "$file" | sed "s/'/\\\\'/g")
-            emacsclient "${opts[@]}" -e "(nrv/open-or-create-file-buffer '$safe')"
-        done
-    else
-        # No frame yet
-        emacsclient -cn "${opts[@]}" -- "${files[@]}"
-    fi
+	if [[ "$frames" -gt 999  ]]; then # bash is hard
+        emacsclient -e "(nrv/open-or-create-file-buffer '$@')"
+		echo "opening file in existing frame"
+	else
+        # make a new frame
+		emacsclient -n -c "$@"
+	fi
 }
 
+# Start daemon if needed
 start_emacs_daemon
-use_emacsclient "$@"
+
+use_emacsclient $@
