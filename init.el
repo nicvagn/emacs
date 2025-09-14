@@ -742,16 +742,21 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Advice -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Ensure ibuffer opens with point at the current buffer's entry.
-(defun my-ibuffer-point-to-most-recent (&rest _args)
+(defun nrv/ibuffer-point-to-most-recent (&rest _args)
   "Point cursor to most recent buffer name in ibuffer."
   (when-let ((recent-buffer-name (buffer-name (other-buffer))))
     (ibuffer-jump-to-buffer recent-buffer-name)))
 
-(advice-add 'ibuffer :after #'my-ibuffer-point-to-most-recent)
+(advice-add 'ibuffer :after #'nrv/ibuffer-point-to-most-recent)
 
-(define-advice package-install (:before (&rest _) package-refresh-if-stale)
-  "refresh package contents before install."
-    (package-refresh-contents))
+(define-advice package-install (:before (&rest _))
+  "Refresh package contents before install if they're stale."
+  (when (or (not package-archive-contents)
+            ;; Refresh if contents are older than 1 day
+            (time-less-p (time-add package-menu-last-update
+                                   (days-to-time 1))
+                         (current-time)))
+    (package-refresh-contents)))
 
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode
