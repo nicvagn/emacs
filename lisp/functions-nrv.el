@@ -75,6 +75,12 @@
   (end-of-line)
   (newline-and-indent))
 
+(defun nrv/refresh-before (orig-fun &rest args)
+  "Refresh packages before..."
+  (package-refresh-contents)
+  (message "refreshing package list...")
+  (apply orig-fun args))
+
 (defun nrv/shift-line-right ()
   "shift a line right, then put cursor at eol."
   (interactive)

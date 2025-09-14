@@ -3,17 +3,16 @@
 ;; Copyright (C) 2025 Your Name
 
 ;; Author: nrv
-;; Keywords: convenience
+;; Keywords: init
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "29.1"))
 
-;; This file is not part of GNU Emacs.
-
-;;; Commentary:
-
-;; nrv Emacs configuration file.
-
 ;;; Code:
+(let ((custom-file-path (expand-file-name "custom.el" user-emacs-directory)))
+  (setq custom-file custom-file-path)
+  (when (file-exists-p custom-file-path)
+    (load custom-file-path)))
+
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "Https://elpa.nongnu.org/nongnu/"))
@@ -22,11 +21,9 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (eval-when-compile
   (require 'use-package))
-;; Refresh if none
-(unless package-archive-contents
-  (package-refresh-contents))
 
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
@@ -555,14 +552,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
           (go "https://github.com/tree-sitter/tree-sitter-go")))
   (setq treesit-font-lock-level 4))  ; Maximum syntax highlighting
 
-(use-package cus-edit
-  :ensure nil
-  :custom
-  (custom-file (expand-file-name "custom.el" user-emacs-directory))
-  :init
-  (unless (file-exists-p custom-file)
-    (write-region "" nil custom-file))
-  (load custom-file))
 
 (use-package flyspell-correct
   :after flyspell
@@ -750,23 +739,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Custom Variables-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(defcustom package-last-refresh-date nil
-  "Date and time when package lists have been refreshed.
 
-  This variable is then used to check whether
-  `package-refresh-contents' call is needed before calling
-  `package-install'.  The value of this variable is updated when
-  `package-refresh-contents' is called.
-
-  See `package-refresh-hour-threshold' for the amount of time needed to
-  trigger a refresh."
-  :type 'string
-  :group 'package)
-(defcustom package-automatic-refresh-threshold 24
-  "Amount of hours since last `package-refresh-contents' call.
-Trigger automatic refresh before calling `package-install'."
-  :type 'number
-  :group 'package)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Advice -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defun my-ibuffer-point-to-most-recent (&rest _args)
@@ -776,19 +749,9 @@ Trigger automatic refresh before calling `package-install'."
 
 (advice-add 'ibuffer :after #'my-ibuffer-point-to-most-recent)
 
-;; Ensure package data is refreshed before package install
-(define-advice package-install (:before (&rest _) package-refresh-contents-maybe)
-  (when (or (null package-last-refresh-date)
-            (> (/ (float-time
-                   (time-subtract (date-to-time (format-time-string "%Y-%m-%dT%H:%M"))
-                                  (date-to-time package-last-refresh-date)))
-                  3600)
-               package-automatic-refresh-threshold))
-    (package-refresh-contents)))
-
-(define-advice package-refresh-contents (:after (&rest _) update-package-refresh-date)
-  (customize-save-variable 'package-last-refresh-date
-                           (format-time-string "%Y-%m-%dT%H:%M")))
+(define-advice package-install (:before (&rest _) package-refresh-if-stale)
+  "refresh package contents before install."
+    (package-refresh-contents))
 
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode
