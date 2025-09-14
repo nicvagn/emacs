@@ -41,7 +41,7 @@ use_emacsclient() {
             emacsclient "${opts[@]}" -e "(nrv/open-or-create-file-buffer '$safe')"
         done
     else
-        # No frame yet → let emacsclient handle flags & files
+        # No frame yet
         emacsclient -cn "${opts[@]}" -- "${files[@]}"
     fi
 }
