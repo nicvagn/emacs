@@ -31,7 +31,6 @@
 (require 'shell-pop)
 ;; export $EDITOR to be this Emacs
 (add-hook 'vterm-mode-hook  'with-editor-export-editor)
-(add-hook 'vterm-mode-hook  'with-editor-export-git-editor)
 ;; why not for all
 (add-hook 'shell-mode-hook  'with-editor-export-editor)
 (add-hook 'eshell-mode-hook 'with-editor-export-editor)

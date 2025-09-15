@@ -1,6 +1,6 @@
-;;; init.el --- Personal Emacs configuration -*- lexical-binding: t; -*-
+;;; init.el --- nrv Emacs -*- lexical-binding: t; -*-
 
-;; Copyright (C) 2025 Your Name
+;; Copyright (C) 1337 nrv
 
 ;; Author: nrv
 ;; Keywords: init
@@ -12,7 +12,6 @@
   (setq custom-file custom-file-path)
   (when (file-exists-p custom-file-path)
     (load custom-file-path)))
-
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("nongnu" . "Https://elpa.nongnu.org/nongnu/"))
@@ -21,18 +20,21 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
-
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
-
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto package refresh_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+(require 'package-refresh)
+;; Refresh packages if stale
+(add-hook 'after-init-hook 'nrv/refresh-packages-if-needed)
+(define-advice package-install (:before (&rest _))
+  "Refresh package contents before install if they're stale."
+  (nrv/refresh-packages-if-needed))
 ;; major mode remapping
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -41,7 +43,6 @@
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
 (setenv "TERM" "xterm-256color")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; default to 4 space width tabs
 (setq-default tab-width 4
               c-basic-offset tab-width
               ;; don't confirm creation of new files
@@ -128,9 +129,7 @@
    #'command-completion-default-include-p)
   (use-short-answers t))
 
-
-;; sets exec path from zsh shell
-(use-package exec-path-from-shell
+(use-package exec-path-from-shell ;; sets exec path from zsh shell
   :init
   ;; make sure exec path is path when started as daemon
   (when (daemonp)
@@ -165,8 +164,7 @@
 
 (use-package diminish)
 
-;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-(use-package avy)
+(use-package avy) ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
 
 (use-package counsel)
 
@@ -243,7 +241,6 @@
    ("C-c c t" . eglot-find-typeDefinition)
    ("C-c c x" . eglot-reconnect)
    ("C-c c s" . eglot-signature-eldoc-function))
-
   ;; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
@@ -255,7 +252,6 @@
          (typescript-ts-mode . eglot-ensure)
          (prog-mode . eglot-ensure)
          (sh-base-mode . eglot-ensure))
-
   :config
   (setq-default eglot-workspace-configuration
                 '((:pylsp . (:configurationSources ["flake8"]
@@ -276,15 +272,11 @@
                                                                               :cache_config t)
                                                              :mypy (:enabled t
                                                                              :live_mode t))))))
-
   ;; Performance optimizations
   (setq eglot-events-buffer-size 0        ; Disable event logging for performance
         eglot-sync-connect nil            ; Don't block on server connection
         eglot-autoshutdown t              ; Shutdown server when last buffer is killed
         eglot-send-changes-idle-time 0.5) ; Debounce changes
-
-
-
   ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
@@ -351,7 +343,6 @@
            #'cape-file                      ; File name completion
            #'cape-elisp-block               ; Complete elisp in org/markdown blocks
            #'cape-abbrev)))                 ; Static abbreviations
-
   ;; Apply to programming modes
   (dolist (mode-hook '(python-mode-hook
                        python-ts-mode-hook
@@ -368,7 +359,6 @@
                        rust-mode-hook
                        go-mode-hook))
     (add-hook mode-hook #'nrv/setup-programming-capf))
-
   :config
   ;; Add yasnippet support globally
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
@@ -469,10 +459,14 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :config
   (which-key-mode))
 
-;; all the icons - icons in text
-;; make sure to M-x: all-the-icons-install-fonts
 (use-package all-the-icons
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :config ;; auto install fonts if unavailable
+  (defun nrv/auto-install-all-the-icons-fonts ()
+    "Automatically install fonts if not present (for use-package)."
+    (unless (find-font (font-spec :family "all-the-icons"))
+      (all-the-icons-install-fonts t)))
+  (nrv/auto-install-all-the-icons-fonts))
 
 ;; magit wants
 (use-package transient
@@ -492,7 +486,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-file-stage)
    ("C-c C-g s" . #'magit-status-quick))
-
   :after transient  ;; ensures transient is loaded first
   :config
   ;; Override Magit's completion function completely
@@ -502,8 +495,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; Ensure consistent completion everywhere
   (advice-add 'magit-builtin-completing-read :override #'completing-read)
   (advice-add 'magit-ido-completing-read :override #'completing-read)
-  (advice-add 'magit-builtin-completing-read :override #'completing-read)
-
   (setq magit-branch-read-upstream-first 'fallback
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
@@ -552,7 +543,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
           (go "https://github.com/tree-sitter/tree-sitter-go")))
   (setq treesit-font-lock-level 4))  ; Maximum syntax highlighting
 
-
 (use-package flyspell-correct
   :after flyspell
   :defer t
@@ -598,7 +588,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'repo-grep)
 (autoload 'repo-grep "repo-grep")
 (autoload 'repo-grep-multi "repo-grep")
-;; Telephone Line is a new implementation of Powerline for emacs
+;; Telephone Line is a new implementation of powerline for emacs
 (require 'telephone-line)
 (setq
  telephone-line-lhs
@@ -632,35 +622,27 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
 (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-
 (define-key dired-mode-map (kbd "/") #'consult-line)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Jumping about
 (global-set-key (kbd "C-'") 'evil-jump-backward)
 (global-set-key (kbd "C-\"") 'evil-jump-forward)
-
 ;; find the definition with xref
 (global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 (global-set-key (kbd "C-c M-a") 'xref-find-apropos)
 (global-set-key (kbd "C-c M-r") 'xref-find-references)
 (global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
-
-;; Window jumping
-;; globalize so works for all windows
+;; Window jumping -- globalize so works for all windows
 (global-set-key (kbd "C-c w") 'evil-window-next)
-
 ;; window spiting
-;; split
 (global-set-key (kbd "C-c _") 'split-window-below)
 (global-set-key (kbd "C-c |") 'split-window-right)
-
 ;; F-keys
 ;; open neotree with f3: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
 ;; popup term
 (global-set-key (kbd "<f4>") 'shell-pop)
 (global-set-key (kbd "<f8>") 'keyboard-quit)
-
 ;; Emacs management
 (require 'functions-nrv)
 (global-set-key (kbd "C-c m") 'zck/move-file)
@@ -738,8 +720,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
     (backup-buffer)))
 
 (add-hook 'before-save-hook  'force-backup-of-buffer)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Custom Variables-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Advice -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Ensure ibuffer opens with point at the current buffer's entry.
 (defun nrv/ibuffer-point-to-most-recent (&rest _args)
@@ -749,14 +729,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (advice-add 'ibuffer :after #'nrv/ibuffer-point-to-most-recent)
 
-(define-advice package-install (:before (&rest _))
-  "Refresh package contents before install if they're stale."
-  (when (or (not package-archive-contents)
-            ;; Refresh if contents are older than 1 day
-            (time-less-p (time-add package-menu-last-update
-                                   (days-to-time 1))
-                         (current-time)))
-    (package-refresh-contents)))
 
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode
@@ -790,3 +762,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  Xmx2G ibuffer
                                         ; LocalWords:  multimarkdown f9cfcfd3f
                                         ; LocalWords:  erb agj tpl Magit's supershell Dsbt
+                                        ; LocalWords:  powerline color
