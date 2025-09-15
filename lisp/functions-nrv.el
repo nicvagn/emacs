@@ -27,16 +27,18 @@
 ;; editing
 
 (defun nrv/open-or-create-file-buffer (path)
-  "Open PATH in a buffer, creating it and parent dirs if needed."
+  "Open path in a buffer as the only buffer in frame, creating it and parent dirs if needed."
   (interactive "FOpen or create file: ")
   (let* ((abs (expand-file-name path))
-         (dir (file-name-directory abs))
-         (buf (get-file-buffer abs)))
+         (dir (file-name-directory abs)))
     (unless (file-directory-p dir)
       (make-directory dir t))
-    (if buf
-        (switch-to-buffer buf)
-      (switch-to-buffer (find-file-noselect abs)))))
+    (switch-to-buffer (or (get-file-buffer abs)
+                          (find-file-noselect abs)))
+    (delete-other-windows)
+    (princ (format "%s: %s"
+                   (if (file-exists-p abs) "Opening" "Creating")
+                   abs))))
 
 (defun djoyner/evil-shift-left-visual ()
   "Evil shift left, but do not loose selection"
