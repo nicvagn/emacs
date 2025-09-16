@@ -15,7 +15,7 @@ use_emacsclient() {
 	# Count existing frames
 	frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
 	if [[ "$frames" -lt 2 ]]; then # for some reason starts counting at 2
-		emacsclient -c
+		emacsclient -c &
 	fi
 	for file in "$@"; do
 		emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
