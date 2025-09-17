@@ -145,10 +145,11 @@
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (evil-define-key 'emacs neotree-mode-map (kbd "TAB") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "e") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "D") 'neotree-delete-node)
   (evil-define-key 'emacs neotree-mode-map (kbd "l") 'neotree-quick-look)
   (evil-define-key 'emacs neotree-mode-map (kbd "q") 'neotree-hide)
-  (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "r") 'neotree-refresh)
   (evil-define-key 'emacs neotree-mode-map (kbd "n") 'neotree-next-line)
   (evil-define-key 'emacs neotree-mode-map (kbd "t") 'neotree-next-line)
@@ -158,15 +159,14 @@
   (evil-define-key 'emacs neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle))
 
 ;; invoke stuff
-;;(evil-mode 1) I don't think this is needed?
-;;(evil-default-state nil)
+(evil-mode 1)
 (evil-set-undo-system 'undo-redo)
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.
 ;; So leader is available in all buffers
 (global-evil-dvorak-mode 1)
 
-;; _-_- Emacs modes _-_-
+;; _-_- set evil Emacs state modes _-_-
 (dolist (p '((inferior-python-mode . emacs)
              ;; set *shell modes to use evil Emacs state
              (shell-mode . emacs)
