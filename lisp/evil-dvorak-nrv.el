@@ -60,9 +60,6 @@
   :bind
   ("C-c t" . #'undo-tree-visualize)
   :config
-  ;; Make Evil use undo-tree
-  (define-key evil-normal-state-map (kbd "u") 'undo-tree-undo)
-  (define-key evil-normal-state-map (kbd "C-r") 'undo-tree-redo)
   ;; undo-tree is not persistent. this is good.
   (setq undo-tree-history-directory-alist '(("." . "/tmp/undo-tree/")))
   (global-undo-tree-mode 1))
@@ -143,32 +140,43 @@
     "<SPC>" 'evil-window-next)
   )
 
-(use-package neotree)
-
-;; Neotree -- popup file manager
-(add-hook 'neotree-mode-hook
-          (lambda ()
-            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-            (evil-dvorak-mode -1) ;; buffer local when set
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-quick-look)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-refresh)
-            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "t") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)))
+;; Neotree -- file pop MANAGER
+(use-package neotree
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (evil-define-key 'emacs neotree-mode-map (kbd "TAB") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "e") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "D") 'neotree-delete-node)
+  (evil-define-key 'emacs neotree-mode-map (kbd "l") 'neotree-quick-look)
+  (evil-define-key 'emacs neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "r") 'neotree-refresh)
+  (evil-define-key 'emacs neotree-mode-map (kbd "n") 'neotree-next-line)
+  (evil-define-key 'emacs neotree-mode-map (kbd "t") 'neotree-next-line)
+  (evil-define-key 'emacs neotree-mode-map (kbd "p") 'neotree-previous-line)
+  (evil-define-key 'emacs neotree-mode-map (kbd "h") 'neotree-previous-line)
+  (evil-define-key 'emacs neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+  (evil-define-key 'emacs neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle))
 
 ;; invoke stuff
-(global-evil-leader-mode 1)
-;; after evil leader has been loaded, turn on evil.
-;; So leader is availible in all buffers
-(global-evil-dvorak-mode 1)
 (evil-mode 1)
 (evil-set-undo-system 'undo-redo)
+(global-evil-leader-mode 1)
+;; after evil leader has been loaded, turn on evil.
+;; So leader is available in all buffers
+(global-evil-dvorak-mode 1)
+
+;; _-_- set evil Emacs state modes _-_-
+(dolist (p '((inferior-python-mode . emacs)
+             ;; set *shell modes to use evil Emacs state
+             (shell-mode . emacs)
+             (vterm-mode . emacs)
+             (ansi-term-mode . emacs)
+             (eshell-mode . emacs)
+             (neotree-mode . emacs)
+             ))
+  (evil-set-initial-state (car p) (cdr p)))
+
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak-nrv.el ends here

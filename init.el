@@ -644,8 +644,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "<f4>") 'shell-pop)
 (global-set-key (kbd "<f8>") 'keyboard-quit)
 ;; Emacs management
-(require 'functions-nrv)
-(global-set-key (kbd "C-c m") 'zck/move-file)
+(global-set-key (kbd "C-c m") #'zck/move-file)
 ;; restart Emacs
 (global-set-key (kbd "C-M-r") 'restart-emacs)
 ;; kill this buffer
@@ -656,13 +655,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "C-c s") 'flyspell-toggle )
 
 ;; GIT
-(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x g") #'magit-status)
 
 ;; repo-grep
-(global-set-key (kbd "C-c g") 'repo-grep)
+(global-set-key (kbd "C-c g") #'repo-grep)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; remove hooks
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;; prepare functions  are defined in prepare-nrv.el
@@ -692,14 +690,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-emacs modes_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(dolist (p '((inferior-python-mode . emacs)
-             ;; set *shell modes to use evil emacs state
-             (shell-mode . emacs)
-             (vterm-mode . emacs)
-             (ansi-term-mode . emacs)
-             (eshell-mode . emacs)))
-  (evil-set-initial-state (car p) (cdr p)))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 (defalias 'del 'delete-this-file)
