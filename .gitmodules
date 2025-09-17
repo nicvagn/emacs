@@ -6,3 +6,6 @@
 	path = repo-grep
 	url = https://github.com/BHFock/repo-grep.git
 	branch = main
+[submodule "lisp/chess"]
+	path = lisp/chess
+	url = https://github.com/nicvagn/chess.el

@@ -25,20 +25,29 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 ;; editing
-
 (defun nrv/open-or-create-file-buffer (path)
   "Open path in a buffer as the only buffer in frame, creating it and parent dirs if needed."
   (interactive "FOpen or create file: ")
   (let* ((abs (expand-file-name path))
-         (dir (file-name-directory abs)))
+         (dir (file-name-directory abs))
+         (file-exists (file-exists-p abs))
+         (existing-buffer (get-file-buffer abs)))
+    ;; Create parent directories if needed
     (unless (file-directory-p dir)
       (make-directory dir t))
-    (switch-to-buffer (or (get-file-buffer abs)
-                          (find-file-noselect abs)))
-    (delete-other-windows)
-    (princ (format "%s: %s"
-                   (if (file-exists-p abs) "Opening" "Creating")
-                   abs))))
+    ;; Get or create the buffer
+    (let ((buffer (or existing-buffer
+                      (find-file-noselect abs))))
+      (switch-to-buffer buffer)
+      ;; For new files, ensure the buffer knows about its file
+      (unless file-exists
+        (with-current-buffer buffer
+          (set-visited-file-name abs)
+          (set-buffer-modified-p nil)))
+      (delete-other-windows) ;; full screen
+      (message "%s: %s"
+               (if file-exists "Opening" "Creating")
+               abs))))
 
 (defun djoyner/evil-shift-left-visual ()
   "Evil shift left, but do not loose selection"

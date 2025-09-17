@@ -18,6 +18,7 @@ use_emacsclient() {
 		emacsclient -c &
 	fi
 	for file in "$@"; do
+        echo "(nrv/open-or-create-file-buffer \"$file\")"
 		emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
 	done
 }

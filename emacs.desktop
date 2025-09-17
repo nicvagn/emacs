@@ -16,6 +16,7 @@ Actions=new-window;new-instance;
 [Desktop Action new-window]
 Name=New Window
 Exec=emacsclient-wrapper.sh %F
-[Desktop Action new-instance]
-Name=New Instance
-Exec=emacsclient-wrapper.sh %F
+
+[Desktop Action restart]
+Name=Restart Emacs
+Exec=emacsclient -e "(restart-emacs)"
