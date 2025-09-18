@@ -12,5 +12,6 @@ backups/*
 eshell
 ido.last*
 */*.so
+*/*.elc
 games
 package-refresh-time
