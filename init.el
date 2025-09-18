@@ -24,6 +24,8 @@
   (require 'use-package))
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
+(add-to-list 'load-path "~/.config/emacs/lisp/chess/")
+(autoload 'chess "chess" "play chess" t)
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto package refresh_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
