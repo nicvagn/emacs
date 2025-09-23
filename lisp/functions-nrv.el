@@ -139,23 +139,23 @@ keep the file name."
                (not (string-equal old-location new-location)))
       (delete-file old-location))))
 
-
 (defun nrv/kill-other-text-buffers ()
   "Kill all other buffers, excluding system buffers."
   (interactive)
-  (let ((killed 0))
-    (dolist (buffer (delq (current-buffer) (buffer-list)))
-      (with-current-buffer buffer
-        (let ((name (buffer-name buffer)))
-          (unless (or (string-prefix-p "*" name)           ; All buffers starting with *
-                      (string-prefix-p " " name)           ; Hidden buffers (start with space)
-                      (derived-mode-p 'comint-mode)        ; Shells/REPLs
-                      (derived-mode-p 'dired-mode)         ; Directory buffers
-                      (derived-mode-p 'special-mode)       ; Special modes
-                      (eq major-mode 'minibuffer-inactive-mode)) ; Mini-buffers
-            (message "Killing: %s (mode: %s)" name major-mode)
-            (kill-buffer buffer)
-            (setq killed (1+ killed))))))
+  (let ((killed 0)
+        (current (current-buffer)))
+    (dolist (buf (buffer-list))
+      (unless (eq buf current)
+        (with-current-buffer buf
+          (let ((name (buffer-name)))          ; no arg!
+            (unless (or (string-prefix-p "*" name)
+                        (string-prefix-p " " name)
+                        (derived-mode-p 'comint-mode)
+                        (derived-mode-p 'dired-mode)
+                        (derived-mode-p 'special-mode)
+                        (eq major-mode 'minibuffer-inactive-mode))
+              (kill-buffer buf)
+              (setq killed (1+ killed)))))))
     (message "Killed %d buffers" killed)))
 
 (defun nrv/set-tab (tab-width)

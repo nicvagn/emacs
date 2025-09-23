@@ -38,7 +38,7 @@
   ;; kill this buffer
   (global-set-key (kbd "C-c k") #'kill-current-buffer)
   ;; close all other buffers
-  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers )
+  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
   ;; spelling
   (global-set-key (kbd "C-c s") 'flyspell-toggle ))
 

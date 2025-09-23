@@ -24,11 +24,9 @@
   (require 'use-package))
 (package-initialize)
 (add-to-list 'load-path "~/.config/emacs/lisp/")
-(add-to-list 'load-path "~/.config/emacs/lisp/chess/")
-(autoload 'chess "chess" "play chess" t)
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto package refresh_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto package refresh_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (require 'package-refresh)
 ;; Refresh packages if stale
 (add-hook 'after-init-hook 'nrv/refresh-packages-if-needed)
@@ -130,6 +128,14 @@
   (read-extended-command-predicate
    #'command-completion-default-include-p)
   (use-short-answers t))
+
+(use-package chess
+  :ensure nil
+  :load-path "~/.config/emacs/lisp/chess/"
+  :config
+  (autoload 'chess "chess" "play chess" t)
+  ;; TODO add advice for initial chess window size (advice-add )
+  )
 
 (use-package exec-path-from-shell ;; sets exec path from zsh shell
   :init
@@ -246,6 +252,7 @@
   ;; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
+         (scala-mode  . eglot-ensure)
          (css-mode  . eglot-ensure)
          (html-mode  . eglot-ensure)
          (web-mode  . eglot-ensure)
@@ -626,41 +633,53 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
 (define-key dired-mode-map (kbd "/") #'consult-line)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-;; Jumping about
-(global-set-key (kbd "C-'") 'evil-jump-backward)
-(global-set-key (kbd "C-\"") 'evil-jump-forward)
+
+(with-eval-after-load 'evil
+  ;; Jumping about
+  (global-set-key (kbd "C-'") 'evil-jump-backward)
+  (global-set-key (kbd "C-\"") 'evil-jump-forward)
+  ;; Window jumping
+  ;; globalize so works for all windows
+  (global-set-key (kbd "C-c w") 'evil-window-next))
+
 ;; find the definition with xref
 (global-set-key (kbd "C-c M-d") 'xref-find-definitions)
 (global-set-key (kbd "C-c M-a") 'xref-find-apropos)
 (global-set-key (kbd "C-c M-r") 'xref-find-references)
 (global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
-;; Window jumping -- globalize so works for all windows
-(global-set-key (kbd "C-c w") 'evil-window-next)
+
+
 ;; window spiting
+;; split
 (global-set-key (kbd "C-c _") 'split-window-below)
 (global-set-key (kbd "C-c |") 'split-window-right)
+
 ;; F-keys
 ;; open neotree with f3: (overshadows keyboard macro)
 (global-set-key (kbd "<f3>") 'neotree-toggle)
 ;; popup term
 (global-set-key (kbd "<f4>") 'shell-pop)
 (global-set-key (kbd "<f8>") 'keyboard-quit)
+
 ;; Emacs management
-(global-set-key (kbd "C-c m") #'zck/move-file)
-;; restart Emacs
-(global-set-key (kbd "C-M-r") 'restart-emacs)
-;; kill this buffer
-(global-set-key (kbd "C-c k") #'kill-current-buffer)
-;; close all other buffers
-(global-set-key (kbd "C-c K") #'kill-other-buffers)
-;; spelling
-(global-set-key (kbd "C-c s") 'flyspell-toggle )
+(with-eval-after-load 'functions-nrv
+  (global-set-key (kbd "C-c m") 'zck/move-file)
+  ;; restart Emacs
+  (global-set-key (kbd "C-M-r") 'restart-emacs)
+  ;; kill this buffer
+  (global-set-key (kbd "C-c k") #'kill-current-buffer)
+  ;; close all other buffers
+  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
+  ;; spelling
+  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
 
 ;; GIT
-(global-set-key (kbd "C-x g") #'magit-status)
+(with-eval-after-load 'magit
+  (global-set-key (kbd "C-x g") 'magit-status))
 
 ;; repo-grep
-(global-set-key (kbd "C-c g") #'repo-grep)
+(with-eval-after-load 'repo-grep
+  (global-set-key (kbd "C-c g") 'repo-grep))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
