@@ -23,8 +23,8 @@
                   (define-key vterm-mode-map (kbd "<f1>") #'centaur-tabs-backward-group)
                   (define-key vterm-mode-map (kbd "<f2>") #'centaur-tabs-forward-group)
                   (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
-                  (define-key vterm-mode-map (kbd "<f4>") #'shell-pop))
-              )
+                  (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
+                  (centaur-tabs-local-mode)) ;; Do not show tab line              )
   )
 
 ;; popup shell

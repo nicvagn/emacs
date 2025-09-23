@@ -252,6 +252,7 @@
   ;; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
+         (scala-mode  . eglot-ensure)
          (css-mode  . eglot-ensure)
          (html-mode  . eglot-ensure)
          (web-mode  . eglot-ensure)
