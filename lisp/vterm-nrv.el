@@ -9,13 +9,14 @@
 
 (use-package vterm
   :ensure t
+  :after (evil centaur-tabs)
   :custom
   (vterm-always-compile t)
   :hook
   (vterm-mode . (lambda ()
-		          (buffer-face-mode t)
-		          (text-scale-decrease 1)
-		          (use-monospace)
+		              (buffer-face-mode t)
+		              (text-scale-decrease 1)
+		              (use-monospace)
                   (define-key vterm-mode-map (kbd "M-[")  #'centaur-tabs-backward)
                   (define-key vterm-mode-map (kbd "M-]") #'centaur-tabs-forward)
                   (define-key vterm-mode-map (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
@@ -24,6 +25,7 @@
                   (define-key vterm-mode-map (kbd "<f2>") #'centaur-tabs-forward-group)
                   (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
                   (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
+                  (define-key vterm-mode-map (kbd "C-SPC") #'evil-window-next)
                   (centaur-tabs-local-mode)) ;; Do not show tab line
               )
   )

@@ -324,3 +324,8 @@ fixup
 Wayland
 params
 tty
+monoids
+monads
+applicative
+iomonad
+tilix

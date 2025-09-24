@@ -648,9 +648,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (global-set-key (kbd "C-c M-r") 'xref-find-references)
 (global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
 
-
 ;; window spiting
-;; split
 (global-set-key (kbd "C-c _") 'split-window-below)
 (global-set-key (kbd "C-c |") 'split-window-right)
 
