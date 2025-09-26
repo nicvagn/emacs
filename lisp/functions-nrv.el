@@ -99,6 +99,12 @@
   (evil-end-of-line)
   (forward-char))
 
+(defun nrv/shift-line-left ()
+  "shift a line left, then put cursor at beginning ."
+  (interactive)
+  (evil-shift-left-line 1)
+  (back-to-indentation))
+
 ;; non editing
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."

@@ -52,7 +52,6 @@
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
-
 (use-package undo-tree
   :ensure t
   :demand t
@@ -73,7 +72,7 @@
   (kbd "C-a") 'beginning-of-line
   (kbd "C-e") 'end-of-line
   (kbd "<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'evil-shift-left-line)
+  (kbd "<backtab>") #'nrv/shift-line-left)
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
@@ -112,8 +111,8 @@
                 (join-line 1))
   (kbd "<return>") #'nrv/normal-newline
   (kbd "C-<return>") #'newline-and-indent
-  (kbd "<tab>") #'evil-shift-right-line
-  (kbd "<backtab>") #'evil-shift-left-line
+  (kbd "<tab>") #'nrv/shift-line-right
+  (kbd "<backtab>") #'nrv/shift-line-left
   (kbd "'") #'evil-goto-mark)
 
 
