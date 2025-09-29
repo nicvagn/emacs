@@ -9,6 +9,7 @@
 
 (use-package vterm
   :ensure t
+  :after (evil centaur-tabs)
   :custom
   (vterm-always-compile t)
   :hook
@@ -24,6 +25,7 @@
                   (define-key vterm-mode-map (kbd "<f2>") #'centaur-tabs-forward-group)
                   (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
                   (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
+                  (define-key vterm-mode-map (kbd "C-SPC") #'evil-window-next)
                   (centaur-tabs-local-mode)) ;; Do not show tab line
               )
   )

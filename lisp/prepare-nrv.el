@@ -68,7 +68,6 @@
               evil-shift-width python-tab-width
               c-basic-offset python-tab-width)
   (eglot-ensure)
-  (electric-pair-local-mode t)
   (prepare-text))
 
 ;; ---- web stuff ----
@@ -77,7 +76,6 @@
   (setq-local tab-width web-tab-width
               evil-shift-width web-tab-width
               c-basic-offset web-tab-width)
-  (electric-pair-local-mode t)
   (prepare-text)
   )
 
@@ -97,7 +95,6 @@
               evil-shift-width prog-tab-width
               c-basic-offset prog-tab-width)
   ;; insert tab
-  (electric-pair-local-mode t)
   (setq-local tab-always-indent nil)
   ;; key-binds
   (define-key prog-mode-map (kbd "<return>") #'newline-and-indent)
