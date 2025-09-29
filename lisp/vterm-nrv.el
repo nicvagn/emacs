@@ -24,7 +24,8 @@
                   (define-key vterm-mode-map (kbd "<f2>") #'centaur-tabs-forward-group)
                   (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
                   (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
-                  (centaur-tabs-local-mode)) ;; Do not show tab line              )
+                  (centaur-tabs-local-mode)) ;; Do not show tab line
+              )
   )
 
 ;; popup shell
