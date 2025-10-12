@@ -33,8 +33,12 @@
 (define-advice package-install (:before (&rest _))
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
+;; includes Arduino mode
+(require 'major-modes-nrv)
 ;; major mode remapping
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -705,8 +709,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
-;; scala mode
+;;set tab to 2 spaces in modes scala mode
 (add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
+(add-hook 'arduino-mode-hook (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
