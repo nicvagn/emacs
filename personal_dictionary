@@ -337,3 +337,5 @@ usb
 GPIO
 tmp
 ino
+cli
+arduino
