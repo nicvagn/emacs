@@ -355,3 +355,5 @@ bNumConfigurations
 iProduct
 gcc
 licensor
+cli
+arduino
