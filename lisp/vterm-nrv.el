@@ -26,6 +26,7 @@
                   (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
                   (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
                   (define-key vterm-mode-map (kbd "C-SPC") #'evil-window-next)
+                  (define-key vterm-mode-map (kbd "C-w") #'evil-window-next)
                   (centaur-tabs-local-mode)) ;; Do not show tab line
               )
   )

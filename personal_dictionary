@@ -357,3 +357,11 @@ gcc
 licensor
 cli
 arduino
+GameState
+ChessClock
+subvolumes
+ttyACM
+leds
+ttyUSB
+niclink
+OpenSCAD

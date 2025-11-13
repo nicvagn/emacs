@@ -24,29 +24,24 @@
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
+
 ;; editing
 (defun nrv/open-or-create-file-buffer (path)
-  "Open path in a buffer as the only buffer in frame, creating it and parent dirs if needed."
+  "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed.
+If the file does not exist, it is created immediately."
   (interactive "FOpen or create file: ")
   (let* ((abs (expand-file-name path))
-         (dir (file-name-directory abs))
-         (file-exists (file-exists-p abs))
-         (existing-buffer (get-file-buffer abs)))
-    ;; Create parent directories if needed
+         (dir (file-name-directory abs)))
+    ;; Ensure parent directories exist
     (unless (file-directory-p dir)
       (make-directory dir t))
-    ;; Get or create the buffer
-    (let ((buffer (or existing-buffer
-                      (find-file-noselect abs))))
-      (switch-to-buffer buffer)
-      ;; For new files, ensure the buffer knows about its file
-      (unless file-exists
-        (with-current-buffer buffer
-          (set-visited-file-name abs)
-          (set-buffer-modified-p nil)))
-      (delete-other-windows) ;; full screen
+    ;; Open or create the buffer (file is created on disk automatically by find-file-noselect)
+    (let ((buffer (find-file-noselect abs)))
+      (pop-to-buffer-same-window buffer) ;; https://emacs.stackexchange.com/questions/27712/switch-to-buffer-vs-pop-to-buffer-same-window
+      (delete-other-windows)  ;; full-screen
+      (set-buffer-modified-p nil)  ;; mark unmodified initially
       (message "%s: %s"
-               (if file-exists "Opening" "Creating")
+               (if (file-exists-p abs) "Opening" "Creating")
                abs))))
 
 (defun djoyner/evil-shift-left-visual ()

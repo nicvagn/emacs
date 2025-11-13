@@ -83,9 +83,10 @@
                    exec-path-from-shell flyspell-correct format-all
                    magit marginalia markdown-mode neotree
                    nerd-icons-corfu orderless php-ts-mode python-black
-                   qml-mode sbt-mode scala-mode tramp tramp-theme
-                   transient-dwim treesit-auto treesit-fallback
-                   undo-tree vertico vterm web-mode yasnippet-capf))
+                   qml-mode rust-mode sbt-mode scala-mode tramp
+                   tramp-theme transient-dwim treesit-auto
+                   treesit-fallback undo-tree vertico vterm web-mode
+                   yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")

@@ -215,7 +215,28 @@
   (define-key python-ts-mode-map (kbd "C-c i") #'python-nrv-isort-buffer))
 
 ;;; Utility Functions
+;; run buffer
+;;;###autoload
+(defun python-nrv-run-buffer ()
+  "Run current Python buffer in interactive Python shell (REPL)."
+  (interactive)
+  (when (buffer-modified-p)
+    (save-buffer))
+  (unless (python-shell-get-process)
+    (run-python python-shell-interpreter t t))
+  (python-shell-send-buffer)
+  (pop-to-buffer (python-shell-get-buffer)))
 
+;;;###autoload
+(defun python-nrv-run-buffer-external ()
+  "Run current Python buffer in a fresh Python process (like command line)."
+  (interactive)
+  (when (buffer-modified-p)
+    (save-buffer))
+  (let ((cmd (format "%s %s"
+                     python-shell-interpreter
+                     (shell-quote-argument (buffer-file-name)))))
+    (compile cmd)))
 ;;;###autoload
 (defun python-nrv-format-buffer ()
   "Format current Python buffer with both isort and black."
@@ -248,11 +269,15 @@
 
 (defvar python-nrv-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-f") #'python-nrv-format-buffer)
-    (define-key map (kbd "C-v") #'python-nrv-toggle-venv)
-    (define-key map (kbd "C-i") #'python-nrv-info)
+    (define-key map (kbd "f") #'python-nrv-format-buffer)
+    (define-key map (kbd "v") #'python-nrv-toggle-venv)
+    (define-key map (kbd "i") #'python-nrv-info)
+    ;; Run commands
+    (define-key map (kbd "r") #'python-nrv-run-buffer)
+    (define-key map (kbd "R") #'python-nrv-run-buffer-external)
+
     map)
-  "Keymap for python-nrv commands.")
+  "Key-map for python-nrv commands.")
 
 ;; Add to both python-mode and python-ts-mode
 (with-eval-after-load 'python

@@ -530,6 +530,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("\\.mustache\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
+(use-package rust-mode
+  :init
+  (setq rust-mode-treesitter-derive t))
+
 (use-package treesit-auto
   :demand t  ; Load immediately
   :config
@@ -698,8 +702,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'c++-mode-hook #'prepare-cpp)
 ;; python hooks
 (add-hook 'python-mode-hook #'prepare-python)
-;; sort python import's on save
-(add-hook 'python-mode-hook 'python-isort-on-save-mode)
 (add-hook 'python-mode-hook 'display-line-numbers-mode)
 (add-hook 'dired-mode-hook #'prepare-dired)
 ;; web hooks
