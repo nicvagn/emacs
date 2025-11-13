@@ -700,9 +700,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; c and c++ hooks
 (add-hook 'c-mode-hook #'prepare-c)
 (add-hook 'c++-mode-hook #'prepare-cpp)
-;; python hooks
-(add-hook 'python-mode-hook #'prepare-python)
-(add-hook 'python-mode-hook 'display-line-numbers-mode)
+;; dired hooks
 (add-hook 'dired-mode-hook #'prepare-dired)
 ;; web hooks
 (add-hook 'css-ts-mode-hook #'prepare-css)
@@ -711,7 +709,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'html-mode-hook 'display-line-numbers-mode)
 (add-hook 'web-mode-hook #'prepare-web)
 (add-hook 'web-mode-hook 'display-line-numbers-mode)
-;;set tab to 2 spaces in modes scala mode
+;; set tab to 2 spaces in modes scala mode
 (add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
 (add-hook 'arduino-mode-hook (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always

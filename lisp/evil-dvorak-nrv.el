@@ -52,16 +52,6 @@
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
-(use-package undo-tree
-  :ensure t
-  :demand t
-  :diminish undo-tree-mode
-  :bind
-  ("C-c t" . #'undo-tree-visualize)
-  :config
-  ;; undo-tree is not persistent. this is good.
-  (setq undo-tree-history-directory-alist '(("." . "/tmp/undo-tree/")))
-  (global-undo-tree-mode 1))
 
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement

@@ -85,7 +85,7 @@
                    nerd-icons-corfu orderless php-ts-mode python-black
                    qml-mode rust-mode sbt-mode scala-mode tramp
                    tramp-theme transient-dwim treesit-auto
-                   treesit-fallback undo-tree vertico vterm web-mode
+                   treesit-fallback vertico vterm web-mode
                    yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
