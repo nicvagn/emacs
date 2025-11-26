@@ -27,9 +27,10 @@
 
 ;; editing
 (defun nrv/open-or-create-file-buffer (path)
-  "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed.
+  "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed. Set the buffer as the initial buffer too.
 If the file does not exist, it is created immediately."
   (interactive "FOpen or create file: ")
+  (setq initial-buffer-choice path)
   (let* ((abs (expand-file-name path))
          (dir (file-name-directory abs)))
     ;; Ensure parent directories exist

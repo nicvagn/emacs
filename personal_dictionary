@@ -365,3 +365,7 @@ leds
 ttyUSB
 niclink
 OpenSCAD
+NicLinkGameOver
+gameState
+filesystem
+dirs

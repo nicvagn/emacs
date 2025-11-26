@@ -12,15 +12,16 @@ start_emacs_daemon() {
 }
 
 use_emacsclient() {
+	for file in $@; do
+		echo "(nrv/open-or-create-file-buffer \"$file\") - sent to Emacs"
+		emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
+	done
+
 	# Count existing frames
 	frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
 	if [[ "$frames" -lt 3 ]]; then # for some reason starts counting at 2, allow 2
 		emacsclient -c &
 	fi
-	for file in "$@"; do
-		echo "(nrv/open-or-create-file-buffer \"$file\")"
-		emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
-	done
 }
 
 # Start daemon if needed
