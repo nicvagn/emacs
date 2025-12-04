@@ -371,3 +371,6 @@ filesystem
 dirs
 Omid
 guix
+distrobox
+vte
+precmd

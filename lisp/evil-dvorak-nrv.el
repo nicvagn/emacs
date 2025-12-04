@@ -132,7 +132,10 @@
 ;; Neotree -- file pop MANAGER
 (use-package neotree
   :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+  (add-hook 'after-make-frame-functions
+            ;; need, when daemon is created (display-graphics-p) is false
+            (lambda ()
+              (setq neo-theme (if (display-graphic-p) 'all-the-icons 'arrow))))
   (evil-define-key 'emacs neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "e") 'neotree-enter)
