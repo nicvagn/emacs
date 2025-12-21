@@ -36,7 +36,7 @@
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
@@ -257,6 +257,8 @@
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
          (scala-mode  . eglot-ensure)
+         (c++-mode . eglot-ensure)
+         (c-mode . eglot-ensure)
          (css-mode  . eglot-ensure)
          (html-mode  . eglot-ensure)
          (web-mode  . eglot-ensure)

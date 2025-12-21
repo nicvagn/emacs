@@ -374,3 +374,6 @@ guix
 distrobox
 vte
 precmd
+dwm
+dmenu
+freetype
