@@ -644,10 +644,22 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (define-key dired-mode-map (kbd "/") #'consult-line)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
+
+
 (with-eval-after-load 'evil
-  ;; Jumping about
-  (global-set-key (kbd "C-'") 'evil-jump-backward)
-  (global-set-key (kbd "C-\"") 'evil-jump-forward)
+  ;; GLOBAL stuff
+
+  ;; make C-y work EVERYWHERE
+  (global-set-key (kbd "C-y") #'evil-yank)
+  (evil-define-key 'emacs 'global (kbd "C-y") #'evil-yank)
+
+  ;; f9 f12 jumping, and C-' C-"
+  (evil-define-key '(normal visual insert emacs) 'global
+    (kbd "<f9>") #'evil-jump-backward
+    (kbd "<f12>") #'evil-jump-forward
+    (kbd "C-'") 'evil-jump-backward
+    (kbd "C-\"") 'evil-jump-forward)
+
   ;; Window jumping
   ;; globalize so works for all windows
   (global-set-key (kbd "C-c w") 'evil-window-next))

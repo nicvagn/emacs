@@ -32,7 +32,10 @@
 (setq
  evil-want-C-u-scroll t
  evil-scroll-count 10
- evil-want-fine-undo t)
+ evil-want-fine-undo t
+ select-enable-clipboard t
+ select-enable-primary t
+ evil-want-clipboard t)
 
 (require 'evil)
 
@@ -52,7 +55,7 @@
   evil-dvorak-mode turn-on-evil-dvorak-mode
   "Global mode to let you use evil with dvorak friendly keybindings.")
 
-
+;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
   (kbd "C-f") 'forward-char
@@ -105,6 +108,7 @@
   (kbd "<backtab>") #'nrv/shift-line-left
   (kbd "'") #'evil-goto-mark)
 
+;; === KEY MAP END ===
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader

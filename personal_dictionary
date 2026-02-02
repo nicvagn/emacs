@@ -377,3 +377,5 @@ precmd
 dwm
 dmenu
 freetype
+AUTH
+PyInstaller
