@@ -33,11 +33,15 @@
 (define-advice package-install (:before (&rest _))
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
+
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
@@ -791,3 +795,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                         ; LocalWords:  multimarkdown f9cfcfd3f
                                         ; LocalWords:  erb agj tpl Magit's supershell Dsbt
                                         ; LocalWords:  powerline color
+; LocalWords:  alist
