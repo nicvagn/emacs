@@ -705,6 +705,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (with-eval-after-load 'repo-grep
   (global-set-key (kbd "C-c g") 'repo-grep))
 
+(with-eval-after-load 'fzf
+  (global-set-key (kbd "C-c C-g f") 'fzf-git))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)

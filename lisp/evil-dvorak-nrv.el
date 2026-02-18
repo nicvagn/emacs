@@ -144,6 +144,7 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (evil-define-key 'emacs neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "u") 'neotree-select-up-node)
   (evil-define-key 'emacs neotree-mode-map (kbd "e") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "D") 'neotree-delete-node)
   (evil-define-key 'emacs neotree-mode-map (kbd "l") 'neotree-quick-look)

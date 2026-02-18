@@ -26,6 +26,17 @@
 
 
 ;; editing
+
+(defun nrv/text-save-and-close ()
+  "Save the current buffer and kill it."
+  (interactive)
+  (save-buffer)
+  (kill-current-buffer))
+(defun nrv/text-bind-ctrl-c-ctrl-c ()
+  "Bind C-c C-c unless the current mode already defines it."
+  (when (and (derived-mode-p 'text-mode)
+             (null (local-key-binding (kbd "C-c C-c"))))
+    (local-set-key (kbd "C-c C-c") #'my/text-save-and-close)))
 (defun nrv/open-or-create-file-buffer (path)
   "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed. Set the buffer as the initial buffer too.
 If the file does not exist, it is created immediately."

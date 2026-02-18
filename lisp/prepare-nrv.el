@@ -25,6 +25,8 @@
   (rainbow-delimiters-mode 1)
   (highlight-indentation-mode 1)
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
+  ;; Bind C-c C-c save and quit if not shadowing something
+  (nrv/text-bind-ctrl-c-ctrl-c)
   )
 
 (defun prepare-magit ()
