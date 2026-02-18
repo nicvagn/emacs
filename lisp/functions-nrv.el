@@ -26,6 +26,13 @@
 
 
 ;; editing
+
+(defun nrv/text-save-and-close ()
+  "Save the current buffer and kill it."
+  (interactive)
+  (save-buffer)
+  (kill-current-buffer))
+
 (defun nrv/open-or-create-file-buffer (path)
   "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed. Set the buffer as the initial buffer too.
 If the file does not exist, it is created immediately."

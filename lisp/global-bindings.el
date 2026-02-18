@@ -32,6 +32,8 @@
 
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
+  ;; Bind C-c C-c save and quit
+  (global-set-key (kbd "C-c C-c" #'nrv/text-save-and-close))
   (global-set-key (kbd "C-c m") 'zck/move-file)
   ;; restart Emacs
   (global-set-key (kbd "C-M-r") 'restart-emacs)
