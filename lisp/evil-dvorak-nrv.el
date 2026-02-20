@@ -128,6 +128,7 @@
   (kbd "C-c w") 'evil-window-next
   ;; window spiting
   (kbd "C-c _") 'split-window-below
+  (kbd "C-c -") 'split-window-below
   (kbd "C-c |") 'split-window-right
   ;; xref craziness
   (kbd "C-c M-d") 'xref-find-definitions
