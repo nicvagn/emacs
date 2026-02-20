@@ -642,72 +642,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which function
 (highlight-indentation-mode 1)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-(define-key dired-mode-map (kbd "/") #'consult-line)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-
-
-
-(with-eval-after-load 'evil
-  ;; GLOBAL stuff
-
-  ;; make C-y work EVERYWHERE
-  (global-set-key (kbd "C-y") #'evil-yank)
-  (evil-define-key 'emacs 'global (kbd "C-y") #'evil-yank)
-
-  ;; f9 f12 jumping, and C-' C-"
-  (evil-define-key '(normal visual insert emacs) 'global
-    (kbd "<f9>") #'evil-jump-backward
-    (kbd "<f12>") #'evil-jump-forward
-    (kbd "C-'") 'evil-jump-backward
-    (kbd "C-\"") 'evil-jump-forward)
-
-  ;; Window jumping
-  ;; globalize so works for all windows
-  (global-set-key (kbd "C-c w") 'evil-window-next))
-
-;; find the definition with xref
-(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
-(global-set-key (kbd "C-c M-a") 'xref-find-apropos)
-(global-set-key (kbd "C-c M-r") 'xref-find-references)
-(global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
-
-;; window spiting
-(global-set-key (kbd "C-c _") 'split-window-below)
-(global-set-key (kbd "C-c |") 'split-window-right)
-
-;; F-keys
-;; open neotree with f3: (overshadows keyboard macro)
-(global-set-key (kbd "<f3>") 'neotree-toggle)
-;; popup term
-(global-set-key (kbd "<f4>") 'shell-pop)
-(global-set-key (kbd "<f8>") 'keyboard-quit)
-
-;; Emacs management
-(with-eval-after-load 'functions-nrv
-  (global-set-key (kbd "C-c m") 'zck/move-file)
-  ;; restart Emacs
-  (global-set-key (kbd "C-M-r") 'restart-emacs)
-  ;; kill this buffer
-  (global-set-key (kbd "C-c k") #'kill-current-buffer)
-  ;; close all other buffers
-  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
-  ;; spelling
-  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
-
-;; GIT
-(with-eval-after-load 'magit
-  (global-set-key (kbd "C-x g") 'magit-status))
-
-;; repo-grep
-(with-eval-after-load 'repo-grep
-  (global-set-key (kbd "C-c g") 'repo-grep))
-
-(with-eval-after-load 'fzf
-  (global-set-key (kbd "C-c C-g f") 'fzf-git))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
@@ -764,6 +698,14 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (advice-add 'ibuffer :after #'nrv/ibuffer-point-to-most-recent)
 
+(defun nrv/yank-pop-or-yank-advice (orig-fun &optional arg)
+  "If last command was `yank`, call ORIG-FUN (yank-pop).
+Otherwise, call `yank`."
+  (if (eq last-command 'yank)
+      (funcall orig-fun arg)
+    (yank)))
+
+(advice-add 'yank-pop :around #'nrv/yank-pop-or-yank-advice)
 
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode

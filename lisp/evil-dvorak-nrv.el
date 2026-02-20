@@ -34,7 +34,8 @@
  evil-scroll-count 10
  evil-want-fine-undo t
  select-enable-clipboard t
- select-enable-primary t
+ select-enable-primary nil
+ evil-kill-on-visual-paste nil
  evil-want-clipboard t)
 
 (require 'evil)
@@ -107,6 +108,62 @@
   (kbd "<tab>") #'nrv/shift-line-right
   (kbd "<backtab>") #'nrv/shift-line-left
   (kbd "'") #'evil-goto-mark)
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+(evil-define-key '(normal visual insert emacs) evil-dvorak-mode-map
+  ;; jumping mark around and back
+  (kbd "<f4>") 'shell-pop
+  (kbd "<f8>") 'keyboard-quit
+  (kbd "<f9>") #'evil-jump-backward
+  (kbd "<f12>") #'evil-jump-forward
+  (kbd "C-'") 'evil-jump-backward
+  (kbd "C-\"") 'evil-jump-forward
+  ;; Big boss Emacs yank
+  (kbd "C-y") 'yank
+  ;; big boss yank from kill ring
+  (kbd "M-y") 'consult-yank-pop
+
+  ;; Windows switching
+  (kbd "C-c w") 'evil-window-next
+  ;; window spiting
+  (kbd "C-c _") 'split-window-below
+  (kbd "C-c |") 'split-window-right
+  ;; xref craziness
+  (kbd "C-c M-d") 'xref-find-definitions
+  (kbd "C-c M-a") 'xref-find-apropos
+  (kbd "C-c M-r") 'xref-find-references
+  (kbd "C-c M-R") 'xref-find-references-and-replace)
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "/") #'consult-line))
+
+(with-eval-after-load 'neotree
+  (global-set-key (kbd "<f3>") 'neotree-toggle)
+  (define-key neotree-mode-map (kbd "/") #'consult-line))
+
+
+;; Emacs management
+(with-eval-after-load 'functions-nrv
+  (global-set-key (kbd "C-c m") 'zck/move-file)
+  ;; restart Emacs
+  (global-set-key (kbd "C-M-r") 'restart-emacs)
+  ;; kill this buffer
+  (global-set-key (kbd "C-c k") #'kill-current-buffer)
+  ;; close all other buffers
+  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
+  ;; spelling
+  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
+
+;; repo-grep
+(with-eval-after-load 'repo-grep
+  (global-set-key (kbd "C-c g") 'repo-grep))
+
+(with-eval-after-load 'fzf
+  (global-set-key (kbd "C-c C-g f") 'fzf-git))
 
 ;; === KEY MAP END ===
 
