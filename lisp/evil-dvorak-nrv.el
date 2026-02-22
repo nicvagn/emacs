@@ -72,6 +72,9 @@
   (kbd "/") #'consult-line
   (kbd ">") #'djoyner/evil-shift-right-visual
   (kbd "<") #'djoyner/evil-shift-left-visual
+  (kbd "C-<tab>") #'djoyner/evil-shift-right-visual
+  (kbd "<tab>") #'djoyner/evil-shift-right-visual
+  (kbd "<backtab>") #'djoyner/evil-shift-left-visual
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
@@ -81,7 +84,6 @@
 (evil-define-key 'normal evil-dvorak-mode-map
   (kbd "c") #'evil-delete ;; c is new d
   (kbd "'") #'evil-goto-mark
-
   (kbd "/") #'consult-line
   ;; Movement
   (kbd "t") #'evil-next-line
@@ -104,6 +106,9 @@
 
   (kbd "<return>") #'nrv/normal-newline
   (kbd "<tab>") #'indent-for-tab-command
+  ;; line tab actions
+  (kbd "C-<tab>") #'nrv/shift-line-right
+  (kbd "<backtab>") #'nrv/shift-line-left
   ;; Cursor movement
   (kbd "C-l") #'recenter-top-bottom
   ;; Reinstate C-e of Emacs
@@ -124,9 +129,6 @@
   (kbd "C-y") 'yank
   ;; big boss yank from kill ring
   (kbd "M-y") 'consult-yank-pop
-  ;; line tab actions
-  (kbd "C-<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'nrv/shift-line-left
   ;; Windows switching
   (kbd "C-c w") 'evil-window-next
   ;; window spiting
