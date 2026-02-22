@@ -26,12 +26,19 @@
 
 
 ;; editing
-
-(defun nrv/text-save-and-close ()
-  "Save the current buffer and kill it."
+(defun nrv/text-save-and-kill-buffer ()
+  "Save the current buffer (if it's a file) and kill it after confirmation."
   (interactive)
-  (save-buffer)
-  (kill-current-buffer))
+  (let ((name (buffer-name)))
+    (if (y-or-n-p (format "Save and kill buffer `%s'? " name))
+        (progn
+          ;; Only attempt save if the buffer is visiting a file
+          (when (buffer-file-name)
+            (save-buffer))
+          (kill-buffer (current-buffer))
+          (message "Buffer `%s' killed." name))
+      (message "Aborted."))))
+
 
 (defun nrv/open-or-create-file-buffer (path)
   "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed. Set the buffer as the initial buffer too.
@@ -113,7 +120,7 @@ If the file does not exist, it is created immediately."
   "Handle errors by printing them to minibuffer (ERR: error)."
   (message "Error: %S" err))
 
-(defun delete-this-file (&optional forever)
+(defun nrv/delete-this-file (&optional forever)
   "Delete the file associated with `current-buffer'.
 If FOREVER is non-nil, the file is deleted without being moved to trash."
   (interactive "P")

@@ -58,6 +58,7 @@
 
 ;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
+  (kbd "C-/") #'consult-line
   ;; Emacs-style movement
   (kbd "C-f") 'forward-char
   (kbd "C-b") 'backward-char
@@ -68,6 +69,7 @@
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
+  (kbd "/") #'consult-line
   (kbd ">") #'djoyner/evil-shift-right-visual
   (kbd "<") #'djoyner/evil-shift-left-visual
   (kbd "t") #'evil-next-line
@@ -78,31 +80,35 @@
 
 (evil-define-key 'normal evil-dvorak-mode-map
   (kbd "c") #'evil-delete ;; c is new d
+  (kbd "'") #'evil-goto-mark
+
+  (kbd "/") #'consult-line
   ;; Movement
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
   (kbd "e") #'evil-forward-char
-  ;; Reinstate C-e of Emacs
-  (kbd "C-e") 'end-of-line
   ;; Line operations
   (kbd "k") #'kill-line
   (kbd "K") #'(lambda ()
                 "Kill from point to the beginning of the line"
                 (interactive)
                 (kill-line 0))
-  ;; Cursor movement
-  (kbd "C-l") #'recenter-top-bottom
+
   ;; Line manipulation
   (kbd "J") #'join-line ;; Join this line with the one above
   (kbd "j") #'(lambda ()
                 "Join this line at the end of the line below"
                 (interactive)
                 (join-line 1))
+
   (kbd "<return>") #'nrv/normal-newline
   (kbd "<tab>") #'indent-for-tab-command
-  (kbd "C-<return>") #'newline-and-indent
-  (kbd "'") #'evil-goto-mark)
+  ;; Cursor movement
+  (kbd "C-l") #'recenter-top-bottom
+  ;; Reinstate C-e of Emacs
+  (kbd "C-e") 'end-of-line
+  (kbd "C-<return>") #'newline-and-indent)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 
@@ -161,8 +167,6 @@
 
 (with-eval-after-load 'fzf
   (global-set-key (kbd "C-c C-g f") 'fzf-git))
-
-;; === KEY MAP END ===
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader

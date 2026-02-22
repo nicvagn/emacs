@@ -74,6 +74,7 @@
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
+
  ;; if the value is nil, then TAB indents the current line only if
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
@@ -121,7 +122,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :bind ("C-x C-c" . nrv/smart-quit)
   :init
   (defun nrv/smart-quit ()
     "Kill current frame if daemon, otherwise exit Emacs."
@@ -129,6 +129,9 @@
     (if (daemonp)
         (delete-frame)
       (save-buffers-kill-terminal)))
+
+  :bind (("C-x C-c" . nrv/smart-quit)
+         ("C-c C-c" . nrv/text-save-and-kill-buffer))
   :custom
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
@@ -164,8 +167,6 @@
          (yaml-mode . format-all-mode)
          (typescript-mode . format-all-mode)
          (typescript-ts-mode . format-all-mode))
-  :bind
-  ("C-c f" . format-all-region-or-buffer)
   :config
   ;; Define formatters for different modes
   (setq format-all-default-formatters
@@ -589,7 +590,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (rainbow-delimiters-mode 1)
 ;;; functions-nrv -- useful functions?
 ;; nrv-error-handler -- I don't honestly know handles errors?
-;; delete-this-file -- delete the file in a buffer
+;; nrv/delete-this-file -- delete the file in a buffer
 ;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
 ;;                                         kill newline.
 ;; djoyner/evil-shift-****-visual -- do not loose selection when you shift
@@ -671,7 +672,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-(defalias 'del 'delete-this-file)
+(defalias 'del 'nrv/delete-this-file)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
@@ -726,18 +727,4 @@ Otherwise, call `yank`."
 (provide 'init)
 ;;; init.el ends here
 
-                                        ; LocalWords:  setq yasnippet
-                                        ; LocalWords:  codespell melpa nongnu
-                                        ; LocalWords:  emacs scala cp
-                                        ; LocalWords:  unselected LightGoldenrod DarkOrange MistyRose
-                                        ; LocalWords:  DeepSkyBlue sp
-                                        ; LocalWords:  daemonp flx eq
-                                        ; LocalWords:  yasnippit tjwh
-                                        ; LocalWords:  Neotree muh
-                                        ; LocalWords:  Debounce Xmx4G
-                                        ; LocalWords:  nerdtree djoyner
-                                        ; LocalWords:  Xmx2G ibuffer
-                                        ; LocalWords:  multimarkdown f9cfcfd3f
-                                        ; LocalWords:  erb agj tpl Magit's supershell Dsbt
-                                        ; LocalWords:  powerline color
-; LocalWords:  alist
+                                        ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer multimarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist
