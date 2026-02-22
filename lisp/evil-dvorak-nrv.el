@@ -64,14 +64,10 @@
   (kbd "C-n") 'next-line
   (kbd "C-p") 'previous-line
   (kbd "C-a") 'beginning-of-line
-  (kbd "C-e") 'end-of-line
-  (kbd "<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'nrv/shift-line-left)
+  (kbd "C-e") 'end-of-line)
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
-  (kbd "<tab>") #'djoyner/evil-shift-right-visual
-  (kbd "<backtab>") #'djoyner/evil-shift-left-visual
   (kbd ">") #'djoyner/evil-shift-right-visual
   (kbd "<") #'djoyner/evil-shift-left-visual
   (kbd "t") #'evil-next-line
@@ -104,9 +100,8 @@
                 (interactive)
                 (join-line 1))
   (kbd "<return>") #'nrv/normal-newline
+  (kbd "<tab>") #'indent-for-tab-command
   (kbd "C-<return>") #'newline-and-indent
-  (kbd "<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'nrv/shift-line-left
   (kbd "'") #'evil-goto-mark)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
@@ -123,11 +118,12 @@
   (kbd "C-y") 'yank
   ;; big boss yank from kill ring
   (kbd "M-y") 'consult-yank-pop
-
+  ;; line tab actions
+  (kbd "C-<tab>") #'nrv/shift-line-right
+  (kbd "<backtab>") #'nrv/shift-line-left
   ;; Windows switching
   (kbd "C-c w") 'evil-window-next
   ;; window spiting
-  (kbd "C-c _") 'split-window-below
   (kbd "C-c -") 'split-window-below
   (kbd "C-c |") 'split-window-right
   ;; xref craziness
@@ -190,6 +186,7 @@
     "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
   )
+
 
 ;; Neotree -- file pop MANAGER
 (use-package neotree

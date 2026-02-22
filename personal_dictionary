@@ -410,3 +410,9 @@ keymap
 PairingException
 Iterable
 idx
+GambitPairingMainWindow
+RuntimeError
+PermissionError
+UnicodeDecodeError
+CsvError
+OSError
