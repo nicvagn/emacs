@@ -96,6 +96,8 @@
  '(resize-mini-windows t)
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
+ '(tab-always-indent nil)
+ '(tab-first-completion 'eol)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

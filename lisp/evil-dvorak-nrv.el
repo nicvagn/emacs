@@ -39,6 +39,7 @@
  evil-want-clipboard t)
 
 (require 'evil)
+(require 'consult)
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
@@ -167,8 +168,14 @@
 (with-eval-after-load 'repo-grep
   (global-set-key (kbd "C-c g") 'repo-grep))
 
+;; git fzf
 (with-eval-after-load 'fzf
   (global-set-key (kbd "C-c C-g f") 'fzf-git))
+
+;; format all always prompt
+(with-eval-after-load 'format-all
+  (global-set-key (kbd "C-c f") (lambda ()   (format-all-buffer 'always))))
+
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
@@ -186,9 +193,11 @@
     "0" 'delete-window
     "1" 'delete-other-windows
     "s" 'evil-window-split
+    "-" 'evil-window-split
     "v" 'evil-window-vsplit
     "h" 'evil-open-below
     "t" 'evil-open-above
+    "u" #'universal-argument
     "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
   )

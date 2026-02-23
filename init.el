@@ -38,10 +38,9 @@
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
-
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
@@ -88,8 +87,8 @@
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
- kept-new-versions 10  ;; Number of newest versions to keep.
- kept-old-versions 10  ;; Number of oldest versions to keep.
+ kept-new-versions 30  ;; Number of newest versions to keep.
+ kept-old-versions 30  ;; Number of oldest versions to keep.
  delete-old-versions t ;; Don't ask to delete excess backup versions.
  backup-by-copying t   ;; Copy all files, don't rename them.
  ;; Revert/reload Dired and other buffers on file-system change
@@ -708,6 +707,16 @@ Otherwise, call `yank`."
 
 (advice-add 'yank-pop :around #'nrv/yank-pop-or-yank-advice)
 
+;; always prompt for a formatter when in python mode
+(advice-add
+ 'format-all-buffer
+ :around
+ (lambda (orig prompt)
+   (if (derived-mode-p 'python-mode)
+       (funcall orig 'always)
+     (funcall orig prompt))))
+
+;; eval-after
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode
   ;; Add python-ts-mode to relevant hooks

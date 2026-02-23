@@ -416,3 +416,5 @@ PermissionError
 UnicodeDecodeError
 CsvError
 OSError
+setFloatable
+QEvent
