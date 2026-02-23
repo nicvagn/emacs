@@ -173,10 +173,6 @@
 (with-eval-after-load 'fzf
   (global-set-key (kbd "C-c C-g f") 'fzf-git))
 
-;; format all always prompt
-(with-eval-after-load 'format-all
-  (global-set-key (kbd "C-c f") (lambda ()   (format-all-buffer 'always))))
-
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
