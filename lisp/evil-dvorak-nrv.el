@@ -60,7 +60,6 @@
 
 ;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
-  (kbd "C-/") #'consult-line
   ;; Emacs-style movement
   (kbd "C-f") 'forward-char
   (kbd "C-b") 'backward-char
@@ -71,7 +70,6 @@
 
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
-  (kbd "/") #'consult-line
   (kbd ">") #'djoyner/evil-shift-right-visual
   (kbd "<") #'djoyner/evil-shift-left-visual
   (kbd "C-<tab>") #'djoyner/evil-shift-right-visual
@@ -86,7 +84,6 @@
 (evil-define-key 'normal evil-dvorak-mode-map
   (kbd "c") #'evil-delete ;; c is new d
   (kbd "'") #'evil-goto-mark
-  (kbd "/") #'consult-line
   ;; Movement
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
@@ -131,6 +128,7 @@
   (kbd "C-y") 'yank
   ;; big boss yank from kill ring
   (kbd "M-y") 'consult-yank-pop
+  (kbd "s-/") #'consult-line
   ;; Windows switching
   (kbd "C-c w") 'evil-window-next
   ;; window spiting
@@ -230,7 +228,6 @@
 
 ;; invoke stuff
 (evil-mode 1)
-(evil-set-undo-system 'undo-redo)
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.
 ;; So leader is available in all buffers
