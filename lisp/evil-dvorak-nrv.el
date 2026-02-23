@@ -30,6 +30,7 @@
 
 
 (setq
+ evil-undo-system 'undo-fu
  evil-want-C-u-scroll t
  evil-scroll-count 10
  evil-want-fine-undo t
@@ -202,6 +203,10 @@
     "<SPC>" 'evil-window-next)
   )
 
+;; used as evil undo system
+(use-package undo-fu
+  :ensure t
+  :demand t)
 
 ;; Neotree -- file pop MANAGER
 (use-package neotree
