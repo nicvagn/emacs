@@ -147,8 +147,16 @@
   ;; TODO add advice for initial chess window size (advice-add )
   )
 
-(use-package exec-path-from-shell ;; sets exec path from zsh shell
+(use-package exec-path-from-shell
+  :if (memq window-system '(pgtk wayland x))
   :init
+  (setq exec-path-from-shell-variables
+      '("PATH"
+        "WAYLAND_DISPLAY"
+        "DISPLAY"
+        "XDG_SESSION_TYPE"
+        "XDG_RUNTIME_DIR"
+        "QT_QPA_PLATFORM"))
   ;; make sure exec path is path when started as daemon
   (when (daemonp)
     (exec-path-from-shell-initialize)))
