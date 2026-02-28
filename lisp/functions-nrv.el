@@ -115,6 +115,19 @@ If the file does not exist, it is created immediately."
   (evil-shift-left-line 1)
   (back-to-indentation))
 
+(defun nrv/delete-whitespace-back ()
+  "Delete whitespace back to newline and report the amount."
+  (interactive)
+  (let* ((start (point))
+         (deleted-count (save-excursion
+                          (skip-chars-backward " \t")
+                          (let ((num (- start (point))))
+                            (delete-region (point) start)
+                            num)))) ; Return the count to the let* variable
+    (if (> deleted-count 0)
+        (message "Deleted %d whitespace character(s)" deleted-count)
+      (message "No horizontal whitespace to delete"))))
+
 ;; non editing
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."

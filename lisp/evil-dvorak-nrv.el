@@ -41,6 +41,7 @@
 
 (require 'evil)
 (require 'consult)
+(require 'functions-nrv)
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
@@ -61,6 +62,7 @@
 ;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
+  (kbd "<backtab>") #'nrv/delete-whitespace-back
   (kbd "C-f") 'forward-char
   (kbd "C-b") 'backward-char
   (kbd "C-n") 'next-line
@@ -118,7 +120,6 @@
 
 (evil-define-key '(normal visual insert emacs) evil-dvorak-mode-map
   ;; jumping mark around and back
-  (kbd "<f4>") 'shell-pop
   (kbd "<f8>") 'keyboard-quit
   (kbd "<f9>") #'evil-jump-backward
   (kbd "<f12>") #'evil-jump-forward
@@ -171,6 +172,8 @@
 (with-eval-after-load 'fzf
   (global-set-key (kbd "C-c C-g f") 'fzf-git))
 
+(with-eval-after-load 'shell-pop
+ (global-set-key (kbd "<f4>") 'shell-pop))
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader

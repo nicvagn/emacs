@@ -419,3 +419,8 @@ OSError
 setFloatable
 QEvent
 TournamentConfig
+iterable
+dialogs
+lifecycle
+WIP
+func

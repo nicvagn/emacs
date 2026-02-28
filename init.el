@@ -7,6 +7,10 @@
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "29.1"))
 
+
+;;; Commentary:
+;; My personal init
+
 ;;; Code:
 (let ((custom-file-path (expand-file-name "custom.el" user-emacs-directory)))
   (setq custom-file custom-file-path)
@@ -151,12 +155,12 @@
   :if (memq window-system '(pgtk wayland x))
   :init
   (setq exec-path-from-shell-variables
-      '("PATH"
-        "WAYLAND_DISPLAY"
-        "DISPLAY"
-        "XDG_SESSION_TYPE"
-        "XDG_RUNTIME_DIR"
-        "QT_QPA_PLATFORM"))
+        '("PATH"
+          "WAYLAND_DISPLAY"
+          "DISPLAY"
+          "XDG_SESSION_TYPE"
+          "XDG_RUNTIME_DIR"
+          "QT_QPA_PLATFORM"))
   ;; make sure exec path is path when started as daemon
   (when (daemonp)
     (exec-path-from-shell-initialize)))
@@ -178,6 +182,7 @@
   ;; Define formatters for different modes
   (setq format-all-default-formatters
         '(("Python" . black)
+          ("Bash" . shfmt)
           ("JavaScript" . prettier)
           ("TypeScript" . prettier)
           ("CSS" . prettier)
@@ -712,7 +717,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (defun nrv/yank-pop-or-yank-advice (orig-fun &optional arg)
   "If last command was `yank`, call ORIG-FUN (yank-pop).
-Otherwise, call `yank`."
+Otherwise, call `yank`.
+Optional argument ARG original function argument."
   (if (eq last-command 'yank)
       (funcall orig-fun arg)
     (yank)))
@@ -731,6 +737,7 @@ Otherwise, call `yank`."
 ;; make consult-line behave like vim /
 (advice-add 'consult-line :after
             (lambda (&rest _)
+              "make consult-line set evil-ex-search-set-pattern.  "
               (when-let ((p (car consult--line-history)))
                 (evil-ex-search-set-pattern p)
                 (evil-ex-search-activate-highlight))))
