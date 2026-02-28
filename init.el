@@ -730,6 +730,7 @@ Optional argument ARG original function argument."
  'format-all-buffer
  :around
  (lambda (orig prompt)
+   "Always prompt for what formatter."
    (if (derived-mode-p 'prog-mode)
        (funcall orig 'always)
      (funcall orig prompt))))
@@ -739,8 +740,9 @@ Optional argument ARG original function argument."
             (lambda (&rest _)
               "make consult-line set evil-ex-search-set-pattern.  "
               (when-let ((p (car consult--line-history)))
-                (evil-ex-search-set-pattern p)
-                (evil-ex-search-activate-highlight))))
+                (when (fboundp 'evil-ex-search-set-pattern)
+                  (evil-ex-search-set-pattern p)
+                  (evil-ex-search-activate-highlight)))))
 
 ;; eval-after
 ;; For packages that check for python-mode specifically
