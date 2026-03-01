@@ -24,8 +24,8 @@
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-
 ;; editing
+
 (defun nrv/text-save-and-kill-buffer ()
   "Save the current buffer (if it's a file) and kill it after confirmation."
   (interactive)

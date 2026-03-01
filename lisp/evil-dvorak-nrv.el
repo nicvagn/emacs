@@ -144,6 +144,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
 (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
+
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "/") #'consult-line))
 

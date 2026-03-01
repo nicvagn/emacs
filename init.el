@@ -249,8 +249,8 @@
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
          ("M-y" . consult-yank-pop)
-         ("C-s" . consult-line)
          ("M-g g" . consult-goto-line)
+         ("s-/" . consult-line)
          ("M-g M-g" . consult-goto-line)
          ("C-x C-r" . consult-recent-file))
   :config
@@ -258,9 +258,6 @@
         consult-line-numbers-widen t              ; allow matches outside narrowing
         consult-preview-key '(:debounce 0.1 any))) ; live preview
 
-;; ++++ MINI-BUFFER END ++++
-
-;; --- auto complete start ---
 (use-package eglot
   :defer t
   :bind
@@ -405,7 +402,6 @@
   ;; enable corfu-candidate-overlay mode globally
   ;; this relies on having corfu-auto set to nil
   (corfu-candidate-overlay-mode +1))
-;; --- auto complete end ---
 
 (use-package scala-mode
   :interpreter
@@ -508,21 +504,20 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (use-package transient
   :demand t)
 
-;; magit
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
    ("C-c C-g d" . #'magit-diff-unstaged)
-   ("C-c C-g g" . #'magit-status)
+   ("C-c C-g g" . #'repo-grep)
    ("C-c C-g p" . #'magit-push-current-to-upstream)
    ("C-c C-g u" . #'magit-pull-from-upstream)
    ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-file-stage)
-   ("C-c C-g s" . #'magit-status-quick))
-  :after transient  ;; ensures transient is loaded first
+   ("C-c C-g s" . #'magit-status))
+  :after (transient repo-grep)
   :config
   ;; Override Magit's completion function completely
   (setq magit-completing-read-function 'completing-read)
@@ -734,15 +729,6 @@ Optional argument ARG original function argument."
    (if (derived-mode-p 'prog-mode)
        (funcall orig 'always)
      (funcall orig prompt))))
-
-;; make consult-line behave like vim /
-(advice-add 'consult-line :after
-            (lambda (&rest _)
-              "make consult-line set evil-ex-search-set-pattern.  "
-              (when-let ((p (car consult--line-history)))
-                (when (fboundp 'evil-ex-search-set-pattern)
-                  (evil-ex-search-set-pattern p)
-                  (evil-ex-search-activate-highlight)))))
 
 ;; eval-after
 ;; For packages that check for python-mode specifically
