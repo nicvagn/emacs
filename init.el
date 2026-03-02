@@ -37,7 +37,6 @@
 (define-advice package-install (:before (&rest _))
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; includes Arduino mode
 (require 'major-modes-nrv)
@@ -45,7 +44,6 @@
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -161,7 +159,6 @@
           "XDG_SESSION_TYPE"
           "XDG_RUNTIME_DIR"
           "QT_QPA_PLATFORM"))
-  ;; make sure exec path is path when started as daemon
   (when (daemonp)
     (exec-path-from-shell-initialize)))
 
@@ -179,7 +176,6 @@
          (typescript-mode . format-all-mode)
          (typescript-ts-mode . format-all-mode))
   :config
-  ;; Define formatters for different modes
   (setq format-all-default-formatters
         '(("Python" . black)
           ("Bash" . shfmt)
@@ -190,14 +186,9 @@
           ("JSON" . prettier)
           ("Rust" . rustfmt)
           ("Go" . gofmt))))
-
 (use-package diminish)
-
-(use-package avy) ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-
+(use-package avy) ;; for jumping to visible text using a char-based decision tree.
 (use-package counsel)
-
-;;;; ++++ MINI-BUFFER start ++++
 (use-package vertico
   :init (vertico-mode)
   :config
@@ -211,10 +202,6 @@
   (vertico-count 20)
   (vertico-resize t)
   :bind (:map vertico-map
-              ;; vertigo-directory-enter checks what kind of completion is active:
-              ;; - If it's file completion → does directory/file logic
-              ;; - If it's command completion → just executes the command
-              ;; - If it's other completion → uses default behaviour
               ("<f5>" . vertico-directory-enter)
               ("<f6>" . vertico-next)
               ("<f7>" . vertico-previous)
@@ -226,7 +213,6 @@
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-overrides '((file (styles partial-completion))))
-  ;; Configure orderless matching
   (setq orderless-matching-styles
         '(orderless-literal
           orderless-prefixes
@@ -583,6 +569,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :defer t
   :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)
               ("C-M-;" . flyspell-buffer)))
+
+(use-package scad-mode
+  :defer t)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; emacs built-in's
 (require 'project)
