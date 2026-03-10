@@ -146,42 +146,6 @@
   (kbd "C-a") 'beginning-of-line
   (kbd "C-e") 'end-of-line)
 
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-
-(with-eval-after-load 'dired
-  (define-key dired-mode-map (kbd "/") #'consult-line))
-
-(with-eval-after-load 'neotree
-  (global-set-key (kbd "<f3>") 'neotree-toggle)
-  (define-key neotree-mode-map (kbd "/") #'consult-line))
-
-
-;; Emacs management
-(with-eval-after-load 'functions-nrv
-  (evil-define-key 'normal evil-dvorak-mode-map
-    (kbd "U") #'ct/upcase-word-at-point)
-  (global-set-key (kbd "C-c m") 'zck/move-file)
-  ;; restart Emacs
-  (global-set-key (kbd "C-M-r") 'restart-emacs)
-  ;; kill this buffer
-  (global-set-key (kbd "C-c k") #'kill-current-buffer)
-  ;; close all other buffers
-  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
-  ;; spelling
-  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
-
-;; repo-grep
-(with-eval-after-load 'repo-grep
-  (global-set-key (kbd "C-c g") 'repo-grep))
-
-;; git fzf
-(with-eval-after-load 'fzf
-  (global-set-key (kbd "C-c C-g f") 'fzf-git))
-
-(with-eval-after-load 'shell-pop
-  (global-set-key (kbd "<f4>") 'shell-pop))
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader

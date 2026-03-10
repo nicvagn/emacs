@@ -34,6 +34,12 @@
            (p2 (cdr bounds)))
       (upcase-region p1 p2))))
 
+(defun nrv/confirm-restart ()
+  "Ask for confirmation before restarting Emacs."
+  (interactive)
+  (when (y-or-n-p "Restart Emacs?")
+    (restart-emacs)))
+
 (defun nrv/text-save-and-kill-buffer ()
   "Save the current buffer (if it's a file) and kill it after confirmation."
   (interactive)

@@ -644,6 +644,43 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (transient-mark-mode 1)  ;; selection highlighting
 (which-function-mode 1)  ;; tell which function
 (highlight-indentation-mode 1)
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(with-eval-after-load 'flymake
+  (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+  (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
+
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "/") #'consult-line))
+
+(with-eval-after-load 'neotree
+  (global-set-key (kbd "<f3>") 'neotree-toggle)
+  (define-key neotree-mode-map (kbd "/") #'consult-line))
+
+
+;; Emacs management
+(with-eval-after-load 'functions-nrv
+  (evil-define-key 'normal evil-dvorak-mode-map
+    (kbd "U") #'ct/upcase-word-at-point)
+  (global-set-key (kbd "C-c m") 'zck/move-file)
+  ;; restart Emacs
+  (global-set-key (kbd "C-M-r") #'nrv/confirm-restart)
+  ;; kill this buffer
+  (global-set-key (kbd "C-c k") #'kill-current-buffer)
+  ;; close all other buffers
+  (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
+  ;; spelling
+  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
+
+;; repo-grep
+(with-eval-after-load 'repo-grep
+  (global-set-key (kbd "C-c g") 'repo-grep))
+
+;; git fzf
+(with-eval-after-load 'fzf
+  (global-set-key (kbd "C-c C-g f") 'fzf-git))
+
+(with-eval-after-load 'shell-pop
+  (global-set-key (kbd "<f4>") 'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
