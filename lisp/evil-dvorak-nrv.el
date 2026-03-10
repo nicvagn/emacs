@@ -161,7 +161,7 @@
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
   (evil-define-key 'normal evil-dvorak-mode-map
-    (kbd "U") #'ct/upercase-word-at-point)
+    (kbd "U") #'ct/upcase-word-at-point)
   (global-set-key (kbd "C-c m") 'zck/move-file)
   ;; restart Emacs
   (global-set-key (kbd "C-M-r") 'restart-emacs)

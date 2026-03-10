@@ -184,7 +184,7 @@ keep the file name."
     (dolist (buf (buffer-list))
       (unless (eq buf current)
         (with-current-buffer buf
-          (let ((name (buffer-name)))          ; no arg!
+          (let ((name (buffer-name)))
             (unless (or (string-prefix-p "*" name)
                         (string-prefix-p " " name)
                         (derived-mode-p 'comint-mode)
