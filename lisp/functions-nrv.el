@@ -25,6 +25,14 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
 ;; editing
+(defun ct/upcase-word-at-point ()
+  "Uppercase whole word at point."
+  (interactive)
+  (save-excursion
+    (let* ((bounds (bounds-of-thing-at-point 'word))
+           (p1 (car bounds))
+           (p2 (cdr bounds)))
+      (upcase-region p1 p2))))
 
 (defun nrv/text-save-and-kill-buffer ()
   "Save the current buffer (if it's a file) and kill it after confirmation."

@@ -86,8 +86,8 @@
                          python-black qml-mode queue rust-mode
                          sbt-mode scad-mode scala-mode shfmt tramp
                          tramp-theme transient-dwim treesit-auto
-                         treesit-fallback undo-fu vertico vterm
-                         web-mode yasnippet-capf))
+                         treesit-fallback vertico vterm web-mode
+                         yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")

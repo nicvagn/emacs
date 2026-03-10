@@ -30,13 +30,16 @@
 
 
 (setq
- evil-undo-system 'undo-fu
+ ;; scroll
  evil-want-C-u-scroll t
  evil-scroll-count 10
+ ;; undo
  evil-want-fine-undo t
- select-enable-clipboard t
+ evil-undo-system 'undo-redo
  select-enable-primary nil
+ ;; paste/yank
  evil-kill-on-visual-paste nil
+ select-enable-clipboard t
  evil-want-clipboard t)
 
 (require 'evil)
@@ -63,13 +66,7 @@
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
   (kbd "<backtab>") #'nrv/delete-whitespace-back
-  (kbd "C-f") 'forward-char
-  (kbd "C-b") 'backward-char
-  (kbd "C-n") 'next-line
-  (kbd "C-p") 'previous-line
-  (kbd "C-a") 'beginning-of-line
-  (kbd "C-e") 'end-of-line)
-
+  )
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd ">") #'djoyner/evil-shift-right-visual
@@ -105,9 +102,10 @@
                 (interactive)
                 (join-line 1))
 
+
   (kbd "<return>") #'nrv/normal-newline
-  (kbd "<tab>") #'indent-for-tab-command
   ;; line tab actions
+  (kbd "<tab>") #'indent-for-tab-command
   (kbd "C-<tab>") #'nrv/shift-line-right
   (kbd "<backtab>") #'nrv/shift-line-left
   ;; Cursor movement
@@ -125,10 +123,10 @@
   (kbd "<f12>") #'evil-jump-forward
   (kbd "C-'") 'evil-jump-backward
   (kbd "C-\"") 'evil-jump-forward
-  ;; Big boss Emacs yank
+  ;; Big boss Emacs yank "paste"
   (kbd "C-y") 'yank
   ;; big boss yank from kill ring
-  (kbd "M-y") 'consult-yank-pop
+  (kbd "M-y") #'consult-yank-pop
   (kbd "s-/") #'consult-line
   ;; Windows switching
   (kbd "C-c w") 'evil-window-next
@@ -139,7 +137,14 @@
   (kbd "C-c M-d") 'xref-find-definitions
   (kbd "C-c M-a") 'xref-find-apropos
   (kbd "C-c M-r") 'xref-find-references
-  (kbd "C-c M-R") 'xref-find-references-and-replace)
+  (kbd "C-c M-R") 'xref-find-references-and-replace
+  ;; always have both worlds
+  (kbd "C-f") 'forward-char
+  (kbd "C-b") 'backward-char
+  (kbd "C-n") 'next-line
+  (kbd "C-p") 'previous-line
+  (kbd "C-a") 'beginning-of-line
+  (kbd "C-e") 'end-of-line)
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
@@ -155,6 +160,8 @@
 
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
+  (evil-define-key 'normal evil-dvorak-mode-map
+    (kbd "U") #'ct/upercase-word-at-point)
   (global-set-key (kbd "C-c m") 'zck/move-file)
   ;; restart Emacs
   (global-set-key (kbd "C-M-r") 'restart-emacs)
@@ -174,7 +181,7 @@
   (global-set-key (kbd "C-c C-g f") 'fzf-git))
 
 (with-eval-after-load 'shell-pop
- (global-set-key (kbd "<f4>") 'shell-pop))
+  (global-set-key (kbd "<f4>") 'shell-pop))
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
@@ -201,10 +208,6 @@
     "<SPC>" 'evil-window-next)
   )
 
-;; used as evil undo system
-(use-package undo-fu
-  :ensure t
-  :demand t)
 
 ;; Neotree -- file pop MANAGER
 (use-package neotree
@@ -248,6 +251,12 @@
              ))
   (evil-set-initial-state (car p) (cdr p)))
 
+;; advice
+;; record jump when goto-line
+(advice-add 'evil-goto-line :before (lambda (&rest _) (evil-set-jump)))
+
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak-nrv.el ends here
+
+                                        ; LocalWords:  djoyner
