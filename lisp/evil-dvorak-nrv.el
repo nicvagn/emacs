@@ -30,6 +30,7 @@
 
 
 (setq
+ ;;
  ;; scroll
  evil-want-C-u-scroll t
  evil-scroll-count 10
@@ -90,14 +91,14 @@
   (kbd "e") #'evil-forward-char
   ;; Line operations
   (kbd "k") #'kill-line
-  (kbd "K") #'(lambda ()
+  (kbd "K") '(lambda ()
                 "Kill from point to the beginning of the line"
                 (interactive)
                 (kill-line 0))
 
   ;; Line manipulation
   (kbd "J") #'join-line ;; Join this line with the one above
-  (kbd "j") #'(lambda ()
+  (kbd "j") '(lambda ()
                 "Join this line at the end of the line below"
                 (interactive)
                 (join-line 1))
@@ -108,6 +109,12 @@
   (kbd "<tab>") #'indent-for-tab-command
   (kbd "C-<tab>") #'nrv/shift-line-right
   (kbd "<backtab>") #'nrv/shift-line-left
+  (kbd "DEL") '(lambda ()
+                  "Evil backspace, but also remove New Line."
+                  (interactive)
+                  (if (bolp)
+                      (delete-char -1)
+                    (backward-char 1)))
   ;; Cursor movement
   (kbd "C-l") #'recenter-top-bottom
   ;; Reinstate C-e of Emacs
