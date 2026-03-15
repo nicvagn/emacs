@@ -428,3 +428,9 @@ minkowski
 gameId
 ResponseError
 goto
+recurse
+submodules
+ZDOTDIR
+del
+XDG
+noselect

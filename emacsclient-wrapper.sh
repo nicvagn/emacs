@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # emacsclient-wrapper.sh
-# Wrapper for emacsclient on Wayland/X11 that supports emacsclient flags.
+# Wrapper for emacsclient that only spawns two windows
 
 start_emacs_daemon() {
 	if emacsclient -e t >/dev/null 2>&1; then
-		echo "daemon is running"
+		echo "daemon is up"
 	else
 		/usr/bin/emacs --daemon
 		echo "started daemon"
@@ -12,10 +12,16 @@ start_emacs_daemon() {
 }
 
 use_emacsclient() {
-	for file in $@; do
-		echo "(nrv/open-or-create-file-buffer \"$file\") - sent to Emacs"
-		emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
-	done
+    # check for -nw
+    if [[ $1 == "-nw" ]]; then
+        emacsclient $@
+        return
+    else  # GUI Emacs
+        for file in $@; do
+            echo "(nrv/open-or-create-file-buffer \"$file\") - sent to Emacs"
+            emacsclient -e "(nrv/open-or-create-file-buffer \"$file\")"
+        done
+    fi
 
 	# Count existing frames
 	frames=$(emacsclient -e "(length (frame-list))" 2>/dev/null)
