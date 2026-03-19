@@ -40,10 +40,13 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; includes Arduino mode
 (require 'major-modes-nrv)
-;; major mode remapping
+;; major mode remapping based on file name
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.zsh-theme\\'" . sh-mode))
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -51,6 +54,7 @@
         select-enable-primary t))
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
 (setenv "TERM" "xterm-256color")
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setq-default tab-width 4
               c-basic-offset tab-width
@@ -102,9 +106,6 @@
  centaur-tabs-set-icons t
  centaur-tabs-icon-type 'all-the-icons
  centaur-tabs-cycle-scope 'tabs
- ;; Corfu
- corfu-auto-delay  0.15 ;; may cause issues due to being fast
- corfu-auto-prefix 0.15
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; flymake
@@ -208,19 +209,6 @@
               ("<f8>" . keyboard-quit)
               ("DEL" . vertico-directory-delete-char)))
 
-;; Better matching (type parts of words in any order)
-(use-package orderless
-  :config
-  (setq completion-styles '(orderless basic))
-  (setq completion-category-overrides '((file (styles partial-completion))))
-  (setq orderless-matching-styles
-        '(orderless-literal
-          orderless-prefixes
-          orderless-initialism
-          orderless-regexp))
-  :custom
-  (completion-styles '(orderless basic)))
-
 ;; Save completion history
 (use-package savehist
   :init (savehist-mode))
@@ -244,11 +232,23 @@
         consult-line-numbers-widen t              ; allow matches outside narrowing
         consult-preview-key '(:debounce 0.1 any))) ; live preview
 
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (orderless-matching-styles
+   '(orderless-literal
+     orderless-prefixes
+     orderless-initialism
+     orderless-regexp
+     orderless-flex)))
+
+
 (use-package eglot
   :defer t
   :bind
-  ;; C-c c for eglot functionality
-  (("C-c c r" . eglot-rename)
+  (("C-c c c" . eglot)
+   ("C-c c r" . eglot-rename)
    ("C-c c f" . eglot-format)
    ("C-c c a" . eglot-code-actions)
    ("C-c c d" . eldoc)
@@ -309,6 +309,7 @@
                                           ))))
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode objc-mode cuda-mode) "clangd"))
   (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((scala-mode scala-ts-mode) .
