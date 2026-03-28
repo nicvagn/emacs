@@ -27,6 +27,7 @@
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
   )
 
+
 (defun prepare-magit ()
   "Prepare to enter magit"
   (local-set-key (kbd "t") #'magit-next-line)

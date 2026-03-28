@@ -7,6 +7,10 @@
 ;; Version: 1.0
 ;; Package-Requires: ((emacs "29.1"))
 
+
+;;; Commentary:
+;; My personal init
+
 ;;; Code:
 (let ((custom-file-path (expand-file-name "custom.el" user-emacs-directory)))
   (setq custom-file custom-file-path)
@@ -33,12 +37,13 @@
 (define-advice package-install (:before (&rest _))
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-
+(add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -70,6 +75,7 @@
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
  ;; tabs and indenting
+
  ;; if the value is nil, then TAB indents the current line only if
  ;; point is at the left margin or in the line’s indentation;
  ;; otherwise, it inserts a tab character
@@ -83,8 +89,8 @@
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
  version-control t     ;; Use version numbers for backups.
- kept-new-versions 10  ;; Number of newest versions to keep.
- kept-old-versions 10  ;; Number of oldest versions to keep.
+ kept-new-versions 30  ;; Number of newest versions to keep.
+ kept-old-versions 30  ;; Number of oldest versions to keep.
  delete-old-versions t ;; Don't ask to delete excess backup versions.
  backup-by-copying t   ;; Copy all files, don't rename them.
  ;; Revert/reload Dired and other buffers on file-system change
@@ -117,7 +123,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :bind ("C-x C-c" . nrv/smart-quit)
   :init
   (defun nrv/smart-quit ()
     "Kill current frame if daemon, otherwise exit Emacs."
@@ -125,6 +130,9 @@
     (if (daemonp)
         (delete-frame)
       (save-buffers-kill-terminal)))
+
+  :bind (("C-x C-c" . nrv/smart-quit)
+         ("C-c C-c" . nrv/text-save-and-kill-buffer))
   :custom
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
@@ -141,9 +149,16 @@
   ;; TODO add advice for initial chess window size (advice-add )
   )
 
-(use-package exec-path-from-shell ;; sets exec path from zsh shell
+(use-package exec-path-from-shell
+  :if (memq window-system '(pgtk wayland x))
   :init
-  ;; make sure exec path is path when started as daemon
+  (setq exec-path-from-shell-variables
+        '("PATH"
+          "WAYLAND_DISPLAY"
+          "DISPLAY"
+          "XDG_SESSION_TYPE"
+          "XDG_RUNTIME_DIR"
+          "QT_QPA_PLATFORM"))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
 
@@ -160,12 +175,10 @@
          (yaml-mode . format-all-mode)
          (typescript-mode . format-all-mode)
          (typescript-ts-mode . format-all-mode))
-  :bind
-  ("C-c f" . format-all-region-or-buffer)
   :config
-  ;; Define formatters for different modes
   (setq format-all-default-formatters
         '(("Python" . black)
+          ("Bash" . shfmt)
           ("JavaScript" . prettier)
           ("TypeScript" . prettier)
           ("CSS" . prettier)
@@ -173,14 +186,9 @@
           ("JSON" . prettier)
           ("Rust" . rustfmt)
           ("Go" . gofmt))))
-
 (use-package diminish)
-
-(use-package avy) ;; GNU Emacs package for jumping to visible text using a char-based decision tree.
-
+(use-package avy) ;; for jumping to visible text using a char-based decision tree.
 (use-package counsel)
-
-;;;; ++++ MINI-BUFFER start ++++
 (use-package vertico
   :init (vertico-mode)
   :config
@@ -194,10 +202,6 @@
   (vertico-count 20)
   (vertico-resize t)
   :bind (:map vertico-map
-              ;; vertigo-directory-enter checks what kind of completion is active:
-              ;; - If it's file completion → does directory/file logic
-              ;; - If it's command completion → just executes the command
-              ;; - If it's other completion → uses default behaviour
               ("<f5>" . vertico-directory-enter)
               ("<f6>" . vertico-next)
               ("<f7>" . vertico-previous)
@@ -209,7 +213,6 @@
   :config
   (setq completion-styles '(orderless basic))
   (setq completion-category-overrides '((file (styles partial-completion))))
-  ;; Configure orderless matching
   (setq orderless-matching-styles
         '(orderless-literal
           orderless-prefixes
@@ -232,14 +235,15 @@
          ("C-x 4 b" . consult-buffer-other-window)
          ("C-x 5 b" . consult-buffer-other-frame)
          ("M-y" . consult-yank-pop)
-         ("C-s" . consult-line)
          ("M-g g" . consult-goto-line)
+         ("s-/" . consult-line)
          ("M-g M-g" . consult-goto-line)
-         ("C-x C-r" . consult-recent-file)))
+         ("C-x C-r" . consult-recent-file))
+  :config
+  (setq consult-line-start-from-top nil           ; start from point
+        consult-line-numbers-widen t              ; allow matches outside narrowing
+        consult-preview-key '(:debounce 0.1 any))) ; live preview
 
-;; ++++ MINI-BUFFER END ++++
-
-;; --- auto complete start ---
 (use-package eglot
   :defer t
   :bind
@@ -384,7 +388,6 @@
   ;; enable corfu-candidate-overlay mode globally
   ;; this relies on having corfu-auto set to nil
   (corfu-candidate-overlay-mode +1))
-;; --- auto complete end ---
 
 (use-package scala-mode
   :interpreter
@@ -487,21 +490,20 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (use-package transient
   :demand t)
 
-;; magit
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
    ("C-c C-g l" . #'magit-log-current)
    ("C-c C-g d" . #'magit-diff-unstaged)
-   ("C-c C-g g" . #'magit-status)
+   ("C-c C-g g" . #'repo-grep)
    ("C-c C-g p" . #'magit-push-current-to-upstream)
    ("C-c C-g u" . #'magit-pull-from-upstream)
    ("C-c C-g m" . #'magit-merge)
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-file-stage)
-   ("C-c C-g s" . #'magit-status-quick))
-  :after transient  ;; ensures transient is loaded first
+   ("C-c C-g s" . #'magit-status))
+  :after (transient repo-grep)
   :config
   ;; Override Magit's completion function completely
   (setq magit-completing-read-function 'completing-read)
@@ -567,6 +569,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :defer t
   :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)
               ("C-M-;" . flyspell-buffer)))
+
+(use-package scad-mode
+  :defer t)
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_- Global lisp _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; emacs built-in's
 (require 'project)
@@ -585,7 +591,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (rainbow-delimiters-mode 1)
 ;;; functions-nrv -- useful functions?
 ;; nrv-error-handler -- I don't honestly know handles errors?
-;; delete-this-file -- delete the file in a buffer
+;; nrv/delete-this-file -- delete the file in a buffer
 ;; tjwh/backward-kill-word-on-this-line -- kill backwards word but DO NOT
 ;;                                         kill newline.
 ;; djoyner/evil-shift-****-visual -- do not loose selection when you shift
@@ -639,53 +645,25 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (which-function-mode 1)  ;; tell which function
 (highlight-indentation-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-(define-key dired-mode-map (kbd "/") #'consult-line)
-;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+(with-eval-after-load 'flymake
+  (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
+  (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
 
+(with-eval-after-load 'dired
+  (define-key dired-mode-map (kbd "/") #'consult-line))
 
+(with-eval-after-load 'neotree
+  (global-set-key (kbd "<f3>") 'neotree-toggle)
+  (define-key neotree-mode-map (kbd "/") #'consult-line))
 
-(with-eval-after-load 'evil
-  ;; GLOBAL stuff
-
-  ;; make C-y work EVERYWHERE
-  (global-set-key (kbd "C-y") #'evil-yank)
-  (evil-define-key 'emacs 'global (kbd "C-y") #'evil-yank)
-
-  ;; f9 f12 jumping, and C-' C-"
-  (evil-define-key '(normal visual insert emacs) 'global
-    (kbd "<f9>") #'evil-jump-backward
-    (kbd "<f12>") #'evil-jump-forward
-    (kbd "C-'") 'evil-jump-backward
-    (kbd "C-\"") 'evil-jump-forward)
-
-  ;; Window jumping
-  ;; globalize so works for all windows
-  (global-set-key (kbd "C-c w") 'evil-window-next))
-
-;; find the definition with xref
-(global-set-key (kbd "C-c M-d") 'xref-find-definitions)
-(global-set-key (kbd "C-c M-a") 'xref-find-apropos)
-(global-set-key (kbd "C-c M-r") 'xref-find-references)
-(global-set-key (kbd "C-c M-R") 'xref-find-references-and-replace)
-
-;; window spiting
-(global-set-key (kbd "C-c _") 'split-window-below)
-(global-set-key (kbd "C-c |") 'split-window-right)
-
-;; F-keys
-;; open neotree with f3: (overshadows keyboard macro)
-(global-set-key (kbd "<f3>") 'neotree-toggle)
-;; popup term
-(global-set-key (kbd "<f4>") 'shell-pop)
-(global-set-key (kbd "<f8>") 'keyboard-quit)
 
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
+  (evil-define-key 'normal evil-dvorak-mode-map
+    (kbd "U") #'ct/upcase-word-at-point)
   (global-set-key (kbd "C-c m") 'zck/move-file)
   ;; restart Emacs
-  (global-set-key (kbd "C-M-r") 'restart-emacs)
+  (global-set-key (kbd "C-M-r") #'nrv/confirm-restart)
   ;; kill this buffer
   (global-set-key (kbd "C-c k") #'kill-current-buffer)
   ;; close all other buffers
@@ -693,14 +671,16 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; spelling
   (global-set-key (kbd "C-c s") 'flyspell-toggle ))
 
-;; GIT
-(with-eval-after-load 'magit
-  (global-set-key (kbd "C-x g") 'magit-status))
-
 ;; repo-grep
 (with-eval-after-load 'repo-grep
   (global-set-key (kbd "C-c g") 'repo-grep))
 
+;; git fzf
+(with-eval-after-load 'fzf
+  (global-set-key (kbd "C-c C-g f") 'fzf-git))
+
+(with-eval-after-load 'shell-pop
+  (global-set-key (kbd "<f4>") 'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
@@ -730,7 +710,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
-(defalias 'del 'delete-this-file)
+(defalias 'del 'nrv/delete-this-file)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Backups Start_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; Default and per-save backups go here:
 (setq backup-directory-alist '(("" . "~/.config/emacs/backups/per-save")))
@@ -757,7 +737,27 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (advice-add 'ibuffer :after #'nrv/ibuffer-point-to-most-recent)
 
+(defun nrv/yank-pop-or-yank-advice (orig-fun &optional arg)
+  "If last command was `yank`, call ORIG-FUN (yank-pop).
+Otherwise, call `yank`.
+Optional argument ARG original function argument."
+  (if (eq last-command 'yank)
+      (funcall orig-fun arg)
+    (yank)))
 
+(advice-add 'yank-pop :around #'nrv/yank-pop-or-yank-advice)
+
+;; always prompt for a formatter
+(advice-add
+ 'format-all-buffer
+ :around
+ (lambda (orig prompt)
+   "Always prompt for what formatter."
+   (if (derived-mode-p 'prog-mode)
+       (funcall orig 'always)
+     (funcall orig prompt))))
+
+;; eval-after
 ;; For packages that check for python-mode specifically
 (with-eval-after-load 'python-ts-mode
   ;; Add python-ts-mode to relevant hooks
@@ -777,17 +777,4 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (provide 'init)
 ;;; init.el ends here
 
-                                        ; LocalWords:  setq yasnippet
-                                        ; LocalWords:  codespell melpa nongnu
-                                        ; LocalWords:  emacs scala cp
-                                        ; LocalWords:  unselected LightGoldenrod DarkOrange MistyRose
-                                        ; LocalWords:  DeepSkyBlue sp
-                                        ; LocalWords:  daemonp flx eq
-                                        ; LocalWords:  yasnippit tjwh
-                                        ; LocalWords:  Neotree muh
-                                        ; LocalWords:  Debounce Xmx4G
-                                        ; LocalWords:  nerdtree djoyner
-                                        ; LocalWords:  Xmx2G ibuffer
-                                        ; LocalWords:  multimarkdown f9cfcfd3f
-                                        ; LocalWords:  erb agj tpl Magit's supershell Dsbt
-                                        ; LocalWords:  powerline color
+                                        ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer multimarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist

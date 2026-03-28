@@ -30,14 +30,22 @@
 
 
 (setq
+ ;;
+ ;; scroll
  evil-want-C-u-scroll t
  evil-scroll-count 10
+ ;; undo
  evil-want-fine-undo t
+ evil-undo-system 'undo-redo
+ select-enable-primary nil
+ ;; paste/yank
+ evil-kill-on-visual-paste nil
  select-enable-clipboard t
- select-enable-primary t
  evil-want-clipboard t)
 
 (require 'evil)
+(require 'consult)
+(require 'functions-nrv)
 
 (define-minor-mode evil-dvorak-mode
   "Evil dvorak mode allows you to use evil using the dvorak keyboard layout.  Contributions are welcome."
@@ -58,21 +66,15 @@
 ;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
-  (kbd "C-f") 'forward-char
-  (kbd "C-b") 'backward-char
-  (kbd "C-n") 'next-line
-  (kbd "C-p") 'previous-line
-  (kbd "C-a") 'beginning-of-line
-  (kbd "C-e") 'end-of-line
-  (kbd "<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'nrv/shift-line-left)
-
+  (kbd "<backtab>") #'nrv/delete-whitespace-back
+  )
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
-  (kbd "<tab>") #'djoyner/evil-shift-right-visual
-  (kbd "<backtab>") #'djoyner/evil-shift-left-visual
   (kbd ">") #'djoyner/evil-shift-right-visual
   (kbd "<") #'djoyner/evil-shift-left-visual
+  (kbd "C-<tab>") #'djoyner/evil-shift-right-visual
+  (kbd "<tab>") #'djoyner/evil-shift-right-visual
+  (kbd "<backtab>") #'djoyner/evil-shift-left-visual
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
@@ -81,34 +83,76 @@
 
 (evil-define-key 'normal evil-dvorak-mode-map
   (kbd "c") #'evil-delete ;; c is new d
+  (kbd "'") #'evil-goto-mark
   ;; Movement
   (kbd "t") #'evil-next-line
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
   (kbd "e") #'evil-forward-char
-  ;; Reinstate C-e of Emacs
-  (kbd "C-e") 'end-of-line
   ;; Line operations
   (kbd "k") #'kill-line
-  (kbd "K") #'(lambda ()
+  (kbd "K") '(lambda ()
                 "Kill from point to the beginning of the line"
                 (interactive)
                 (kill-line 0))
-  ;; Cursor movement
-  (kbd "C-l") #'recenter-top-bottom
+
   ;; Line manipulation
   (kbd "J") #'join-line ;; Join this line with the one above
-  (kbd "j") #'(lambda ()
+  (kbd "j") '(lambda ()
                 "Join this line at the end of the line below"
                 (interactive)
                 (join-line 1))
-  (kbd "<return>") #'nrv/normal-newline
-  (kbd "C-<return>") #'newline-and-indent
-  (kbd "<tab>") #'nrv/shift-line-right
-  (kbd "<backtab>") #'nrv/shift-line-left
-  (kbd "'") #'evil-goto-mark)
 
-;; === KEY MAP END ===
+
+  (kbd "<return>") #'nrv/normal-newline
+  ;; line tab actions
+  (kbd "<tab>") #'indent-for-tab-command
+  (kbd "C-<tab>") #'nrv/shift-line-right
+  (kbd "<backtab>") #'nrv/shift-line-left
+  (kbd "DEL") '(lambda ()
+                  "Evil backspace, but also remove New Line."
+                  (interactive)
+                  (if (bolp)
+                      (delete-char -1)
+                    (backward-char 1)))
+  ;; Cursor movement
+  (kbd "C-l") #'recenter-top-bottom
+  ;; Reinstate C-e of Emacs
+  (kbd "C-e") 'end-of-line
+  (kbd "C-<return>") #'newline-and-indent)
+
+;;_-_-_-_-_-_-_-_-_-_-_-_-_-Global Key Map -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+(evil-define-key '(normal visual insert emacs) evil-dvorak-mode-map
+  ;; jumping mark around and back
+  (kbd "<f8>") 'keyboard-quit
+  (kbd "<f9>") #'evil-jump-backward
+  (kbd "<f12>") #'evil-jump-forward
+  (kbd "C-'") 'evil-jump-backward
+  (kbd "C-\"") 'evil-jump-forward
+  ;; Big boss Emacs yank "paste"
+  (kbd "C-y") 'yank
+  ;; big boss yank from kill ring
+  (kbd "M-y") #'consult-yank-pop
+  (kbd "s-/") #'consult-line
+  ;; Windows switching
+  (kbd "C-c w") 'evil-window-next
+  ;; window spiting
+  (kbd "C-c -") 'split-window-below
+  (kbd "C-c |") 'split-window-right
+  ;; xref craziness
+  (kbd "C-c M-d") 'xref-find-definitions
+  (kbd "C-c M-a") 'xref-find-apropos
+  (kbd "C-c M-r") 'xref-find-references
+  (kbd "C-c M-R") 'xref-find-references-and-replace
+  ;; always have both worlds
+  (kbd "C-f") 'forward-char
+  (kbd "C-b") 'backward-char
+  (kbd "C-n") 'next-line
+  (kbd "C-p") 'previous-line
+  (kbd "C-a") 'beginning-of-line
+  (kbd "C-e") 'end-of-line)
+
 
 ;; Evil Leader, provides leader key shortcuts
 (use-package evil-leader
@@ -126,12 +170,15 @@
     "0" 'delete-window
     "1" 'delete-other-windows
     "s" 'evil-window-split
+    "-" 'evil-window-split
     "v" 'evil-window-vsplit
     "h" 'evil-open-below
     "t" 'evil-open-above
+    "u" #'universal-argument
     "f" 'format-all-region-or-buffer
     "<SPC>" 'evil-window-next)
   )
+
 
 ;; Neotree -- file pop MANAGER
 (use-package neotree
@@ -144,6 +191,7 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (evil-define-key 'emacs neotree-mode-map (kbd "TAB") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'emacs neotree-mode-map (kbd "u") 'neotree-select-up-node)
   (evil-define-key 'emacs neotree-mode-map (kbd "e") 'neotree-enter)
   (evil-define-key 'emacs neotree-mode-map (kbd "D") 'neotree-delete-node)
   (evil-define-key 'emacs neotree-mode-map (kbd "l") 'neotree-quick-look)
@@ -158,7 +206,6 @@
 
 ;; invoke stuff
 (evil-mode 1)
-(evil-set-undo-system 'undo-redo)
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.
 ;; So leader is available in all buffers
@@ -175,6 +222,12 @@
              ))
   (evil-set-initial-state (car p) (cdr p)))
 
+;; advice
+;; record jump when goto-line
+(advice-add 'evil-goto-line :before (lambda (&rest _) (evil-set-jump)))
+
 (provide 'evil-dvorak-nrv)
 
 ;;; evil-dvorak-nrv.el ends here
+
+                                        ; LocalWords:  djoyner

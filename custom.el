@@ -76,17 +76,18 @@
  '(neo-window-fixed-size nil)
  '(package-last-refresh-date "2025-09-14T14:05" t)
  '(package-selected-packages
-   '(all-the-icons all-the-icons-dired all-the-icons-gnus avy cape
-                   centaur-tabs consult corfu-candidate-overlay
-                   corfu-terminal counsel cus-edit diminish
-                   editorconfig eglot eglot-java elpy evil-leader
-                   exec-path-from-shell flyspell-correct format-all
-                   magit marginalia markdown-mode neotree
-                   nerd-icons-corfu orderless php-ts-mode python-black
-                   qml-mode rust-mode sbt-mode scala-mode tramp
-                   tramp-theme transient-dwim treesit-auto
-                   treesit-fallback vertico vterm web-mode
-                   yasnippet-capf))
+   '(all-the-icons-dired all-the-icons-gnus avy cape centaur-tabs consult
+                         corfu-candidate-overlay corfu-terminal
+                         counsel diminish editorconfig eglot-java elpy
+                         evil-leader exec-path-from-shell
+                         flyspell-correct format-all kind-icon magit
+                         marginalia markdown-mode neotree
+                         nerd-icons-corfu orderless php-ts-mode
+                         python-black qml-mode queue rust-mode
+                         sbt-mode scad-mode scala-mode shfmt tramp
+                         tramp-theme transient-dwim treesit-auto
+                         treesit-fallback vertico vterm web-mode
+                         yasnippet-capf))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
@@ -96,6 +97,8 @@
  '(resize-mini-windows t)
  '(shell-pop-shell-type
    '("vterm" "*vterm*" (lambda nil (vterm shell-pop-term-shell))))
+ '(tab-always-indent nil)
+ '(tab-first-completion 'eol)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

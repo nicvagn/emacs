@@ -24,8 +24,36 @@
 ;;; Code:
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-My Functions_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 
-
 ;; editing
+(defun ct/upcase-word-at-point ()
+  "Uppercase whole word at point."
+  (interactive)
+  (save-excursion
+    (let* ((bounds (bounds-of-thing-at-point 'word))
+           (p1 (car bounds))
+           (p2 (cdr bounds)))
+      (upcase-region p1 p2))))
+
+(defun nrv/confirm-restart ()
+  "Ask for confirmation before restarting Emacs."
+  (interactive)
+  (when (y-or-n-p "Restart Emacs?")
+    (restart-emacs)))
+
+(defun nrv/text-save-and-kill-buffer ()
+  "Save the current buffer (if it's a file) and kill it after confirmation."
+  (interactive)
+  (let ((name (buffer-name)))
+    (if (y-or-n-p (format "Save and kill buffer `%s'? " name))
+        (progn
+          ;; Only attempt save if the buffer is visiting a file
+          (when (buffer-file-name)
+            (save-buffer))
+          (kill-buffer (current-buffer))
+          (message "Buffer `%s' killed." name))
+      (message "Aborted."))))
+
+
 (defun nrv/open-or-create-file-buffer (path)
   "Open PATH in a buffer as the only buffer in frame, creating it and parent dirs if needed. Set the buffer as the initial buffer too.
 If the file does not exist, it is created immediately."
@@ -101,12 +129,25 @@ If the file does not exist, it is created immediately."
   (evil-shift-left-line 1)
   (back-to-indentation))
 
+(defun nrv/delete-whitespace-back ()
+  "Delete whitespace back to newline and report the amount."
+  (interactive)
+  (let* ((start (point))
+         (deleted-count (save-excursion
+                          (skip-chars-backward " \t")
+                          (let ((num (- start (point))))
+                            (delete-region (point) start)
+                            num)))) ; Return the count to the let* variable
+    (if (> deleted-count 0)
+        (message "Deleted %d whitespace character(s)" deleted-count)
+      (message "No horizontal whitespace to delete"))))
+
 ;; non editing
 (defun nrv-error-handler (err)
   "Handle errors by printing them to minibuffer (ERR: error)."
   (message "Error: %S" err))
 
-(defun delete-this-file (&optional forever)
+(defun nrv/delete-this-file (&optional forever)
   "Delete the file associated with `current-buffer'.
 If FOREVER is non-nil, the file is deleted without being moved to trash."
   (interactive "P")
@@ -149,7 +190,7 @@ keep the file name."
     (dolist (buf (buffer-list))
       (unless (eq buf current)
         (with-current-buffer buf
-          (let ((name (buffer-name)))          ; no arg!
+          (let ((name (buffer-name)))
             (unless (or (string-prefix-p "*" name)
                         (string-prefix-p " " name)
                         (derived-mode-p 'comint-mode)
