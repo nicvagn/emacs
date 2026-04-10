@@ -109,6 +109,9 @@
   (define-key dired-mode-map (kbd "<f7>") 'dired-previous-line)
   (define-key dired-mode-map (kbd "<f8>") 'keyboard-quit)
 
+  ;; C-x ...
+  (define-key dired-mode-map (kbd "C-c d") #'dired-delete-file)
+
   ;; "leader"
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   ;; add leader via dired ring map

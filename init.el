@@ -75,15 +75,9 @@
  ;; Reuse the same server frame
  server-window 'pop-to-buffer
  ;; debugging + error handling
- debug-on-error nil ;; back traces
+ debug-on-error t ;; back traces
  user-error-exceptions nil ;; treat errs as real errs
  error-handler #'nrv-error-handler
- ;; tabs and indenting
-
- ;; if the value is nil, then TAB indents the current line only if
- ;; point is at the left margin or in the line’s indentation;
- ;; otherwise, it inserts a tab character
- tab-always-indent t
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
@@ -101,11 +95,6 @@
  global-auto-revert-non-file-buffers t
  ;; but do it quietly
  auto-revert-verbose nil
- ;; centaur tabs
- centaur-tabs-height 32
- centaur-tabs-set-icons t
- centaur-tabs-icon-type 'all-the-icons
- centaur-tabs-cycle-scope 'tabs
  ;; tramp
  tramp-allow-unsafe-temporary-files t
  ;; flymake
@@ -132,6 +121,37 @@
         (delete-frame)
       (save-buffers-kill-terminal)))
 
+  (defun nrv/format-whatever ()
+    "Format the current buffer using whatever you can."
+    (interactive)
+    (cond
+
+    ((and (fboundp 'eglot-format-buffer)
+          (bound-and-true-p eglot--managed-mode))
+      (eglot-format-buffer))
+
+    ((derived-mode-p 'emacs-lisp-mode)
+      (indent-region (point-min) (point-max)))
+
+    ((derived-mode-p 'org-mode)
+      (org-indent-region (point-min) (point-max)))
+
+    ((and (derived-mode-p 'web-mode)
+          (fboundp 'web-mode-buffer-indent))
+      (web-mode-buffer-indent))
+
+    ;; Fallback: re-indent everything
+    (t
+      (indent-region (point-min) (point-max))))
+
+    (message "Formatted w: %s"
+            (cond
+              ((and (fboundp 'eglot-format-buffer)
+                    (bound-and-true-p eglot--managed-mode)) "Eglot")
+              ((derived-mode-p 'emacs-lisp-mode) "indent-region")
+              ((derived-mode-p 'org-mode) "org-indent")
+              ((derived-mode-p 'web-mode) "web-mode")
+              (t "indent-region (fallback)"))))
   :bind (("C-x C-c" . nrv/smart-quit)
          ("C-c C-c" . nrv/text-save-and-kill-buffer))
   :custom
@@ -418,6 +438,13 @@
   :init
   (centaur-tabs-mode t)
   :config
+  (setq
+   ;; centaur tabs
+   centaur-tabs-height 32
+   centaur-tabs-set-icons t
+   centaur-tabs-icon-type 'all-the-icons
+   centaur-tabs-cycle-scope 'tabs
+   )
   (centaur-tabs-headline-match)
   (defun centaur-tabs-buffer-groups ()
     "`centaur-tabs-buffer-groups' control buffers' group rules.
@@ -614,6 +641,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'repo-grep)
 (autoload 'repo-grep "repo-grep")
 (autoload 'repo-grep-multi "repo-grep")
+(require 'format)
+(global-set-key (kbd "C-c f") 'nrv/format-whatever)
 ;; Telephone Line is a new implementation of powerline for emacs
 (require 'telephone-line)
 (setq
@@ -640,6 +669,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
+;; Have a divider between windows you can use to resize
+(window-divider-mode 1)
 (auto-fill-mode 1) ;; complete if only
 (savehist-mode 1) ;; save history
 (transient-mark-mode 1)  ;; selection highlighting
@@ -709,6 +740,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'arduino-mode-hook (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
+
+;; For packages that check for python-mode specifically
+(with-eval-after-load 'python-ts-mode
+  ;; Add python-ts-mode to relevant hooks
+  (add-hook 'python-ts-mode-hook 'python-mode-hook))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Aliases_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (defalias 'up 'package-refresh-contents)
 (defalias 'del 'nrv/delete-this-file)
@@ -759,10 +795,6 @@ Optional argument ARG original function argument."
      (funcall orig prompt))))
 
 ;; eval-after
-;; For packages that check for python-mode specifically
-(with-eval-after-load 'python-ts-mode
-  ;; Add python-ts-mode to relevant hooks
-  (add-hook 'python-ts-mode-hook 'python-mode-hook))
 
 (with-eval-after-load 'eglot
   (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)

@@ -438,3 +438,13 @@ bluetooth
 ChessNut
 param
 conf
+mongo
+ide
+LiquidCrystal
+I2C
+fqbn
+adafruit
+baudrate
+backlight
+unhandled
+gameStart
