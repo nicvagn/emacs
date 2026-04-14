@@ -1,6 +1,6 @@
 ;;; major-modes-nrv.el --- My major modes modes  -*- lexical-binding: t; -*-
 ;;; commentary:
-;; made for Arduino
+;; arduino-mode: made for Arduino
 
 ;;; code:
 

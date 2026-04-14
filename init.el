@@ -54,7 +54,14 @@
         select-enable-primary t))
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
 (setenv "TERM" "xterm-256color")
+;; add some dirs to my exec path
 
+(defun prepare-exec-path ()
+  "Manually add to my exec path..."
+  (add-to-list 'exec-path "/usr/local/bin")
+ )
+
+(prepare-exec-path)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setq-default tab-width 4
               c-basic-offset tab-width
