@@ -24,6 +24,8 @@
 ;;; Commentary:
 
 ;;; Code:
+
+(require 'shfmt)
 (defun nrv/format-whatever ()
   "Format the current buffer using whatever you can."
   (interactive)
@@ -43,6 +45,10 @@
          (fboundp 'web-mode-buffer-indent))
     (web-mode-buffer-indent))
 
+   ((and (derived-mode-p 'sh-mode)
+         (fboundp 'shfmt-buffer))
+    (shfmt-buffer))
+
    ;; Fallback: re-indent everything
    (t
     (indent-region (point-min) (point-max))))
@@ -52,9 +58,12 @@
             ((and (fboundp 'eglot-format-buffer)
                   (bound-and-true-p eglot--managed-mode)) "Eglot")
             ((derived-mode-p 'emacs-lisp-mode) "indent-region")
+            ((derived-mode-p 'sh-mode) "shfmt")
             ((derived-mode-p 'org-mode) "org-indent")
             ((derived-mode-p 'web-mode) "web-mode")
             (t "indent-region (fallback)"))))
 
 (provide 'format)
 ;;; format.el ends here
+
+; LocalWords:  shfmt

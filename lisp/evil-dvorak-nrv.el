@@ -106,8 +106,8 @@
 
   (kbd "<return>") #'nrv/normal-newline
   ;; line tab actions
-  (kbd "<tab>") #'indent-for-tab-command
-  (kbd "C-<tab>") #'nrv/shift-line-right
+  (kbd "C-<tab>") #'indent-for-tab-command
+  (kbd "<tab>") #'nrv/shift-line-right
   (kbd "<backtab>") #'nrv/shift-line-left
   (kbd "DEL") '(lambda ()
                   "Evil backspace, but also remove New Line."
