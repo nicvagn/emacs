@@ -55,13 +55,14 @@
 (setenv "WORKON_HOME" "/home/nrv/.venvs/")
 (setenv "TERM" "xterm-256color")
 ;; add some dirs to my exec path
-
 (defun prepare-exec-path ()
   "Manually add to my exec path..."
   (add-to-list 'exec-path "/usr/local/bin")
- )
+  )
 
 (prepare-exec-path)
+
+
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setq-default tab-width 4
               c-basic-offset tab-width
@@ -81,10 +82,6 @@
  frame-title-format '("%f")
  ;; Reuse the same server frame
  server-window 'pop-to-buffer
- ;; debugging + error handling
- debug-on-error t ;; back traces
- user-error-exceptions nil ;; treat errs as real errs
- error-handler #'nrv-error-handler
  ;; scrolling
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
@@ -121,46 +118,7 @@
 (use-package emacs
   :ensure nil
   :init
-  (defun nrv/smart-quit ()
-    "Kill current frame if daemon, otherwise exit Emacs."
-    (interactive)
-    (if (daemonp)
-        (delete-frame)
-      (save-buffers-kill-terminal)))
-
-  (defun nrv/format-whatever ()
-    "Format the current buffer using whatever you can."
-    (interactive)
-    (cond
-
-    ((and (fboundp 'eglot-format-buffer)
-          (bound-and-true-p eglot--managed-mode))
-      (eglot-format-buffer))
-
-    ((derived-mode-p 'emacs-lisp-mode)
-      (indent-region (point-min) (point-max)))
-
-    ((derived-mode-p 'org-mode)
-      (org-indent-region (point-min) (point-max)))
-
-    ((and (derived-mode-p 'web-mode)
-          (fboundp 'web-mode-buffer-indent))
-      (web-mode-buffer-indent))
-
-    ;; Fallback: re-indent everything
-    (t
-      (indent-region (point-min) (point-max))))
-
-    (message "Formatted w: %s"
-            (cond
-              ((and (fboundp 'eglot-format-buffer)
-                    (bound-and-true-p eglot--managed-mode)) "Eglot")
-              ((derived-mode-p 'emacs-lisp-mode) "indent-region")
-              ((derived-mode-p 'org-mode) "org-indent")
-              ((derived-mode-p 'web-mode) "web-mode")
-              (t "indent-region (fallback)"))))
-  :bind (("C-x C-c" . nrv/smart-quit)
-         ("C-c C-c" . nrv/text-save-and-kill-buffer))
+  (setq default-directory "/home/nrv/")
   :custom
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
@@ -201,6 +159,8 @@
          (shell-script-mode . format-all-mode)
          (web-mode  . format-all-mode)
          (yaml-mode . format-all-mode)
+         (c++-mode . format-all-mode)
+         (c-mode . format-all-mode)
          (typescript-mode . format-all-mode)
          (typescript-ts-mode . format-all-mode))
   :config
@@ -648,8 +608,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (require 'repo-grep)
 (autoload 'repo-grep "repo-grep")
 (autoload 'repo-grep-multi "repo-grep")
-(require 'format)
-(global-set-key (kbd "C-c f") 'nrv/format-whatever)
 ;; Telephone Line is a new implementation of powerline for emacs
 (require 'telephone-line)
 (setq
@@ -698,28 +656,35 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
-  (evil-define-key 'normal evil-dvorak-mode-map
-    (kbd "U") #'ct/upcase-word-at-point)
-  (global-set-key (kbd "C-c m") 'zck/move-file)
   ;; restart Emacs
   (global-set-key (kbd "C-M-r") #'nrv/confirm-restart)
+  ;; quitting buffers
+  (global-set-key (kbd "C-x C-c") #'nrv/smart-quit)
+  (global-set-key (kbd "C-c C-c")  #'nrv/text-save-and-kill-buffer)
+  (global-set-key (kbd "C-c m") #'zck/move-file)
   ;; kill this buffer
   (global-set-key (kbd "C-c k") #'kill-current-buffer)
   ;; close all other buffers
   (global-set-key (kbd "C-c K") #'nrv/kill-other-text-buffers)
   ;; spelling
-  (global-set-key (kbd "C-c s") 'flyspell-toggle ))
+  (global-set-key (kbd "C-c s") 'flyspell-toggle )
+  ;; format it ALL
+  (global-set-key (kbd "C-c f") #'nrv/format-whatever)
+  ;; Evil normal mode
+  (evil-define-key 'normal evil-dvorak-mode-map
+    (kbd "U") #'ct/upcase-word-at-point)
+  )
 
 ;; repo-grep
 (with-eval-after-load 'repo-grep
-  (global-set-key (kbd "C-c g") 'repo-grep))
+  (global-set-key (kbd "C-c g") #'repo-grep))
 
 ;; git fzf
 (with-eval-after-load 'fzf
-  (global-set-key (kbd "C-c C-g f") 'fzf-git))
+  (global-set-key (kbd "C-c C-g f") #'fzf-git))
 
 (with-eval-after-load 'shell-pop
-  (global-set-key (kbd "<f4>") 'shell-pop))
+  (global-set-key (kbd "<f4>") #'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)

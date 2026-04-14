@@ -40,6 +40,13 @@
   (when (y-or-n-p "Restart Emacs?")
     (restart-emacs)))
 
+(defun nrv/smart-quit ()
+  "Kill current frame if daemon, otherwise exit Emacs."
+  (interactive)
+  (if (daemonp)
+      (delete-frame)
+    (save-buffers-kill-terminal)))
+
 (defun nrv/text-save-and-kill-buffer ()
   "Save the current buffer (if it's a file) and kill it after confirmation."
   (interactive)
@@ -143,9 +150,6 @@ If the file does not exist, it is created immediately."
       (message "No horizontal whitespace to delete"))))
 
 ;; non editing
-(defun nrv-error-handler (err)
-  "Handle errors by printing them to minibuffer (ERR: error)."
-  (message "Error: %S" err))
 
 (defun nrv/delete-this-file (&optional forever)
   "Delete the file associated with `current-buffer'.
@@ -208,6 +212,44 @@ keep the file name."
         tab-width tab-width
         evil-shift-width tab-width
         cperl-indent-level tab-width))
+
+(defun nrv/format-whatever ()
+  "Format the current buffer using whatever you can."
+  (interactive)
+  (require 'shfmt)
+  (cond
+
+   ((and (fboundp 'eglot-format-buffer)
+         (bound-and-true-p eglot--managed-mode))
+    (eglot-format-buffer))
+
+   ((derived-mode-p 'emacs-lisp-mode)
+    (indent-region (point-min) (point-max)))
+
+   ((derived-mode-p 'org-mode)
+    (org-indent-region (point-min) (point-max)))
+
+   ((and (derived-mode-p 'web-mode)
+         (fboundp 'web-mode-buffer-indent))
+    (web-mode-buffer-indent))
+
+   ((and (derived-mode-p 'sh-mode)
+         (fboundp 'shfmt-buffer))
+    (shfmt-buffer))
+
+   ;; Fallback: re-indent everything
+   (t
+    (indent-region (point-min) (point-max))))
+
+  (message "Formatted w: %s"
+           (cond
+            ((and (fboundp 'eglot-format-buffer)
+                  (bound-and-true-p eglot--managed-mode)) "Eglot")
+            ((derived-mode-p 'emacs-lisp-mode) "indent-region")
+            ((derived-mode-p 'sh-mode) "shfmt")
+            ((derived-mode-p 'org-mode) "org-indent")
+            ((derived-mode-p 'web-mode) "web-mode")
+            (t "indent-region (fallback)"))))
 
 (defun flyspell-on-for-buffer-type ()
   "Enable Flyspell appropriately for the major mode of the current buffer.  Uses
