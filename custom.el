@@ -76,7 +76,8 @@
  '(neo-window-fixed-size nil)
  '(package-last-refresh-date "2025-09-14T14:05" t)
  '(package-selected-packages
-   '(all-the-icons-dired all-the-icons-gnus avy cape centaur-tabs consult
+   '(all-the-icons-dired all-the-icons-gnus all-the-icons-nerd-fonts avy
+                         cape centaur-tabs consult
                          corfu-candidate-overlay corfu-terminal
                          counsel diminish editorconfig eglot-java elpy
                          evil-leader exec-path-from-shell

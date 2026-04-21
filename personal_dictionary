@@ -454,3 +454,11 @@ gameStart
 Freenove
 realpath
 shfmt
+fpath
+symlink
+toolbx
+emacs
+podman
+ostree
+rebase
+bashrc
