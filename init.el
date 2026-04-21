@@ -651,6 +651,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (with-eval-after-load 'neotree
   (global-set-key (kbd "<f3>") 'neotree-toggle)
+  (define-key neotree-mode-map (kbd "C-SPC") #'evil-window-next)
   (define-key neotree-mode-map (kbd "/") #'consult-line))
 
 
