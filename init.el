@@ -711,6 +711,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; set tab to 2 spaces in modes scala mode
 (add-hook 'scala-mode-hook (lambda () (nrv/set-tab 2)))
 (add-hook 'arduino-mode-hook (lambda () (nrv/set-tab 2)))
+(add-hook 'sh-mode (lambda () (nrv/set-tab 2)))
 ;; Delete trailing white space always
 (add-hook 'before-save-hook #'delete-trailing-whitespace)
 

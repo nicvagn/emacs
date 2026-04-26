@@ -151,6 +151,10 @@ If the file does not exist, it is created immediately."
 
 ;; non editing
 
+(defun nrv/run-current-script ()
+  (interactive)
+  (compile (concat "bash " (buffer-file-name))))
+
 (defun nrv/delete-this-file (&optional forever)
   "Delete the file associated with `current-buffer'.
 If FOREVER is non-nil, the file is deleted without being moved to trash."
