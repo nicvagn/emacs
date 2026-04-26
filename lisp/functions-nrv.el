@@ -151,9 +151,14 @@ If the file does not exist, it is created immediately."
 
 ;; non editing
 
-(defun nrv/run-current-script ()
-  (interactive)
-  (compile (concat "bash " (buffer-file-name))))
+(defun nrv/run-bash-script (&optional args)
+    "Run the current buffer's file as a bash script.
+ARGS is a string of command-line arguments passed to the script.
+When called interactively, prompts for arguments.
+Output is displayed in the *compilation* buffer."
+  (interactive (list (read-string "Arguments: ")))
+  (compile (concat "bash \"" (buffer-file-name) "\" " args)))
+
 
 (defun nrv/delete-this-file (&optional forever)
   "Delete the file associated with `current-buffer'.

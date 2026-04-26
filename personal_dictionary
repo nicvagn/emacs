@@ -470,3 +470,5 @@ rc
 untracked
 appimage
 dconf
+wayland
+wm
