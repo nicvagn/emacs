@@ -27,13 +27,6 @@
   (local-set-key (kbd "C-<backspace>") #'tjwh/backward-kill-word-on-this-line)
   )
 
-
-(defun prepare-magit ()
-  "Prepare to enter magit"
-  (local-set-key (kbd "t") #'magit-next-line)
-  (local-set-key (kbd "h") #'magit-previous-line)
-  )
-
 (defun prepare-lisp ()
   "Prepare lisp to be edited how I like."
   (setq-local evil-shift-width lisp-tab-width

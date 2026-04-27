@@ -484,7 +484,34 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; magit wants
 (use-package transient
   :demand t)
-
+;
+;(use-package magit
+;  :bind
+;  (("C-c C-g c" . #'magit-commit)
+;   ("C-c C-g l" . #'magit-log-current)
+;   ("C-c C-g d" . #'magit-diff-unstaged)
+;   ("C-c C-g g" . #'repo-grep)
+;   ("C-c C-g p" . #'magit-push-current-to-upstream)
+;   ("C-c C-g u" . #'magit-pull-from-upstream)
+;   ("C-c C-g m" . #'magit-merge)
+;   ("C-c C-g t" . #'magit-tag)
+;   ("C-c C-g b" . #'magit-branch)
+;   ("C-c C-g a" . #'magit-file-stage)
+;   ("C-c C-g s" . #'magit-status)
+;   ("C-SPC" . #'evil-window-next))
+;  :after (transient repo-grep)
+;  :config
+;  ;; Override Magit's completion function completely
+;  (setq magit-completing-read-function 'completing-read)
+;  ;; Make sure ido doesn't interfere
+;  (setq magit-ido-mode nil)
+;  ;; Ensure consistent completion everywhere
+;  (advice-add 'magit-builtin-completing-read :override #'completing-read)
+;  (advice-add 'magit-ido-completing-read :override #'completing-read)
+;  (setq magit-branch-read-upstream-first 'fallback
+;        magit-branch-prefer-remote-upstream t
+;        magit-git-executable "git"
+;        magit-status-show-untracked-files t)
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
@@ -497,23 +524,14 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("C-c C-g t" . #'magit-tag)
    ("C-c C-g b" . #'magit-branch)
    ("C-c C-g a" . #'magit-file-stage)
-   ("C-c C-g s" . #'magit-status))
+   ("C-c C-g s" . #'magit-status)
+   ("C-SPC" . #'evil-window-next))
   :after (transient repo-grep)
   :config
-  ;; Override Magit's completion function completely
-  (setq magit-completing-read-function 'completing-read)
-  ;; Make sure ido doesn't interfere
-  (setq magit-ido-mode nil)
-  ;; Ensure consistent completion everywhere
-  (advice-add 'magit-builtin-completing-read :override #'completing-read)
-  (advice-add 'magit-ido-completing-read :override #'completing-read)
   (setq magit-branch-read-upstream-first 'fallback
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
-        magit-status-show-untracked-files t)
-  :hook
-  ;; Ensure Vertigo is active in Magit buffers
-  (magit-mode . (lambda () (setq-local completion-styles '(orderless basic)))))
+        magit-status-show-untracked-files t))
 
 (use-package web-mode
   :defer t
