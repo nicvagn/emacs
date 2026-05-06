@@ -12,21 +12,22 @@
 ;; My personal init
 
 ;;; Code:
-(let ((custom-file-path (expand-file-name "custom.el" user-emacs-directory)))
-  (setq custom-file custom-file-path)
-  (when (file-exists-p custom-file-path)
-    (load custom-file-path)))
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("nongnu" . "Https://elpa.nongnu.org/nongnu/"))
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(setq package-archives
+      '(("melpa"        . "https://melpa.org/packages/")
+        ("melpa-stable" . "https://stable.melpa.org/packages/")
+        ("nongnu"       . "https://elpa.nongnu.org/nongnu/")
+        ("gnu"          . "https://elpa.gnu.org/packages/")))
+(package-initialize)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 (eval-when-compile
   (require 'use-package))
-(package-initialize)
+(let ((custom-file-path (expand-file-name "custom.el" user-emacs-directory)))
+  (setq custom-file custom-file-path)
+  (when (file-exists-p custom-file-path)
+    (load custom-file-path)))
 (add-to-list 'load-path "~/.config/emacs/lisp/")
 (add-to-list 'load-path "~/.config/emacs/lisp/repo-grep/")
 (add-to-list 'load-path "~/.config/emacs/lisp/telephone-line")
@@ -46,7 +47,6 @@
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.zsh-theme\\'" . sh-mode))
-
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -143,7 +143,7 @@
 (use-package jarchive
   :ensure t
   :config
-    (jarchive-mode 1))
+  (jarchive-mode 1))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(pgtk wayland x))
@@ -500,34 +500,34 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; magit wants
 (use-package transient
   :demand t)
-;
-;(use-package magit
-;  :bind
-;  (("C-c C-g c" . #'magit-commit)
-;   ("C-c C-g l" . #'magit-log-current)
-;   ("C-c C-g d" . #'magit-diff-unstaged)
-;   ("C-c C-g g" . #'repo-grep)
-;   ("C-c C-g p" . #'magit-push-current-to-upstream)
-;   ("C-c C-g u" . #'magit-pull-from-upstream)
-;   ("C-c C-g m" . #'magit-merge)
-;   ("C-c C-g t" . #'magit-tag)
-;   ("C-c C-g b" . #'magit-branch)
-;   ("C-c C-g a" . #'magit-file-stage)
-;   ("C-c C-g s" . #'magit-status)
-;   ("C-SPC" . #'evil-window-next))
-;  :after (transient repo-grep)
-;  :config
-;  ;; Override Magit's completion function completely
-;  (setq magit-completing-read-function 'completing-read)
-;  ;; Make sure ido doesn't interfere
-;  (setq magit-ido-mode nil)
-;  ;; Ensure consistent completion everywhere
-;  (advice-add 'magit-builtin-completing-read :override #'completing-read)
-;  (advice-add 'magit-ido-completing-read :override #'completing-read)
-;  (setq magit-branch-read-upstream-first 'fallback
-;        magit-branch-prefer-remote-upstream t
-;        magit-git-executable "git"
-;        magit-status-show-untracked-files t)
+                                        ;
+                                        ;(use-package magit
+                                        ;  :bind
+                                        ;  (("C-c C-g c" . #'magit-commit)
+                                        ;   ("C-c C-g l" . #'magit-log-current)
+                                        ;   ("C-c C-g d" . #'magit-diff-unstaged)
+                                        ;   ("C-c C-g g" . #'repo-grep)
+                                        ;   ("C-c C-g p" . #'magit-push-current-to-upstream)
+                                        ;   ("C-c C-g u" . #'magit-pull-from-upstream)
+                                        ;   ("C-c C-g m" . #'magit-merge)
+                                        ;   ("C-c C-g t" . #'magit-tag)
+                                        ;   ("C-c C-g b" . #'magit-branch)
+                                        ;   ("C-c C-g a" . #'magit-file-stage)
+                                        ;   ("C-c C-g s" . #'magit-status)
+                                        ;   ("C-SPC" . #'evil-window-next))
+                                        ;  :after (transient repo-grep)
+                                        ;  :config
+                                        ;  ;; Override Magit's completion function completely
+                                        ;  (setq magit-completing-read-function 'completing-read)
+                                        ;  ;; Make sure ido doesn't interfere
+                                        ;  (setq magit-ido-mode nil)
+                                        ;  ;; Ensure consistent completion everywhere
+                                        ;  (advice-add 'magit-builtin-completing-read :override #'completing-read)
+                                        ;  (advice-add 'magit-ido-completing-read :override #'completing-read)
+                                        ;  (setq magit-branch-read-upstream-first 'fallback
+                                        ;        magit-branch-prefer-remote-upstream t
+                                        ;        magit-git-executable "git"
+                                        ;        magit-status-show-untracked-files t)
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
@@ -819,3 +819,4 @@ Optional argument ARG original function argument."
 ;;; init.el ends here
 
                                         ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer multimarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist
+; LocalWords:  histfile
