@@ -58,10 +58,11 @@
 (defun prepare-exec-path ()
   "Manually add to my exec path..."
   (add-to-list 'exec-path "/usr/local/bin")
+  (add-to-list 'exec-path "/home/nrv/.local/share/pnpm")
+  (add-to-list 'exec-path "/home/nrv/.local/bin")
   )
 
 (prepare-exec-path)
-
 
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-setq vars-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (setq-default tab-width 4
@@ -132,8 +133,17 @@
   :load-path "~/.config/emacs/lisp/chess/"
   :config
   (autoload 'chess "chess" "play chess" t)
-  ;; TODO add advice for initial chess window size (advice-add )
+  ;; TODO add advice for initial chess window size (advice-add)
   )
+
+;; Enable navigating to dependency sources via M-. (xref-find-definitions).
+;; Metals returns jar:file: URIs for symbols defined in external libraries.
+;; Without jarchive, Emacs has no file-name-handler for these URIs and will
+;; fail to open them.
+(use-package jarchive
+  :ensure t
+  :config
+    (jarchive-mode 1))
 
 (use-package exec-path-from-shell
   :if (memq window-system '(pgtk wayland x))
@@ -396,6 +406,12 @@
   :interpreter
   ("scala" . scala-mode)
   :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map)
   (setq
    ;; sbt-supershell kills sbt-mode:  https://github.com/hvesalai/emacs-sbt-mode/issues/152
    sbt:program-options '("-Dsbt.supershell=false")))

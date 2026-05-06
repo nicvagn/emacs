@@ -472,3 +472,7 @@ appimage
 dconf
 wayland
 wm
+lowTime
+boardstatus
+takeback
+nvui
