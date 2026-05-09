@@ -42,6 +42,7 @@
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping based on file name
+(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode)
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
@@ -102,6 +103,7 @@
  auto-revert-verbose nil
  ;; tramp
  tramp-allow-unsafe-temporary-files t
+
  ;; flymake
  next-error-function 'flymake-goto-next-error
  ;; org mode
@@ -548,13 +550,27 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
         magit-git-executable "git"
         magit-status-show-untracked-files t))
 
+(use-package php-cs-fixer
+  :defer t
+  :ensure t
+  :config
+  ;; Rule set to use — common options: "@PSR12", "@Symfony", "@PhpCsFixer"
+  (setq php-c php-cs-fixer-command "php-cs-fixer"
+        php-cs-fixer-fix-popup-on-error t
+        php-cs-fixer-rules-level-part-options '("@PSR12"))
+
+  ;; Optional: point to a project config file
+  ;; (setq php-cs-fixer-config-option "/path/to/.php-cs-fixer.php")
+
+  ;; Auto-fix on save for all PHP files
+  (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+
 (use-package web-mode
   :defer t
   :config
   (nrv/set-tab 2)
   :mode
   (("\\.phtml\\'" . web-mode)
-   ("\\.php\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
@@ -818,4 +834,4 @@ Optional argument ARG original function argument."
 ;;; init.el ends here
 
                                         ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer multimarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist
-; LocalWords:  histfile
+                                        ; LocalWords:  histfile
