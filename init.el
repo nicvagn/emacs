@@ -262,7 +262,6 @@
          (c-mode . eglot-ensure)
          (css-mode  . eglot-ensure)
          (html-mode  . eglot-ensure)
-         (web-mode  . eglot-ensure)
          (yaml-mode . eglot-ensure)
          (typescript-mode . eglot-ensure)
          (typescript-ts-mode . eglot-ensure)
