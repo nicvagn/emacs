@@ -42,7 +42,7 @@
 ;; includes Arduino mode
 (require 'major-modes-nrv)
 ;; major mode remapping based on file name
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode)
+(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
@@ -124,7 +124,7 @@
   (setq default-directory "/home/nrv/")
   :custom
   ;; Corfu recommend
-  (text-mode-ispell-word-completion nil)
+  (setq text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
    #'command-completion-default-include-p)
@@ -138,18 +138,9 @@
   ;; TODO add advice for initial chess window size (advice-add)
   )
 
-;; Enable navigating to dependency sources via M-. (xref-find-definitions).
-;; Metals returns jar:file: URIs for symbols defined in external libraries.
-;; Without jarchive, Emacs has no file-name-handler for these URIs and will
-;; fail to open them.
-(use-package jarchive
-  :ensure t
-  :config
-  (jarchive-mode 1))
-
 (use-package exec-path-from-shell
   :if (memq window-system '(pgtk wayland x))
-  :init
+  :config
   (setq exec-path-from-shell-variables
         '("PATH"
           "WAYLAND_DISPLAY"
@@ -549,21 +540,20 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
         magit-status-show-untracked-files t))
-
-(use-package php-cs-fixer
-  :defer t
-  :ensure t
-  :config
-  ;; Rule set to use — common options: "@PSR12", "@Symfony", "@PhpCsFixer"
-  (setq php-c php-cs-fixer-command "php-cs-fixer"
-        php-cs-fixer-fix-popup-on-error t
-        php-cs-fixer-rules-level-part-options '("@PSR12"))
-
-  ;; Optional: point to a project config file
+;(use-package php-cs-fixer
+;  :defer t
+;  :ensure t
+;  :config
+;  ;; Rule set to use — common options: "@PSR12", "@Symfony", "@PhpCsFixer"
+;  (setq php-c php-cs-fixer-command "php-cs-fixer"
+;        php-cs-fixer-fix-popup-on-error t
+;        php-cs-fixer-rules-level-part-options '("@PSR12"))
+;
+;  ;; Optional: point to a project config file
   ;; (setq php-cs-fixer-config-option "/path/to/.php-cs-fixer.php")
-
-  ;; Auto-fix on save for all PHP files
-  (add-hook 'before-save-hook 'php-cs-fixer-before-save))
+;
+;  ;; Auto-fix on save for all PHP files
+ ; (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 
 (use-package web-mode
   :defer t
@@ -833,5 +823,5 @@ Optional argument ARG original function argument."
 (provide 'init)
 ;;; init.el ends here
 
-                                        ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer multimarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist
+                                        ; LocalWords:  setq yasnippet codespell melpa nongnu emacs scala cp unselected LightGoldenrod DarkOrange MistyRose DeepSkyBlue sp daemonp flx eq yasnippit tjwh Neotree muh Debounce Xmx4G nerdtree djoyner Xmx2G ibuffer imarkdown f9cfcfd3f erb agj tpl Magit's supershell Dsbt powerline color alist
                                         ; LocalWords:  histfile
