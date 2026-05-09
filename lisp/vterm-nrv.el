@@ -17,6 +17,8 @@
 		              (buffer-face-mode t)
 		              (text-scale-decrease 1)
 		              (use-monospace)
+                  ;; For the muscle memory
+                  (define-key vterm-mode-map (kbd "C-S-v")  #'yank-pop)
                   (define-key vterm-mode-map (kbd "M-[")  #'centaur-tabs-backward)
                   (define-key vterm-mode-map (kbd "M-]") #'centaur-tabs-forward)
                   (define-key vterm-mode-map (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
