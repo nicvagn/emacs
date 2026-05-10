@@ -43,6 +43,9 @@
  select-enable-clipboard t
  evil-want-clipboard t)
 
+(use-package evil
+  :ensure t
+  :demand t)
 (require 'evil)
 (require 'consult)
 (require 'functions-nrv)
