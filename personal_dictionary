@@ -478,3 +478,13 @@ takeback
 nvui
 levelno
 cmd
+pov
+positionStyle
+prefixStyle
+pieceStyle
+moveNotation
+pageLayout
+boardLayout
+povStyle
+crazyhouse
+premove
