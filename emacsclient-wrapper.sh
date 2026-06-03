@@ -7,7 +7,7 @@ start_emacs_daemon() {
     then
         echo "daemon is up"
 	else
-		/usr/bin/emacs --daemon &>/dev/null
+		nohup /usr/bin/emacs --daemon & &>/dev/null
 		echo "started daemon"
 	fi
 }
