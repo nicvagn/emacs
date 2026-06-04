@@ -621,6 +621,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; set C-c ! reopen file with sudo and sudo-find-file C-c C-!
 (require 'sudo-nrv)
 ;; pretty colours
+(require 'rainbow-identifiers)
+(add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
 (require 'rainbow-delimiters)
 (rainbow-delimiters-mode 1)
 ;;; functions-nrv -- useful functions?
