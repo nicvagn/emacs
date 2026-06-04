@@ -311,7 +311,7 @@
   :after eglot
   :config
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
-        corfu-auto nil                   ; Disable auto completion
+        corfu-auto nil                   ; Needed for corfu-candidate-overlay
         corfu-auto-delay 0.1             ; Auto completion delay
         corfu-auto-prefix 1              ; Minimum prefix for auto completion
         corfu-separator ?\s              ; Order-less field separator
@@ -333,6 +333,14 @@
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
    ("<f8>" . keyboard-quit)))
+
+
+(use-package corfu-candidate-overlay
+  :after corfu
+  :config
+  ;; enable corfu-candidate-overlay mode globally
+  ;; this relies on having corfu-auto set to nil
+  (corfu-candidate-overlay-mode +1))
 
 ;; Terminal support for Corfu
 (use-package corfu-terminal
@@ -372,12 +380,6 @@
   ;; Add yasnippet support globally
   (add-to-list 'completion-at-point-functions #'yasnippet-capf))
 
-(use-package corfu-candidate-overlay
-  :after corfu
-  :config
-  ;; enable corfu-candidate-overlay mode globally
-  ;; this relies on having corfu-auto set to nil
-  (corfu-candidate-overlay-mode +1))
 
 (use-package scala-mode
   :interpreter
@@ -540,20 +542,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
         magit-branch-prefer-remote-upstream t
         magit-git-executable "git"
         magit-status-show-untracked-files t))
-;(use-package php-cs-fixer
-;  :defer t
-;  :ensure t
-;  :config
-;  ;; Rule set to use — common options: "@PSR12", "@Symfony", "@PhpCsFixer"
-;  (setq php-c php-cs-fixer-command "php-cs-fixer"
-;        php-cs-fixer-fix-popup-on-error t
-;        php-cs-fixer-rules-level-part-options '("@PSR12"))
-;
-;  ;; Optional: point to a project config file
-  ;; (setq php-cs-fixer-config-option "/path/to/.php-cs-fixer.php")
-;
-;  ;; Auto-fix on save for all PHP files
- ; (add-hook 'before-save-hook 'php-cs-fixer-before-save))
 
 (use-package web-mode
   :defer t
@@ -562,6 +550,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :mode
   (("\\.phtml\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
+   ("\\.php\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
@@ -580,9 +569,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; Enable for all supported languages
   (treesit-auto-add-to-auto-mode-alist 'all)
   (setq treesit-auto-install-grammars t)  ; Auto-install missing grammars
-  ;; Custom grammar recipes (if needed)
   (setq treesit-language-source-alist
         '((python "https://github.com/tree-sitter/tree-sitter-python")
+          (php "https://github.com/tree-sitter/tree-sitter-php")
           (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
@@ -694,7 +683,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (global-set-key (kbd "<f3>") 'neotree-toggle)
   (define-key neotree-mode-map (kbd "C-SPC") #'evil-window-next)
   (define-key neotree-mode-map (kbd "/") #'consult-line))
-
 
 ;; Emacs management
 (with-eval-after-load 'functions-nrv
@@ -810,7 +798,6 @@ Optional argument ARG original function argument."
      (funcall orig prompt))))
 
 ;; eval-after
-
 (with-eval-after-load 'eglot
   (defun nrv/eglot-ensure-if-server-advice (orig-fun &rest args)
     "Call `eglot-ensure` only if a server is defined for the current major mode."
