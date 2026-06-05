@@ -777,16 +777,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (advice-add 'ibuffer :after #'nrv/ibuffer-point-to-most-recent)
 
-(defun nrv/yank-pop-or-yank-advice (orig-fun &optional arg)
-  "If last command was `yank`, call ORIG-FUN (yank-pop).
-Otherwise, call `yank`.
-Optional argument ARG original function argument."
-  (if (eq last-command 'yank)
-      (funcall orig-fun arg)
-    (yank)))
-
-(advice-add 'yank-pop :around #'nrv/yank-pop-or-yank-advice)
-
 ;; always prompt for a formatter
 (advice-add
  'format-all-buffer

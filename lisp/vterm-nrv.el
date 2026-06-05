@@ -10,29 +10,36 @@
 (use-package vterm
   :ensure t
   :after (evil centaur-tabs)
-  :custom
-  (vterm-always-compile t)
+  :init
+  (setq vterm-always-compile-module t)
+  :bind (:map vterm-mode-map
+              ( "C-S-v" .  #'yank-pop)
+              ( "M-[" .  #'centaur-tabs-backward)
+              ( "M-]" . #'centaur-tabs-forward)
+              ( "M-{" . #'centaur-tabs-move-current-tab-to-left)
+              ( "M-}" . #'centaur-tabs-move-current-tab-to-right)
+              ( "<f1>" . #'centaur-tabs-backward-group)
+              ( "<f2>" . #'centaur-tabs-forward-group)
+              ( "<f3>" . #'neotree-toggle)
+              ( "<f4>" . #'shell-pop)
+              ( "C-SPC" . #'evil-window-next)
+              ( "C-w" . #'evil-window-next))
   :hook
   (vterm-mode . (lambda ()
+                  "Prepare vterm-mode"
 		              (buffer-face-mode t)
 		              (text-scale-decrease 1)
 		              (use-monospace)
-                  ;; For the muscle memory
-                  (define-key vterm-mode-map (kbd "C-S-v")  #'yank-pop)
-                  (define-key vterm-mode-map (kbd "M-[")  #'centaur-tabs-backward)
-                  (define-key vterm-mode-map (kbd "M-]") #'centaur-tabs-forward)
-                  (define-key vterm-mode-map (kbd "M-{") #'centaur-tabs-move-current-tab-to-left)
-                  (define-key vterm-mode-map (kbd "M-}") #'centaur-tabs-move-current-tab-to-right)
-                  (define-key vterm-mode-map (kbd "<f1>") #'centaur-tabs-backward-group)
-                  (define-key vterm-mode-map (kbd "<f2>") #'centaur-tabs-forward-group)
-                  (define-key vterm-mode-map (kbd "<f3>") #'neotree-toggle)
-                  (define-key vterm-mode-map (kbd "<f4>") #'shell-pop)
-                  (define-key vterm-mode-map (kbd "C-SPC") #'evil-window-next)
-                  (define-key vterm-mode-map (kbd "C-w") #'evil-window-next)
-                  (centaur-tabs-local-mode)) ;; Do not show tab line
+                  (centaur-tabs-local-mode)
+                  (with-eval-after-load 'evil
+                    (evil-define-key 'emacs vterm-mode-map (kbd "C-z")
+                      (lambda ()
+                        "Sent C-z to vterm"
+                        (interactive)
+                        (vterm-send "C-z"))))
+                  )
               )
   )
-
 ;; popup shell
 (require 'shell-pop)
 ;; export $EDITOR to be this Emacs
