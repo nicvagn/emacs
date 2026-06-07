@@ -178,6 +178,7 @@
           ("JSON" . prettier)
           ("Rust" . rustfmt)
           ("Go" . gofmt))))
+(use-package reformatter)
 (use-package diminish)
 (use-package avy) ;; for jumping to visible text using a char-based decision tree.
 (use-package counsel)

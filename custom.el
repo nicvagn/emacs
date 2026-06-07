@@ -80,9 +80,9 @@
                    corfu-terminal counsel diminish evil-leader
                    exec-path-from-shell flyspell-correct format-all
                    magit marginalia neotree orderless
-                   rainbow-delimiters rainbow-identifiers rust-mode
-                   sbt-mode scad-mode scala-mode treesit-auto vertico
-                   vterm web-mode yasnippet))
+                   rainbow-delimiters rainbow-identifiers reformatter
+                   rust-mode sbt-mode scad-mode scala-mode
+                   treesit-auto vertico vterm web-mode yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
