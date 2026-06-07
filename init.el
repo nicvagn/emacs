@@ -9,7 +9,7 @@
 
 
 ;;; Commentary:
-;; My personal init
+;; My personal init for GNU guix
 
 ;;; Code:
 (require 'package)
@@ -77,7 +77,7 @@
 (customize-set-variable 'treesit-font-lock-level 4)
 
 (setq
- ;; Emacs spell checking
+ ;; Emacs spell checking 
  ispell-program-name "hunspell"
  ispell-local-dictionary "en_CA"
  ;; display full path in frame title
@@ -88,7 +88,7 @@
  mouse-wheel-scroll-amount '(0.07)
  mouse-wheel-progressive-speed nil
  ;; completions customizing
- completion-auto-help 1
+ completion-auto-help t
  completion-cycle-threshold 1 ;; cycle through completions when 1 or less
  ;; history/backup
  savehist-file "~/.config/emacs/backups/emacs_histfile"
@@ -103,13 +103,12 @@
  auto-revert-verbose nil
  ;; tramp
  tramp-allow-unsafe-temporary-files t
-
  ;; flymake
  next-error-function 'flymake-goto-next-error
  ;; org mode
  org-image-actual-width nil
  ;; tree sit
- treesit-auto-install t
+ treesit-auto-install nil
  ;; dired
  dired-kill-when-opening-new-dired-buffer t ;; Clean up old dired buffers
  ;; use-package
@@ -121,13 +120,15 @@
 (use-package emacs
   :ensure nil
   :init
-  (setq default-directory "/home/nrv/")
+  (setq-default default-directory "/home/nrv/")
   :custom
+  (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
+  
   ;; Corfu recommend
-  (setq text-mode-ispell-word-completion nil)
+  (text-mode-ispell-word-completion nil)
+  
   ;; Hide commands in M-x which do not apply to the current mode.
-  (read-extended-command-predicate
-   #'command-completion-default-include-p)
+  (read-extended-command-predicate #'command-completion-default-include-p)
   (use-short-answers t))
 
 (use-package chess
@@ -673,6 +674,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (highlight-indentation-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Key Maps _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 (with-eval-after-load 'flymake
+  ;;set flymake next-error function, is buffer local
+  (add-hook 'flymake-mode-hook
+          (lambda () (setq next-error-function #'flymake-goto-next-error)))
   (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
   (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
 
