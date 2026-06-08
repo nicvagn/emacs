@@ -118,6 +118,14 @@
   (define-key 'dired-ring-map (kbd "k") #'kill-current-buffer)
   )
 
+
+(defun prepare-frame-size(frame)
+  (run-with-timer 0.3 nil (lambda(frame)
+                            (set-frame-size frame (if (> (x-display-pixel-width) 1680) 132 80)
+                            (/ (- (x-display-pixel-height) 200)
+                               (frame-char-height))))
+                  frame))
+
 (provide 'prepare-nrv)
 ;; Local Variables:
 ;; byte-compile-warnings: (not free-vars dired-mode-map evil-shift-width)

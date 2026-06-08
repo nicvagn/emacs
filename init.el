@@ -12,6 +12,12 @@
 ;; My personal init for GNU guix
 
 ;;; Code:
+
+;; fix default window size settings!
+
+
+
+;; Frame adjust done
 (require 'package)
 (setq package-archives
       '(("melpa"        . "https://melpa.org/packages/")
@@ -108,7 +114,7 @@
  ;; org mode
  org-image-actual-width nil
  ;; tree sit
- treesit-auto-install nil
+ treesit-auto-install nil ;; not the guix way
  ;; dired
  dired-kill-when-opening-new-dired-buffer t ;; Clean up old dired buffers
  ;; use-package
@@ -123,7 +129,6 @@
   (setq-default default-directory "/home/nrv/")
   :custom
   (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
-
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
 
@@ -488,34 +493,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; magit wants
 (use-package transient
   :demand t)
-                                        ;
-                                        ;(use-package magit
-                                        ;  :bind
-                                        ;  (("C-c C-g c" . #'magit-commit)
-                                        ;   ("C-c C-g l" . #'magit-log-current)
-                                        ;   ("C-c C-g d" . #'magit-diff-unstaged)
-                                        ;   ("C-c C-g g" . #'repo-grep)
-                                        ;   ("C-c C-g p" . #'magit-push-current-to-upstream)
-                                        ;   ("C-c C-g u" . #'magit-pull-from-upstream)
-                                        ;   ("C-c C-g m" . #'magit-merge)
-                                        ;   ("C-c C-g t" . #'magit-tag)
-                                        ;   ("C-c C-g b" . #'magit-branch)
-                                        ;   ("C-c C-g a" . #'magit-file-stage)
-                                        ;   ("C-c C-g s" . #'magit-status)
-                                        ;   ("C-SPC" . #'evil-window-next))
-                                        ;  :after (transient repo-grep)
-                                        ;  :config
-                                        ;  ;; Override Magit's completion function completely
-                                        ;  (setq magit-completing-read-function 'completing-read)
-                                        ;  ;; Make sure ido doesn't interfere
-                                        ;  (setq magit-ido-mode nil)
-                                        ;  ;; Ensure consistent completion everywhere
-                                        ;  (advice-add 'magit-builtin-completing-read :override #'completing-read)
-                                        ;  (advice-add 'magit-ido-completing-read :override #'completing-read)
-                                        ;  (setq magit-branch-read-upstream-first 'fallback
-                                        ;        magit-branch-prefer-remote-upstream t
-                                        ;        magit-git-executable "git"
-                                        ;        magit-status-show-untracked-files t)
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
@@ -655,7 +632,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
  telephone-line-evil-use-short-tag t)
 (telephone-line-mode 1)
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_other emacs settings-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; Revert buffers when the underlying file has changed
+;; revert buffers when the underlying file has changed
 (global-auto-revert-mode 1) ;; reload a file if changed outside of emacs
 (global-hl-line-mode 1)
 ;; Have a divider between windows you can use to resize
@@ -669,7 +646,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (with-eval-after-load 'flymake
   ;;set flymake next-error function, is buffer local
   (add-hook 'flymake-mode-hook
-          (lambda () (setq next-error-function #'flymake-goto-next-error)))
+            (lambda () (setq next-error-function #'flymake-goto-next-error)))
   (define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
   (define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error))
 
@@ -714,8 +691,10 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (global-set-key (kbd "<f4>") #'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
-(remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
+(remove-hook 'flymake-diagnostic-functions
+  'flymake-proc-legacy-flymake)
 ;; prepare functions  are defined in prepare-nrv.el
+(add-hook 'after-make-frame-functions #'prepare-frame-size)
 (add-hook 'text-mode-hook #'prepare-text)
 (add-hook 'text-mode-hook 'display-line-numbers-mode)
 (add-hook 'emacs-lisp-mode-hook #'prepare-lisp)
