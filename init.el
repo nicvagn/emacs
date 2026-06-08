@@ -77,7 +77,7 @@
 (customize-set-variable 'treesit-font-lock-level 4)
 
 (setq
- ;; Emacs spell checking 
+ ;; Emacs spell checking
  ispell-program-name "hunspell"
  ispell-local-dictionary "en_CA"
  ;; display full path in frame title
@@ -123,21 +123,13 @@
   (setq-default default-directory "/home/nrv/")
   :custom
   (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
-  
+
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
-  
+
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate #'command-completion-default-include-p)
   (use-short-answers t))
-
-(use-package chess
-  :ensure nil
-  :load-path "~/.config/emacs/lisp/chess/"
-  :config
-  (autoload 'chess "chess" "play chess" t)
-  ;; TODO add advice for initial chess window size (advice-add)
-  )
 
 (use-package exec-path-from-shell
   :if (memq window-system '(pgtk wayland x))
