@@ -692,7 +692,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions
-  'flymake-proc-legacy-flymake)
+             'flymake-proc-legacy-flymake)
 ;; prepare functions  are defined in prepare-nrv.el
 (add-hook 'after-make-frame-functions #'prepare-frame-size)
 (add-hook 'text-mode-hook #'prepare-text)
