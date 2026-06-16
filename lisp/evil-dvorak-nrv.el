@@ -30,13 +30,13 @@
 
 
 (setq
- ;;
  ;; scroll
  evil-want-C-u-scroll t
  evil-scroll-count 10
- ;; undo
+ ;; do not save undo history between sessions
+ undo-tree-auto-save-history nil
  evil-want-fine-undo t
- evil-undo-system 'undo-redo
+ ;; no primary clip board
  select-enable-primary nil
  ;; paste/yank
  evil-kill-on-visual-paste nil
@@ -69,8 +69,8 @@
 ;; === KEY-MAP ===
 (evil-define-key 'insert evil-dvorak-mode-map
   ;; Emacs-style movement
-  (kbd "<backtab>") #'nrv/delete-whitespace-back
-  )
+  (kbd "<backtab>") #'nrv/delete-whitespace-back)
+
 ;; The djoyner/** keep visual selection when indenting
 (evil-define-key 'visual evil-dvorak-mode-map
   (kbd ">") #'djoyner/evil-shift-right-visual
@@ -82,7 +82,6 @@
   (kbd "h") #'evil-previous-line
   (kbd "d") #'evil-backward-char
   (kbd "e") #'evil-forward-char)
-
 
 (evil-define-key 'normal evil-dvorak-mode-map
   (kbd "c") #'evil-delete ;; c is new d
@@ -98,15 +97,12 @@
                 "Kill from point to the beginning of the line"
                 (interactive)
                 (kill-line 0))
-
   ;; Line manipulation
   (kbd "J") #'join-line ;; Join this line with the one above
   (kbd "j") '(lambda ()
                 "Join this line at the end of the line below"
                 (interactive)
                 (join-line 1))
-
-
   (kbd "<return>") #'nrv/normal-newline
   ;; line tab actions
   (kbd "C-<tab>") #'indent-for-tab-command
@@ -185,6 +181,8 @@
 
 ;; Neotree -- file pop MANAGER
 (use-package neotree
+  :ensure t
+  :demand t
   :config
   (add-hook 'server-after-make-frame-hook
             ;; need, when daemon is created (display-graphics-p) is false
@@ -207,12 +205,20 @@
   (evil-define-key 'emacs neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
   (evil-define-key 'emacs neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle))
 
+
+(use-package undo-tree
+  :ensure t
+  :demand t)
+
 ;; invoke stuff
 (evil-mode 1)
 (global-evil-leader-mode 1)
 ;; after evil leader has been loaded, turn on evil.
 ;; So leader is available in all buffers
 (global-evil-dvorak-mode 1)
+;; set evil-undue-system
+(evil-set-undo-system 'undo-tree)
+(global-undo-tree-mode)
 
 ;; _-_- set evil Emacs state modes _-_-
 (dolist (p '((inferior-python-mode . emacs)
@@ -222,7 +228,7 @@
              (ansi-term-mode . emacs)
              (eshell-mode . emacs)
              (neotree-mode . emacs)
-             ))
+             (geiser-repl-mode . emacs)))
   (evil-set-initial-state (car p) (cdr p)))
 
 ;; advice
