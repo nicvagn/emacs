@@ -61,6 +61,7 @@
   (add-to-list 'exec-path "/usr/local/bin")
   (add-to-list 'exec-path "/home/nrv/.local/share/pnpm")
   (add-to-list 'exec-path "/home/nrv/.local/bin")
+  (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   )
 
 (prepare-exec-path)
@@ -103,7 +104,6 @@
  auto-revert-verbose nil
  ;; tramp
  tramp-allow-unsafe-temporary-files t
-
  ;; flymake
  next-error-function 'flymake-goto-next-error
  ;; org mode
@@ -120,8 +120,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :init
-  (setq default-directory "/home/nrv/")
   :custom
   ;; Corfu recommend
   (setq text-mode-ispell-word-completion nil)
