@@ -311,7 +311,7 @@
   :after eglot
   :config
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
-        corfu-auto nil                   ; Needed for corfu-candidate-overlay
+        corfu-auto t                     ; Auto completion pop up
         corfu-auto-delay 0.1             ; Auto completion delay
         corfu-auto-prefix 1              ; Minimum prefix for auto completion
         corfu-separator ?\s              ; Order-less field separator
@@ -333,14 +333,6 @@
    ("<f6>" . corfu-next)
    ("<f7>" . corfu-previous)
    ("<f8>" . keyboard-quit)))
-
-
-(use-package corfu-candidate-overlay
-  :after corfu
-  :config
-  ;; enable corfu-candidate-overlay mode globally
-  ;; this relies on having corfu-auto set to nil
-  (corfu-candidate-overlay-mode +1))
 
 ;; Terminal support for Corfu
 (use-package corfu-terminal
@@ -535,13 +527,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq rust-mode-treesitter-derive t))
 
 (use-package treesit-auto
-  :demand t  ; Load immediately
+  :demand t
   :config
-  ;; Global activation
   (global-treesit-auto-mode)
-  ;; Enable for all supported languages
   (treesit-auto-add-to-auto-mode-alist 'all)
-  (setq treesit-auto-install-grammars t)  ; Auto-install missing grammars
+  (setq treesit-auto-install-grammars t)
   (setq treesit-language-source-alist
         '((python "https://github.com/tree-sitter/tree-sitter-python")
           (php "https://github.com/tree-sitter/tree-sitter-php")
