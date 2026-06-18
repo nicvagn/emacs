@@ -120,11 +120,12 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :custom
+  :config
   ;; when a daemon, start in user home
   (when (daemonp) (lambda () (cd "/home/nrv")))
+  :custom
   ;; Corfu recommend
-  (setq text-mode-ispell-word-completion nil)
+  (text-mode-ispell-word-completion nil)
   ;; Hide commands in M-x which do not apply to the current mode.
   (read-extended-command-predicate
    #'command-completion-default-include-p)
@@ -393,7 +394,7 @@
   ("scala" . scala-mode)
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
+  ;; allows using SPACE when in the mini-buffer
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
