@@ -497,3 +497,6 @@ winc
 timedelta
 ms
 EOF
+plusIdx
+millis
+clangd

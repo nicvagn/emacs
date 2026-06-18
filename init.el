@@ -39,15 +39,8 @@
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; includes Arduino mode
+;; auto mode alist is def here
 (require 'major-modes-nrv)
-;; major mode remapping based on file name
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.zsh-theme\\'" . sh-mode))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -285,7 +278,7 @@
   (setq eglot-events-buffer-size 0        ; Disable event logging for performance
         eglot-sync-connect nil            ; Don't block on server connection
         eglot-autoshutdown t              ; Shutdown server when last buffer is killed
-        eglot-send-changes-idle-time 0.5) ; Debounce changes
+        eglot-send-changes-idle-time 0.3) ; Debounce changes
   ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
@@ -300,6 +293,7 @@
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode objc-mode cuda-mode) "clangd"))
+
   (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((scala-mode scala-ts-mode) .
@@ -345,14 +339,14 @@
   ;; Programming modes completion setup
   (defun nrv/setup-programming-capf ()
     "Setup completion-at-point-functions for programming."
-    (setq completion-at-point-functions
-          (list
-           #'eglot-completion-at-point      ; LSP completion (when eglot is active)
-           #'cape-dabbrev                   ; Dynamic abbreviations
-           #'cape-keyword                   ; Language keywords
-           #'cape-file                      ; File name completion
-           #'cape-elisp-block               ; Complete elisp in org/markdown blocks
-           #'cape-abbrev)))                 ; Static abbreviations
+    (add-to-list 'completion-at-point-functions
+                 (list
+                  #'eglot-completion-at-point      ; LSP completion (when eglot is active)
+                  #'cape-dabbrev                   ; Dynamic abbreviations
+                  #'cape-keyword                   ; Language keywords
+                  #'cape-file                      ; File name completion
+                  #'cape-elisp-block               ; Complete elisp in org/markdown blocks
+                  #'cape-abbrev)))                 ; Static abbreviations
   ;; Apply to programming modes
   (dolist (mode-hook '(python-mode-hook
                        python-ts-mode-hook
@@ -680,6 +674,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (with-eval-after-load 'shell-pop
   (global-set-key (kbd "<f4>") #'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; always give inlay hints when available
+(add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode)
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions 'flymake-proc-legacy-flymake)
 ;; prepare functions  are defined in prepare-nrv.el
