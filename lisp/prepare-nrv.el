@@ -105,6 +105,8 @@
   ;; C-x ...
   (define-key dired-mode-map (kbd "C-c d") #'dired-delete-file)
 
+  (define-key dired-mode-map (kbd "/") #'nrv/dired-consult)
+
   ;; "leader"
   (define-key dired-mode-map (kbd "<SPC>") 'dired-ring-map)
   ;; add leader via dired ring map

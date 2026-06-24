@@ -150,6 +150,11 @@ If the file does not exist, it is created immediately."
       (message "No horizontal whitespace to delete"))))
 
 ;; non editing
+(defun nrv/dired-consult ()
+  "Consult for dired buffers, entering dir or file when selected."
+  (interactive)
+  (consult-line)
+  (dired-find-file))
 
 (defun nrv/run-bash-script (&optional args)
     "Run the current buffer's file as a bash script.

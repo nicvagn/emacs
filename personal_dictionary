@@ -500,3 +500,8 @@ EOF
 plusIdx
 millis
 clangd
+lcd
+UCI
+ATTRS
+udev
+unmaximize

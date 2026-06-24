@@ -208,6 +208,7 @@
 
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :demand t)
 
 ;; invoke stuff
