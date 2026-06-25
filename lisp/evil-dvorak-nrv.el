@@ -36,6 +36,8 @@
  ;; do not save undo history between sessions
  undo-tree-auto-save-history nil
  evil-want-fine-undo t
+ ;; use evils search, not isearch
+ evil-search-module 'evil
  ;; no primary clip board
  select-enable-primary nil
  ;; paste/yank
@@ -46,7 +48,6 @@
 (use-package evil
   :ensure t
   :demand t)
-(require 'evil)
 (require 'consult)
 (require 'functions-nrv)
 
@@ -129,6 +130,9 @@
   (kbd "<f12>") #'evil-jump-forward
   (kbd "C-'") 'evil-jump-backward
   (kbd "C-\"") 'evil-jump-forward
+  ;; Search for symbol at point
+  (kbd "M-s .") #'evil-search-word-forward
+  (kbd "M-s ,") #'evil-search-word-backward
   ;; Big boss Emacs yank "paste"
   (kbd "C-y") 'yank
   ;; big boss yank from kill ring
