@@ -36,8 +36,8 @@
  ;; do not save undo history between sessions
  undo-tree-auto-save-history nil
  evil-want-fine-undo t
- ;; use evils search, not isearch
- evil-search-module 'evil
+ ;; use isearch, not evils search
+ evil-search-module 'isearch
  ;; no primary clip board
  select-enable-primary nil
  ;; paste/yank
