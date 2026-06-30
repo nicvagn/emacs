@@ -13,11 +13,6 @@
 
 ;;; Code:
 
-;; fix default window size settings!
-
-
-
-;; Frame adjust done
 (require 'package)
 (setq package-archives
       '(("melpa"        . "https://melpa.org/packages/")
@@ -64,8 +59,7 @@
 ;; add some dirs to my exec path
 (defun prepare-exec-path ()
   "Manually add to my exec path..."
-  (add-to-list 'exec-path "/usr/local/bin")
-  (add-to-list 'exec-path "/home/nrv/.local/share/pnpm")
+  (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   (add-to-list 'exec-path "/home/nrv/.local/bin")
   )
 
@@ -125,8 +119,6 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :init
-  (setq-default default-directory "/home/nrv/")
   :custom
   (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
   ;; Corfu recommend
@@ -471,7 +463,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
    ("<f2>" . centaur-tabs-forward-group)))
 
 (use-package yasnippet
-  :init
+  :config
   (setq yas-snippet-dir "~/.config/emacs/snippets")
   (yas-global-mode 1))
 

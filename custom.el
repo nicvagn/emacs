@@ -75,7 +75,15 @@
  '(ispell-personal-dictionary "/home/nrv/.config/emacs/personal_dictionary")
  '(neo-window-fixed-size nil)
  '(package-last-refresh-date "2025-09-14T14:05" t)
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(all-the-icons avy cape centaur-tabs consult corfu-candidate-overlay
+                   corfu-terminal counsel diminish evil-leader
+                   exec-path-from-shell flyspell-correct format-all
+                   geiser guix magit marginalia neotree orderless
+                   python-black pyvenv rainbow-delimiters
+                   rainbow-identifiers rust-mode sbt-mode scad-mode
+                   scala-mode treesit-auto vertico vterm web-mode
+                   yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
