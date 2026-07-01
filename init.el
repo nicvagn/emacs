@@ -40,15 +40,8 @@
   "Refresh package contents before install if they're stale."
   (nrv/refresh-packages-if-needed))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-auto mode alist-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-;; includes Arduino mode
+;; auto mode alist is def here
 (require 'major-modes-nrv)
-;; major mode remapping based on file name
-(add-to-list 'auto-mode-alist '("\\.php\\'" . php-mode))
-(add-to-list 'auto-mode-alist '("\\.ino\\'" . arduino-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.qss\\'" . css-mode))
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.zsh-theme\\'" . sh-mode))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-set env for emacs-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (when (getenv "WAYLAND_DISPLAY")
   ;; Use system clipboard
@@ -61,6 +54,7 @@
   "Manually add to my exec path..."
   (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   (add-to-list 'exec-path "/home/nrv/.local/bin")
+  (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   )
 
 (prepare-exec-path)
@@ -119,14 +113,15 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
-  :custom
+ :custom
   (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
-
   ;; Hide commands in M-x which do not apply to the current mode.
-  (read-extended-command-predicate #'command-completion-default-include-p)
+  (read-extended-command-predicate
+   #'command-completion-default-include-p)
   (use-short-answers t))
+
 
 (use-package exec-path-from-shell
   :if (memq window-system '(pgtk wayland x))
@@ -275,7 +270,7 @@
   (setq eglot-events-buffer-size 0        ; Disable event logging for performance
         eglot-sync-connect nil            ; Don't block on server connection
         eglot-autoshutdown t              ; Shutdown server when last buffer is killed
-        eglot-send-changes-idle-time 0.5) ; Debounce changes
+        eglot-send-changes-idle-time 0.3) ; Debounce changes
   ;; Language server configurations
   (add-to-list 'eglot-server-programs '(html-mode . ("vscode-html-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(web-mode . ("typescript-language-server" "--stdio")))
@@ -290,6 +285,7 @@
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '((c++-mode c-mode objc-mode cuda-mode) "clangd"))
+
   (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((scala-mode scala-ts-mode) .
@@ -302,7 +298,7 @@
   :after eglot
   :config
   (setq corfu-cycle t                    ; Enable cycling for `corfu-next/previous'
-        corfu-auto nil                   ; Needed for corfu-candidate-overlay
+        corfu-auto t                     ; Auto completion pop up
         corfu-auto-delay 0.1             ; Auto completion delay
         corfu-auto-prefix 1              ; Minimum prefix for auto completion
         corfu-separator ?\s              ; Order-less field separator
@@ -325,14 +321,6 @@
    ("<f7>" . corfu-previous)
    ("<f8>" . keyboard-quit)))
 
-
-(use-package corfu-candidate-overlay
-  :after corfu
-  :config
-  ;; enable corfu-candidate-overlay mode globally
-  ;; this relies on having corfu-auto set to nil
-  (corfu-candidate-overlay-mode +1))
-
 ;; Terminal support for Corfu
 (use-package corfu-terminal
   :unless (display-graphic-p)  ; Only load in terminal
@@ -343,14 +331,14 @@
   ;; Programming modes completion setup
   (defun nrv/setup-programming-capf ()
     "Setup completion-at-point-functions for programming."
-    (setq completion-at-point-functions
-          (list
-           #'eglot-completion-at-point      ; LSP completion (when eglot is active)
-           #'cape-dabbrev                   ; Dynamic abbreviations
-           #'cape-keyword                   ; Language keywords
-           #'cape-file                      ; File name completion
-           #'cape-elisp-block               ; Complete elisp in org/markdown blocks
-           #'cape-abbrev)))                 ; Static abbreviations
+    (add-to-list 'completion-at-point-functions
+                 (list
+                  #'eglot-completion-at-point      ; LSP completion (when eglot is active)
+                  #'cape-dabbrev                   ; Dynamic abbreviations
+                  #'cape-keyword                   ; Language keywords
+                  #'cape-file                      ; File name completion
+                  #'cape-elisp-block               ; Complete elisp in org/markdown blocks
+                  #'cape-abbrev)))                 ; Static abbreviations
   ;; Apply to programming modes
   (dolist (mode-hook '(python-mode-hook
                        python-ts-mode-hook
@@ -392,7 +380,7 @@
   ("scala" . scala-mode)
   :config
   ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
+  ;; allows using SPACE when in the mini-buffer
   (substitute-key-definition
    'minibuffer-complete-word
    'self-insert-command
@@ -485,6 +473,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 ;; magit wants
 (use-package transient
   :demand t)
+
 (use-package magit
   :bind
   (("C-c C-g c" . #'magit-commit)
@@ -525,13 +514,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq rust-mode-treesitter-derive t))
 
 (use-package treesit-auto
-  :demand t  ; Load immediately
+  :demand t
   :config
-  ;; Global activation
   (global-treesit-auto-mode)
-  ;; Enable for all supported languages
   (treesit-auto-add-to-auto-mode-alist 'all)
-  (setq treesit-auto-install-grammars t)  ; Auto-install missing grammars
+  (setq treesit-auto-install-grammars t)
   (setq treesit-language-source-alist
         '((python "https://github.com/tree-sitter/tree-sitter-python")
           (php "https://github.com/tree-sitter/tree-sitter-php")
@@ -682,6 +669,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (with-eval-after-load 'shell-pop
   (global-set-key (kbd "<f4>") #'shell-pop))
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Mode Hooks-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+;; always give inlay hints when available
+(add-hook 'eglot-managed-mode-hook #'eglot-inlay-hints-mode)
 ;; remove the legacy hook from flymake
 (remove-hook 'flymake-diagnostic-functions
              'flymake-proc-legacy-flymake)

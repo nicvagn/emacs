@@ -82,8 +82,8 @@
                    geiser guix magit marginalia neotree orderless
                    python-black pyvenv rainbow-delimiters
                    rainbow-identifiers rust-mode sbt-mode scad-mode
-                   scala-mode treesit-auto vertico vterm web-mode
-                   yasnippet))
+                   scala-mode treesit-auto undo-tree vertico vterm
+                   web-mode yasnippet))
  '(package-vc-selected-packages
    '((treesit-fallback :vc-backend Git :url
                        "https://github.com/renzmann/treesit-fallback.git")
