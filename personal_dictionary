@@ -525,3 +525,9 @@ noto
 scm
 vfat
 efi
+initrd
+linux
+scala
+scalac
+PWD
+errorhandling
