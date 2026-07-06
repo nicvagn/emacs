@@ -54,7 +54,6 @@
   "Manually add to my exec path..."
   (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   (add-to-list 'exec-path "/home/nrv/.local/bin")
-  (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   )
 
 (prepare-exec-path)
@@ -113,7 +112,7 @@
 ;;_-_-_-_-_-_-_-_-_-_-_-_-_-Packages_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
 (use-package emacs
   :ensure nil
- :custom
+  :custom
   (treesit-extra-load-path '("/home/nrv/.guix-profile/lib/tree-sitter"))
   ;; Corfu recommend
   (text-mode-ispell-word-completion nil)
