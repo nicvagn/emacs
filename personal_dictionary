@@ -531,3 +531,9 @@ scala
 scalac
 PWD
 errorhandling
+openjdk
+findutils
+sed
+toolchain
+xz
+bzip
