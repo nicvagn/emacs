@@ -537,3 +537,7 @@ sed
 toolchain
 xz
 bzip
+corepack
+flatpak
+gitignore
+selinux
