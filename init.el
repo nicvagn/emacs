@@ -52,7 +52,7 @@
 (defun prepare-exec-path ()
   "Manually add to my exec path..."
   (add-to-list 'exec-path "/usr/local/bin")
-  (add-to-list 'exec-path "/home/nrv/.local/share/pnpm")
+  (add-to-list 'exec-path "/home/nrv/.local/share/pnpm/bin")
   (add-to-list 'exec-path "/home/nrv/.local/bin")
   (add-to-list 'exec-path "/home/nrv/.guix-profile/bin")
   )
@@ -155,6 +155,7 @@
          (html-mode  . format-all-mode)
          (shell-script-mode . format-all-mode)
          (web-mode  . format-all-mode)
+         (php-mode . format-all-mode)
          (yaml-mode . format-all-mode)
          (c++-mode . format-all-mode)
          (c-mode . format-all-mode)
@@ -166,6 +167,7 @@
           ("Bash" . shfmt)
           ("JavaScript" . prettier)
           ("TypeScript" . prettier)
+          ("PHP" . prettier)
           ("CSS" . prettier)
           ("HTML" . prettier)
           ("JSON" . prettier)
@@ -244,6 +246,7 @@
   ;; added advice to only call if server available
   :hook ((python-mode  . eglot-ensure)
          (js-mode  . eglot-ensure)
+         (php-mode . eglot-ensure)
          (scala-mode  . eglot-ensure)
          (c++-mode . eglot-ensure)
          (c-mode . eglot-ensure)
@@ -292,8 +295,8 @@
                                           ))))
   (add-to-list 'eglot-server-programs '(json-mode . ("vscode-json-language-server" "--stdio")))
   (add-to-list 'eglot-server-programs '(yaml-mode . ("yaml-language-server" "--stdio")))
-  (add-to-list 'eglot-server-programs '((c++-mode c-mode objc-mode cuda-mode) "clangd"))
-
+  (add-to-list 'eglot-server-programs '((c++-mode c-mode objc-mode cuda-mode) . "clangd"))
+  (add-to-list 'eglot-server-programs '((php-mode php-ts-mode) . ("intelephense" "--stdio")))
   (add-to-list 'eglot-server-programs '(dockerfile-mode . ("docker-langserver" "--stdio")))
   (add-to-list 'eglot-server-programs
                '((scala-mode scala-ts-mode) .
@@ -529,7 +532,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq treesit-auto-install-grammars t)
   (setq treesit-language-source-alist
         '((python "https://github.com/tree-sitter/tree-sitter-python")
-          (php "https://github.com/tree-sitter/tree-sitter-php")
+          (php "https://github.com/tree-sitter/tree-sitter-php" "master" "php/src")
           (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")

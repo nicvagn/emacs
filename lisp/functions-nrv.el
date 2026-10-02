@@ -230,40 +230,97 @@ keep the file name."
 (defun nrv/format-whatever ()
   "Format the current buffer using whatever you can."
   (interactive)
-  (require 'shfmt)
-  (cond
+  (let ((used
+         (cond
+          ;; 1. Eglot, if it manages the buffer and the server can format.
+          ;;    On failure, fall through to the other options.
+          ((and (fboundp 'eglot-managed-p)
+                (eglot-managed-p)
+                (eglot-server-capable :documentFormattingProvider)
+                (condition-case err
+                    (progn (eglot-format-buffer) t)
+                  (error
+                   (message "Eglot formatting failed: %s"
+                            (error-message-string err))
+                   nil)))
+           "Eglot")
 
-   ((and (fboundp 'eglot-format-buffer)
-         (bound-and-true-p eglot--managed-mode))
-    (eglot-format-buffer))
+          ;; 2. format-all, if the minor mode is on in this buffer
+          ((and (bound-and-true-p format-all-mode)
+                (fboundp 'format-all-buffer)
+                (condition-case err
+                    (progn (format-all-buffer) t)
+                  (error
+                   (message "format-all failed: %s"
+                            (error-message-string err))
+                   nil)))
+           "format-all")
 
-   ((derived-mode-p 'emacs-lisp-mode)
-    (indent-region (point-min) (point-max)))
+          ;; 3. Mode-specific formatters
+          ((derived-mode-p 'emacs-lisp-mode)
+           (indent-region (point-min) (point-max))
+           "indent-region")
 
-   ((derived-mode-p 'org-mode)
-    (org-indent-region (point-min) (point-max)))
+          ((derived-mode-p 'org-mode)
+           (org-indent-region (point-min) (point-max))
+           "org-indent")
 
-   ((and (derived-mode-p 'web-mode)
-         (fboundp 'web-mode-buffer-indent))
-    (web-mode-buffer-indent))
+          ((and (derived-mode-p 'web-mode)
+                (fboundp 'web-mode-buffer-indent))
+           (web-mode-buffer-indent)
+           "web-mode")
 
-   ((and (derived-mode-p 'sh-mode)
-         (fboundp 'shfmt-buffer))
-    (shfmt-buffer))
+          ((and (derived-mode-p 'sh-mode)
+                (require 'shfmt nil t)
+                (fboundp 'shfmt-buffer))
+           (shfmt-buffer)
+           "shfmt")
 
-   ;; Fallback: re-indent everything
-   (t
-    (indent-region (point-min) (point-max))))
+          ;; 4. Fallback: re-indent everything
+          (t
+           (indent-region (point-min) (point-max))
+           "indent-region (fallback)"))))
+    (message "Formatted w: %s" used)))
 
-  (message "Formatted w: %s"
-           (cond
-            ((and (fboundp 'eglot-format-buffer)
-                  (bound-and-true-p eglot--managed-mode)) "Eglot")
-            ((derived-mode-p 'emacs-lisp-mode) "indent-region")
-            ((derived-mode-p 'sh-mode) "shfmt")
-            ((derived-mode-p 'org-mode) "org-indent")
-            ((derived-mode-p 'web-mode) "web-mode")
-            (t "indent-region (fallback)"))))
+;;
+;;(defun nrv/format-whatever ()
+  ;;"Format the current buffer using whatever you can."
+  ;;(interactive)
+  ;;(require 'shfmt)
+  ;;(cond
+;;
+   ;;((and (fboundp 'eglot-format-buffer)
+         ;;(bound-and-true-p eglot--managed-mode))
+    ;;(eglot-format-buffer))
+;;
+;;
+   ;;((derived-mode-p 'emacs-lisp-mode)
+    ;;(indent-region (point-min) (point-max)))
+;;
+   ;;((derived-mode-p 'org-mode)
+    ;;(org-indent-region (point-min) (point-max)))
+;;
+   ;;((and (derived-mode-p 'web-mode)
+         ;;(fboundp 'web-mode-buffer-indent))
+    ;;(web-mode-buffer-indent))
+;;
+   ;;((and (derived-mode-p 'sh-mode)
+         ;;(fboundp 'shfmt-buffer))
+    ;;(shfmt-buffer))
+;;
+   ;;;; Fallback: re-indent everything
+   ;;(t
+    ;;(indent-region (point-min) (point-max))))
+;;
+  ;;(message "Formatted w: %s"
+           ;;(cond
+            ;;((and (fboundp 'eglot-format-buffer)
+                  ;;(bound-and-true-p eglot--managed-mode)) "Eglot")
+            ;;((derived-mode-p 'emacs-lisp-mode) "indent-region")
+            ;;((derived-mode-p 'sh-mode) "shfmt")
+            ;;((derived-mode-p 'org-mode) "org-indent")
+            ;;((derived-mode-p 'web-mode) "web-mode")
+            ;;(t "indent-region (fallback)"))))
 
 (defun flyspell-on-for-buffer-type ()
   "Enable Flyspell appropriately for the major mode of the current buffer.  Uses

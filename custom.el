@@ -96,6 +96,14 @@
  '(tab-always-indent nil)
  '(tab-first-completion 'eol)
  '(tool-bar-mode nil)
+ '(treesit-auto-langs
+   '(awk bash bibtex blueprint c c-sharp clojure cmake cobol commonlisp
+         cpp css dart dockerfile elixir gitcommit glsl go gomod gowork
+         haskell heex html hyprlang janet-simple java javascript json
+         julia kotlin lua magik make markdown nix nu org perl proto
+         python r ruby rust scala solidity sql surface swift toml tsx
+         typescript typespec typst verilog vhdl vue wast wat zig wgsl
+         yaml))
  '(undo-tree-auto-save-history nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
