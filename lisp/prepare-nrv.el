@@ -51,6 +51,7 @@
   (setq-local evil-shift-width css-tab-width
               tab-width css-tab-width
               c-basic-offset css-tab-width)
+  (format-all-mode)
   (prepare-text))
 
 
@@ -60,6 +61,7 @@
   (setq-local tab-width web-tab-width
               evil-shift-width web-tab-width
               c-basic-offset web-tab-width)
+  (format-all-mode)
   (prepare-text)
   )
 
@@ -69,6 +71,7 @@
   (setq-local tab-width html-tab-width
               evil-shift-width html-tab-width
               c-basic-offset html-tab-width)
+  (format-all-mode)
   (prepare-text)
   )
 
